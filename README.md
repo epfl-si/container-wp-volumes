@@ -2,7 +2,7 @@
 
 ### What is this repository for? ###
 
-This repository contains a selection of plugins and themes provided for EPFL wordpress sites
+This image is a data-only container (with busybox for debug purposes) It contains a selection of plugins and themes provided for EPFL wordpress sites
 
 ### How do I set things up ? ###
 
