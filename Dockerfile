@@ -4,11 +4,11 @@ FROM busybox
 
 MAINTAINER IDEVELOP <personnel.idevelop@epfl.ch>
 
-WORKDIR /var/wordpress
+WORKDIR /var/www/html/wp-content
 
 COPY ./plugins ./plugins
 COPY ./themes ./themes
 
-VOLUME ["/var/wordpress/plugins", "/var/wordpress/themes"]
+VOLUME ["/var/www/html/wp-content/plugins", "/var/www/html/wp-content/themes"]
 
 CMD [ "/bin/true" ]
