@@ -6,9 +6,26 @@ This image is a data-only container (with busybox for debug purposes) It contain
 
 ### How do I set things up ? ###
 
-Simply use the volumes ```/var/www/html/wp-content/plugins```, ```/var/www/html/wp-content/themes``` in your composition, along with a standard wordpress.
+The volumes `/var/www/html/wp-content/plugins` and `/var/www/html/wp-content/themes` are defined in Dockerfile and thus available to other containers.
 
-Example with local mounted volumes :
+Simply use `volumes_from` in your composition, along with a standard wordpress.
+
+
+Simplest example, just rely on volumes defined in Dockerfile
+
+```
+  wpvolumes:
+    build: container-wp-volumes
+
+  wordpress:
+    image: wordpress:4.7.5
+    volumes_from:
+      - wpvolumes
+
+  ...
+```
+
+If you want to have a bit more control on the content of those volumes, you can make use of **local mounted** volumes :
 
 ```
   wpvolumes:
@@ -25,7 +42,7 @@ Example with local mounted volumes :
   ...
 ```
 
-Or with named volumes :
+And finally, if you want to re-use it somewhere else, you can make use of  **named** volumes :
 
 ```
   wpvolumes:
