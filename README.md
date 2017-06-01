@@ -10,8 +10,9 @@ The volumes `/var/www/html/wp-content/plugins` and `/var/www/html/wp-content/the
 
 Simply use `volumes_from` in your composition, along with a standard wordpress.
 
+### A few examples ###
 
-Simplest example, just rely on volumes defined in Dockerfile
+The simplest usage is to rely on volumes defined in Dockerfile
 
 ```
   wpvolumes:
