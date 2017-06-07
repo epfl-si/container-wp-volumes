@@ -23,6 +23,7 @@ function enqueue_theme_styles() {
 	wp_enqueue_style('parent-styles', get_template_directory_uri() .'/style.css');
 	
 	// enqueue extra stylesheets
+	wp_enqueue_style('grid', get_stylesheet_directory_uri() .'/assets/css/font-awesome.min.css');
 	wp_enqueue_style('grid', get_stylesheet_directory_uri() .'/assets/css/grid.css');
 	
 	// enqueue child styles
