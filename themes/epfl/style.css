@@ -24,6 +24,7 @@ Version: 1.0.0
     - Articles
 
 04  HEADER
+    - Main navigation
 
 05  FOOTER
 
@@ -227,6 +228,31 @@ blockquote {
 
 
 
+/* --- Main navigation --- */
+
+.navigation-top {
+  background: #ae0010;
+  border: 0;
+}
+.menu-toggle {
+  color: #fff;
+  padding: .5em 1em;
+}
+.main-navigation > div > ul {
+  border-top: 0;
+  border-bottom: 1px solid #000;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+.main-navigation li {
+  border-bottom: 1px solid #000;
+}
+
+.main-navigation li.link-home a:before {
+  content: "\f015";
+  font: normal normal normal 14px/1 FontAwesome !important;
+  margin-right: .5em;
+}
 
 /*  -----------------------------------------------------------
 
@@ -249,6 +275,63 @@ blockquote {
 @media screen and (min-width: 48em) {
   
   
+  
+  /*  ---------------------------------------
+    04 HEADER
+  ----------------------------------------- */
+  
+  /* --- Main navigation --- */
+  
+  .navigation-top {
+    background: #fff;
+    font-size: 1em;
+  }
+  .main-navigation {
+    background: #ae0010;
+  }
+  .main-navigation > div > ul {
+    border: 0;
+    height: 24px;
+    padding: 0;
+  }
+  
+  .main-navigation .menu li {
+    border: solid #ae0010;
+    border-width: 0 1px;
+    display: block;
+    float: left;
+    height: inherit;
+    margin: 0;
+    vertical-align: top;
+  }
+  .main-navigation .menu li:first-child {
+    border-left-width: 0 !important;
+  }
+  .main-navigation .menu li:hover {
+    background: #7e000c;
+    border-color: #fff;
+  }
+  .main-navigation .menu li.current-menu-item,
+  .main-navigation .menu li.current_page_item {
+    background: #000;
+    border-color: #fff;
+  }
+  
+  .main-navigation .menu a {
+    color: #fff;
+    height: inherit;
+    line-height: 24px;
+    overflow: hidden;
+    padding: 0 8px;
+  }
+  .main-navigation .menu .current-menu-item > a,
+  .main-navigation .menu .current_page_item > a {
+    color: #fff;
+  }
+  
+  .main-navigation li.link-home {
+    width: 32px;
+  }
   
 }
 
