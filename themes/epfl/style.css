@@ -6,3 +6,79 @@ Author URI: http://www.alinekeller.ch
 Template: twentyseventeen 
 Version: 1.0.0
 */
+
+/*-----------------------------------------
+>>> TABLE OF CONTENTS:
+-------------------------------------------
+
+01  BASE STYLE
+    - Typography
+    - Forms
+    - Tables
+    
+02  TWENTY SEVENTEEN RESETS
+
+03  GLOBAL CONTENT & SITE STRUCTURE
+    - Structure
+    - Pages
+    - Articles
+
+04  HEADER
+
+05  FOOTER
+
+    MEDIA QUERIES
+    
+------------------------------------------*/
+
+/*  ---------------------------------------
+    01 BASE STYLES
+------------------------------------------*/
+
+
+
+
+/*  ---------------------------------------
+    02 TWENTY SEVENTEEN RESETS
+----------------------------------------- */
+
+
+
+/*  ---------------------------------------
+    03 GLOBAL CONTENT & SITE STRUCTURE
+----------------------------------------- */
+
+/* ------------------------------
+    STRUCTURE
+------------------------------- */
+
+
+
+/*  ---------------------------------------
+    04 HEADER
+----------------------------------------- */
+
+
+
+
+/*  ---------------------------------------
+    MEDIA QUERIES 
+----------------------------------------- */
+
+@media screen and (min-width: 30em) {
+  
+  
+  
+}
+
+@media screen and (min-width: 48em) {
+  
+  
+  
+}
+
+@media screen and ( min-width: 64em ) {
+  
+  
+  
+}
