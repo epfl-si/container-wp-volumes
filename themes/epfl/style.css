@@ -210,6 +210,15 @@ blockquote {
   box-shadow: none !important;
 }
 
+/* Navigation */
+
+.main-navigation ul li.menu-item-has-children:before,
+.main-navigation ul li.menu-item-has-children:after,
+.main-navigation ul li.page_item_has_children:before,
+.main-navigation ul li.page_item_has_children:after {
+	display: none !important;
+}
+
 /*  ---------------------------------------
     03 GLOBAL CONTENT & SITE STRUCTURE
 ----------------------------------------- */
@@ -238,20 +247,47 @@ blockquote {
   color: #fff;
   padding: .5em 1em;
 }
-.main-navigation > div > ul {
+.main-navigation .menu {
   border-top: 0;
   border-bottom: 1px solid #000;
   padding-top: 6px;
   padding-bottom: 6px;
 }
-.main-navigation li {
+.main-navigation .menu li {
   border-bottom: 1px solid #000;
+  margin: 0;
+}
+.main-navigation .menu li:last-child {
+  border-bottom: 0;
+}
+.main-navigation .menu a {
+  padding: .5em;
+}
+
+.main-navigation .current-menu-item {
+  background: #000;
+}
+.main-navigation .current-menu-item > a,
+.main-navigation .current_page_item > a {
+  color: #fff;
 }
 
 .main-navigation li.link-home a:before {
   content: "\f015";
   font: normal normal normal 14px/1 FontAwesome !important;
   margin-right: .5em;
+}
+
+/* --- Sub menu --- */
+
+.dropdown-toggle {
+  color: #fff;
+  padding: 2px .5em;
+  right: 0;
+}
+
+.main-navigation .sub-menu {
+  padding-bottom: 10px;
 }
 
 /*  -----------------------------------------------------------
@@ -289,7 +325,7 @@ blockquote {
   .main-navigation {
     background: #ae0010;
   }
-  .main-navigation > div > ul {
+  .main-navigation .menu {
     border: 0;
     height: 24px;
     padding: 0;
@@ -330,8 +366,57 @@ blockquote {
   }
   
   .main-navigation li.link-home {
-    width: 32px;
+    text-indent: -3333px;
   }
+  .main-navigation li.link-home a {
+    min-width: 30px;
+  }
+  .main-navigation li.link-home a:before {
+    position: relative;
+    left: 3333px;
+  }
+  
+  /* --- Sub menu (dropdown) --- */
+  
+  .main-navigation .menu li.current-menu-ancestor,
+  .main-navigation .menu li.current-menu-ancestor,
+  .main-navigation .menu li.current-menu-parent,
+  .main-navigation .menu li.current_page_ancestor {
+    background: #000;
+    border-color: #fff;
+  }
+  
+  .main-navigation .sub-menu {
+    border: 1px solid #000;
+    border-top-width: 0;
+    padding-top: 1px;
+    padding-bottom: 0;
+  }
+  .main-navigation .menu li:hover .sub-menu {
+    left: 0;
+  }
+  .main-navigation .sub-menu li {
+    border: 0;
+    margin: 0 1px 1px;
+  }
+  .main-navigation .sub-menu li:hover {
+    background: #cfd0ca;
+  }
+  .main-navigation .sub-menu a {
+    color: #000;
+    line-height: 1.4em;
+    padding: 2px 8px;
+  }
+  
+  .main-navigation .sub-menu li.focus > a,
+	.main-navigation .sub-menu li:focus > a,
+	.main-navigation .sub-menu li:hover > a,
+	.main-navigation .sub-menu li a:hover,
+	.main-navigation .sub-menu li a:focus {
+  	color: #000;
+	}
+  
+  
   
 }
 
