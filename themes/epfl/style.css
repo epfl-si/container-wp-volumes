@@ -24,6 +24,7 @@ Version: 1.0.0
     - Articles
 
 04  HEADER
+    - Site title
     - Main navigation
 
 05  FOOTER
@@ -235,7 +236,26 @@ blockquote {
     04 HEADER
 ----------------------------------------- */
 
+/* --- Site title --- */
 
+.site-header {
+  background: #fff;
+}
+.site-header a {
+  border: 0;
+}
+.site-header a:hover {
+  color: #ae0010;
+}
+.site-title {
+  font-family: Impact, Arial, sans-serif;
+  font-size: 1.625em /* 26px */;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.site-description {
+  display: none;
+}
 
 /* --- Main navigation --- */
 
@@ -298,7 +318,15 @@ blockquote {
 
 @media screen and (min-width: 30em) {
   
+  /*  ---------------------------------------
+    04 HEADER
+  ----------------------------------------- */
   
+  /* --- Site title --- */
+  
+  .site-branding {
+    padding: 1em 0;
+  }
   
 }
 
@@ -310,17 +338,32 @@ blockquote {
 
 @media screen and (min-width: 48em) {
   
-  
-  
   /*  ---------------------------------------
     04 HEADER
   ----------------------------------------- */
+  
+  /* --- Site title --- */
+  
+  .site-branding {
+    padding: 30px 0;
+  }
+  
+  .custom-header {
+    margin-bottom: 0 !important;
+  }
   
   /* --- Main navigation --- */
   
   .navigation-top {
     background: #fff;
     font-size: 1em;
+    position: static;
+  }
+  .navigation-top .wrap {
+    padding: 0 3em;
+  }
+  .navigation-top nav {
+    margin: 0;
   }
   .main-navigation {
     background: #ae0010;
@@ -429,6 +472,9 @@ blockquote {
 @media screen and ( min-width: 64em ) {
   
   .wrap {
+    margin: 0 auto;
+    padding-left: 0;
+    padding-right: 0;
     width: 980px;
   }
   
