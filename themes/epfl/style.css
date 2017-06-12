@@ -555,9 +555,18 @@ body.page-two-column #comments {
 }
 
 /* Colored text box */
-.sidebar .colored-text-box {
+.sidebar .home-panel {
   background-color: #ae0010;
   color: #fff;
+  padding: 8px 10px;
+}
+.sidebar .home-panel .widget-title {
+  border: none;
+  color: #fff;
+  font: bold 1.125em "Arial black", Arial, Helvetica, sans-serif;
+  letter-spacing: 1px;
+  padding: 0;
+  text-transform: none;
 }
 
 /*  -----------------------------------------------------------
