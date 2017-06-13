@@ -3,10 +3,21 @@
    GOAL: Allow to extract (by comparison) a WordPress plugin configuration so it can be used
          to configure the plugin after a "fresh" WordPress install.
 
-   VERSION : 0.1
+   HISTORY : 
+   0.1
       - Working version (not flexible)
       - Minimum comments
       - "Dirty code"
+      
+   0.2
+      - More comments
+      - Use input parameters
+      - Simplify DB connection code   
+      
+   0.3
+      - Now use a class to do things
+
+   -------------------------------------------------------------------------------------------
 */
 
 
@@ -18,7 +29,7 @@
 
 
    1. Connect on WordPress admin panel
-   2. Activate plugin
+   2. Activate plugin 
    3. Go on all links on the left menu
    4. Go on all plugin configuration page
    5. Execute STEP 1 of this script
@@ -39,16 +50,209 @@
 
 
 
-   /* Tables in which configuration is stored. Those tables must be sorted to satisfy foreign keys*/
-   $tables = array('wp_options'  => 'option_id',
-                   'wp_terms'    => 'term_id',
-                   'wp_termmeta' => 'meta_id', // include wp_terms.term_id
-                   'wp_term_taxonomy' => 'term_taxonomy_id', // include wp_terms.term_id
-                   'wp_term_relationships' => 'object_id'); // include wp_term_taxonomy.term_taxonomy_id
+
+   /****************************** CLASS **********************************/
+   
+   
+   class PluginConfig
+   {
+      var $plugin_name;
+      var $db_link;
+      var $config_tables;
+   
+      
+      /*
+         GOAL : Class contructor
+         
+         $plugin_name   : Plugin name for which we want to manage the configuration
+      */     
+      function PluginConfig($plugin_name)
+      {
+         $this->plugin_name = $plugin_name;
+         $this->base_config = array();
+         /* Tables in which configuration is stored. Those tables must be sorted to satisfy foreign keys*/
+         $this->config_tables = array('wp_options'              => 'option_id',
+                                      'wp_terms'                => 'term_id',
+                                      'wp_termmeta'             => 'meta_id', // include wp_terms.term_id
+                                      'wp_term_taxonomy'        => 'term_taxonomy_id', // include wp_terms.term_id
+                                      'wp_term_relationships'   => 'object_id'); // include wp_term_taxonomy.term_taxonomy_id
+         
+         /* Open DB connection */
+         $this->db_link = mysqli_connect(WORDPRESS_HOST, MYSQL_ROOT_USER, MYSQL_ROOT_PASSWORD, WORDPRESS_DB);
+
+         if(mysqli_connect_errno() != 0) 
+         {
+            trigger_error(__CLASS_.":".__FUNCTION__.": ".mysqli_connect_error()."\n", E_USER_ERROR);
+
+         }
+      }
+      
+      /* ----------------------------------------------------------------------- */
+      
+      
+      /*
+         GOAL : Return the filename to use to store base configuration.
+      */
+      protected function getBaseConfigFilename()
+      {
+         return sprintf(PLUGIN_CONFIG_FILE_BASE, $this->plugin_name);
+      }
+      
+      
+      /*
+         GOAL : Return the filename to use to store plugin configuration.
+      */
+      protected function getPluginConfigFilename()
+      {
+         return sprintf(PLUGIN_CONFIG_FILE_FINAL, $this->plugin_name);
+      }
+      
+      /* ----------------------------------------------------------------------- */
+      
+      /*
+         GOAL  : Take a "snapshot" of configuration tables before plugin configuration.
+                 In fact, we get max ID for each tables in which configuration is stored.
+                 
+                 The information are saved in a file
+      */
+      function extractAndSaveConfigSnapshot()
+      {
+      
+         $base_config = array();
+         
+         /* Going throught tables */
+         foreach($this->config_tables as $table_name => $id_field)
+         {
+
+            $request = "SELECT MAX($id_field) AS 'max' FROM $table_name";  
+            
+            if(($res = mysqli_query($this->db_link, $request))===false)
+            {
+               trigger_error(__FUNCTION__.": ".mysqli_error($this->db_link)."\n", E_USER_ERROR);
+            }
+            
+            $res = mysqli_fetch_assoc($res);
+
+            /* Determining max ID */         
+            $base_config[$table_name] = ($res['max']=="")?0:$res['max'];
+
+         }/* END LOOP Going through tables */      
+         
+         /* Generate output filename */
+         $base_config_file = $this->getBaseConfigFilename();
+
+         $handle = fopen($base_config_file, 'w+');
+         fwrite($handle, serialize($base_config));
+         fclose($handle);
+         
+         $this->closeDBConnection();
+      
+      }
+      
+      /* ----------------------------------------------------------------------- */
+      
+      /*
+         GOAL : Use the base configuration saved before to determine which rows have been
+                added in the DB during plugin configuration.
+                
+                The difference contains the plugin configuration. We save it in a file.
+      */
+      function extractAndSavePluginConfig()
+      {
+         $config_diff = array();
+         
+         /* Generate filename and load base configuration  */
+         $base_config_file = $this->getBaseConfigFilename();
+         $base_config = unserialize(file_get_contents($base_config_file));         
+         
+         /* Going throught tables */
+         foreach($this->config_tables as $table_name => $id_field)
+         {
+            /* Get diff for table */
+            $request = "SELECT * FROM $table_name WHERE $id_field > $base_config[$table_name]";
+
+            if(($res = mysqli_query($this->db_link, $request))===false)
+            {
+               trigger_error(__FUNCTION__.": ".mysqli_error($this->db_link)."\n", E_USER_ERROR);
+            }
+            
+            /* To store configuration */
+            $config_diff[$table_name] = array();
+
+            /* Going through result and store in array */
+            while($row = mysqli_fetch_assoc($res))
+            {
+               $config_diff[$table_name][] = $row;
+            }
+
+         }/* END LOOP Going through tables */   
+         
+         print_r($config_diff);
+         
+          $diff_config_file = $this->getPluginConfigFilename();
+
+          
+          /* Save configuration in file */
+          $handle = fopen($diff_config_file, 'w+');
+          fwrite($handle, serialize($config_diff));
+          fclose($handle);
+          
+          $this->closeDBConnection();
+      }
+
+
+      /* ----------------------------------------------------------------------- */
+      
+      
+      /*
+         GOAL : Load the plugin configuration stored in the file and update WP database
+      */      
+      function importPluginConfig()
+      {
+         $diff_config_file = $this->getPluginConfigFilename();
+         $diff_config = unserialize(file_get_contents($diff_config_file));
+         
+         /* Going throught tables */
+         foreach($this->config_tables as $table_name => $id_field)
+         {
+
+            /* Going through rows to add in table */
+            foreach($diff_config[$table_name] as $row)
+            {
+
+               $request = "INSERT IGNORE INTO $table_name (".implode(",",array_keys($row)).") VALUES('".implode("','",array_map('addslashes', $row))."')";
+
+               if(($res = mysqli_query($this->db_link, $request))===false)
+               {
+                  trigger_error(__FUNCTION__.": ".mysqli_error($this->db_link)."\n", E_USER_ERROR);
+               }
+            } /* END LOOP Going through table rows */
+         
+         }/* END LOOP Going through tables */
+         
+         $this->closeDBConnection();
+      }
+      
+      
+      /* ----------------------------------------------------------------------- */
+      
+      /*
+         GOAL : Close DB connection
+      */
+      function closeDBConnection()
+      {
+         mysqli_close($this->db_link);
+      }
+      
+   }
 
 
    /**************************** FUNCTIONS ********************************/
 
+
+   /*
+      GOAL : Display how to use this script
+   */
    function displayUsage()
    {
       global $argv;
@@ -60,127 +264,7 @@
       echo "\n";
    }
    
-   /* ----------------------------------------------------------------------- */
 
-   function getMaxIDs($for_tables)
-   {
-      $max_ids = array();
-
-      $link = mysqli_connect(WORDPRESS_HOST, 
-                             MYSQL_ROOT_USER, 
-      	                    MYSQL_ROOT_PASSWORD,  
-      	                    WORDPRESS_DB);
-
-      if(mysqli_connect_errno() != 0) 
-      {
-         trigger_error(__FUNCTION__.": ".mysqli_connect_error()."\n", E_USER_ERROR);
-
-      }
-
-      /* Going throught tables */
-      foreach($for_tables as $table_name => $id_field)
-      {
-
-         $request = "SELECT MAX($id_field) AS 'max' FROM $table_name";  
-         
-         if(($res = mysqli_query($link, $request))===false)
-         {
-            trigger_error(__FUNCTION__.": ".mysqli_error($link)."\n", E_USER_ERROR);
-         }
-         
-         $res = mysqli_fetch_assoc($res);
-         
-         $max_ids[$table_name] = ($res['max']=="")?0:$res['max'];
-      }
-
-      
-      mysqli_close($link);
-      
-      return $max_ids;
-   
-   }
-
-   /* ----------------------------------------------------------------------- */
-
-   function extractConfigDiff($for_tables, $base_config)
-   {
-      $config_diff = array();      
-
-      $link = mysqli_connect(WORDPRESS_HOST, 
-                             MYSQL_ROOT_USER, 
-      	                    MYSQL_ROOT_PASSWORD,  
-      	                    WORDPRESS_DB);
-
-      if(mysqli_connect_errno() != 0) 
-      {
-         trigger_error(__FUNCTION__.": ".mysqli_connect_error()."\n", E_USER_ERROR);
-
-      }
-
-      /* Going throught tables */
-      foreach($for_tables as $table_name => $id_field)
-      {
-         /* Get diff for table */
-         $request = "SELECT * FROM $table_name WHERE $id_field > $base_config[$table_name]";
-
-         if(($res = mysqli_query($link, $request))===false)
-         {
-            trigger_error(__FUNCTION__.": ".mysqli_error($link)."\n", E_USER_ERROR);
-         }
-
-         $config_diff[$table_name] = array();
-
-         /* Going through result and store in array */
-         while($row = mysqli_fetch_assoc($res))
-         {
-            $config_diff[$table_name][] = $row;
-         }
-
-      }
-
-      mysqli_close($link);
-
-      return $config_diff;
-
-   }
-
-   /* ----------------------------------------------------------------------- */
-
-   function loadConfig($for_tables, $diff_config)
-   {
-      $link = mysqli_connect(WORDPRESS_HOST, 
-                             MYSQL_ROOT_USER, 
-      	                    MYSQL_ROOT_PASSWORD,  
-      	                    WORDPRESS_DB);
-
-      if(mysqli_connect_errno() != 0) 
-      {
-         trigger_error(__FUNCTION__.": ".mysqli_connect_error()."\n", E_USER_ERROR);
-
-      }
-
-//print_r($diff_config);exit;
-
-      /* Going throught tables */
-      foreach($for_tables as $table_name => $id_field)
-      {
-
-
-         /* Going through rows to add in table */
-         foreach($diff_config[$table_name] as $row)
-         {
-
-            $request = "INSERT IGNORE INTO $table_name (".implode(",",array_keys($row)).") VALUES('".implode("','",array_map('addslashes', $row))."')";
-
-            if(($res = mysqli_query($link, $request))===false)
-            {
-               trigger_error(__FUNCTION__.": ".mysqli_error($link)."\n", E_USER_ERROR);
-            }
-         }
-      }
-
-      mysqli_close($link);
-   }
 
 
    /**************************** MAIN PROGRAM *********************************/
@@ -196,6 +280,9 @@
    $step_no = $argv[1];
    $plugin_name = $argv[2];
 
+   /* Object creation */
+   $pc = new PluginConfig($plugin_name);
+
 
 
    switch($step_no)
@@ -205,48 +292,20 @@
       {
          echo "Getting settings before configuration of plugin $plugin_name... ";
 
-         $config = getMaxIDs($tables);
-
-         print_r($config);
-
-         $base_config_file = sprintf(PLUGIN_CONFIG_FILE_BASE, $plugin_name);
-
-         $handle = fopen($base_config_file, 'w+');
-         fwrite($handle, serialize($config));
-         fclose($handle);
-
-         echo "done (base information saved in '$base_config_file')\n\n";
-         echo "You can now configure the plugin '$plugin_name' in WordPress and then re-execute this script with the following command line:\n";
-         echo "php ".__FILE__." 2 \"$plugin_name\"\n";
+         $pc->extractAndSaveConfigSnapshot();
+         echo "done\n";
          break;
       }
 
       /** Step 2 : Compare "base" configuration with new configuration after plugin configuration **/
       case 2: 
       {
-         $substep=0;
-         echo "Getting configuration for plugin $plugin_name...\n";
-         
-         /* --- */
-         $substep++;echo " [$substep] Loading base configuration... ";
-         $base_config_file = sprintf(PLUGIN_CONFIG_FILE_BASE, $plugin_name);
-         $base_config = unserialize(file_get_contents($base_config_file));
-         echo "done\n";
-         
-         /* --- */
-         $substep++;echo " [$substep] Extracting configuration differences... ";
-         $diff_config = extractConfigDiff($tables, $base_config);
-         echo "done\n";
 
-         print_r($diff_config);
+         echo "Getting configuration for plugin $plugin_name... ";
          
-         /* --- */
-         $diff_config_file = sprintf(PLUGIN_CONFIG_FILE_FINAL, $plugin_name);
-         $substep++;echo " [$substep] Saving configuration to file ($diff_config_file)... ";
-
-         $handle = fopen($diff_config_file, 'w+');
-         fwrite($handle, serialize($diff_config));
-         fclose($handle);
+         $pc->extractAndSavePluginConfig();         
+            
+         echo "done\n";
 
 
 
@@ -257,22 +316,16 @@
       case 3 :
       {
          $substep=0;
-         echo "Loading configuration for plugin $plugin_name...\n";
+         echo "Importing configuration for plugin $plugin_name... ";
 
-         /* --- */
-         $substep++;echo " [$substep] Loading diff configuration... ";
-         $diff_config_file = sprintf(PLUGIN_CONFIG_FILE_FINAL, $plugin_name);
-         $diff_config = unserialize(file_get_contents($diff_config_file));
-         echo "done\n";
-
-         /* --- */
-         $substep++;echo " [$substep] Updating plugin configuration in DB... ";
-         loadConfig($tables, $diff_config);
+         $pc->importPluginConfig();
+         
          echo "done\n";         
 
 
          break;
       }
+
 
    }
    
