@@ -23,9 +23,17 @@
       - Handle foreign values already existing in DB (not present in the configuration save file)
       - Handle rows that are deleted and recreated with another ID (bigger) by the plugin. Duplicate entry 
         error is handled and existing row id is recovered
-      
+   
+   0.4
+      - Handle plugin that store "empty" configuration in DB before user do the manual configuration. 
+        If configuration already exists, it is updated and the mapping with the existing is kept.
+      - Check if config files exists before opening them.
+        + Error will be thrown if 'base config' file doesn't exists
+        + Import plugin configuration will be ignored if config file doesn't exists. 
+        
+     
    TODO :
-   - Add error check (existing files, etc...)
+   - Add error check (find what)
    - 
 
    -------------------------------------------------------------------------------------------
@@ -105,7 +113,7 @@
 
          if(mysqli_connect_errno() != 0) 
          {
-            trigger_error(__CLASS_.":".__FUNCTION__.": ".mysqli_connect_error()."\n", E_USER_ERROR);
+            trigger_error(__FILE__.":".__FUNCTION__.": ".mysqli_connect_error()."\n", E_USER_ERROR);
 
          }
       }
@@ -177,16 +185,16 @@
          foreach($this->config_tables as $table_name => $fields_infos)
          {
             /* Extract infos */
-            list($id_field, $unique_fields) = $fields_infos;
+            list($auto_inc_field, $unique_fields) = $fields_infos;
       
-            /* if no $id field, we skip */
-            if($id_field === null) continue;
+            /* if no "auto-inc" field, we skip because we don't need a comparison snap */
+            if($auto_inc_field === null) continue;
 
-            $request = "SELECT MAX($id_field) AS 'max' FROM $table_name";  
+            $request = "SELECT MAX($auto_inc_field) AS 'max' FROM $table_name";  
             
             if(($res = mysqli_query($this->db_link, $request))===false)
             {
-               trigger_error(__FUNCTION__.": ".mysqli_error($this->db_link)."\n", E_USER_ERROR);
+               trigger_error(__FILE__.":".__FUNCTION__.": ".mysqli_error($this->db_link)."\n", E_USER_ERROR);
             }
             
             $res = mysqli_fetch_assoc($res);
@@ -221,22 +229,29 @@
          
          /* Generate filename and load base configuration  */
          $base_config_file = $this->getBaseConfigFilename();
+         
+         /* If base config file doesn't exists, we skip */
+         if(!file_exists($base_config_file))
+         {
+            trigger_error(__FILE__.":".__FUNCTION__.": Base config doesn't exists for plugin '".$this->plugin_name."'\n", E_USER_ERROR);  
+         }
+         
          $base_config = unserialize(file_get_contents($base_config_file));         
          
          /* Going throught tables */
          foreach($this->config_tables as $table_name => $fields_infos)
          {
             /* Extract infos */
-            list($id_field, $unique_fields) = $fields_infos;
+            list($auto_inc_field, $unique_fields) = $fields_infos;
             
             /* Get diff for table */
             $request = "SELECT * FROM $table_name";
-            /* If there's an ID field */
-            if($id_field!==null) $request.= " WHERE $id_field > $base_config[$table_name]";
+            /* If there's an "auto-gen" field */
+            if($auto_inc_field!==null) $request.= " WHERE $auto_inc_field > $base_config[$table_name]";
             
             if(($res = mysqli_query($this->db_link, $request))===false)
             {
-               trigger_error(__FUNCTION__.": ".mysqli_error($this->db_link)."\n", E_USER_ERROR);
+               trigger_error(__FILE__.":".__FUNCTION__.": ".mysqli_error($this->db_link)."\n", E_USER_ERROR);
             }
             
             /* To store configuration */
@@ -273,6 +288,14 @@
       function importPluginConfig()
       {
          $diff_config_file = $this->getPluginConfigFilename();
+         
+         /* If config file doesn't exists, we skip */
+         if(!file_exists($diff_config_file))
+         {
+            echo "Config file doesn't exists for plugin '".$this->plugin_name."'. Skipping.\n";
+            return;
+         }
+         
          $diff_config = unserialize(file_get_contents($diff_config_file));
          
          /* To store ID mapping between configuration stored in files and what is inserted in DB */
@@ -289,7 +312,10 @@
          {
          
             /* Extract infos */
-            list($id_field, $unique_fields) = $fields_infos;
+            list($auto_inc_field, $unique_fields) = $fields_infos;
+
+            /* Array transform if needed */
+            if(!is_array($unique_fields)) $unique_fields = array($unique_fields);
 
             /* Creating mapping array for current table */
             $table_id_mapping[$table_name] = array();
@@ -297,16 +323,21 @@
             /* Going through rows to add in table */
             foreach($diff_config[$table_name] as $row)
             {
-               $values = array();
+               /* Values that will be used if we can do an insert */
+               $insert_values = array();
+               
+               /* Values that will be used if row is already existing. This means we have to update it */
+               $update_values = array();
+               
                /* Goint through fields/values in the row */
                foreach($row as $field => $value)
                {
 
                   /* If current field contains an "auto-generated id", */
-                  if($id_field==$field)
+                  if($auto_inc_field==$field)
                   {
                      /* Empty value so it will be generated automatically */
-                     $values[] = '';
+                     $current_value = '';
                   }
                   /* If we have information about foreign key, */
                   else if(($target_table = $this->getForeignKeyTable($table_name, $field))!==null)
@@ -315,31 +346,44 @@
                      if(array_key_exists($value, $table_id_mapping[$target_table]))
                      {
                         /* Getting mapped id for current value */
-                        $values[] = $table_id_mapping[$target_table][$value];
+                        $current_value = $table_id_mapping[$target_table][$value];
                         
                      }
                      else /* We don't have any mapping */
                      {
                         /* We take the value as it is because it is probably referencing something already existing in the DB 
                            (and not present in the saved configuration for the plugin) */
-                        $values[] = $value;
+                        $current_value = $value;
                         
                      }
                   }
                   else /* We can take the value present in the config file (with 'addslashes' to be sure) */
                   {
-                     $values[] = addslashes($value);
+                     $current_value = addslashes($value);
                   }
+                  
+                  /* We store the value to insert */
+                  $insert_values[] = $current_value;
+                  
+                  /* If the field is NOT an "auto-generated" and NOT a part of the primary key, */
+                  if($auto_inc_field!=$field && !in_array($field, $unique_fields))
+                  {
+                     /* We store what we need to update the row if it already exists */
+                     $update_values[] = $field."='".$current_value."'";
+                  }
+                  
                   
                }/* END LOOPING through fields/values in the row*/
             
             
+               /* Creating request to insert row or to update it if already exists */
+               $request = "INSERT INTO $table_name VALUES('".implode("','", $insert_values)."') ".
+                          " ON DUPLICATE KEY UPDATE ".implode(",", $update_values);
 
-               $request = "INSERT IGNORE INTO $table_name VALUES('".implode("','", $values)."')";
-
+               
                if(($res = mysqli_query($this->db_link, $request))===false)
                {
-                  trigger_error(__FUNCTION__.": ".mysqli_error($this->db_link)."\n", E_USER_ERROR);
+                  trigger_error(__FILE__.":".__FUNCTION__.": ".mysqli_error($this->db_link)."\n", E_USER_ERROR);
                }
                
                /* Getting ID of inserted value */
@@ -348,12 +392,11 @@
                
                
                /* If row wasn't inserted because already exists, (so it means we must have an 'auto-gen' field) */
-               if($insert_id==0 && $id_field !== null)
+               if($insert_id==0 && $auto_inc_field !== null)
                {
-                  /* Array transform if needed */
-                  if(!is_array($unique_fields)) $unique_fields = array($unique_fields);
-                  
+                  /* To store search conditions to find the existing row ID */
                   $search_conditions = array();
+                  
                   /* Going through unique fields */
                   foreach($unique_fields as $unique_field_name)
                   {
@@ -365,19 +408,19 @@
 
                   if(($res = mysqli_query($this->db_link, $request))===false)
                   {
-                     trigger_error(__FUNCTION__.": ".mysqli_error($this->db_link)."\n", E_USER_ERROR);
+                     trigger_error(__FILE__.":".__FUNCTION__.": ".mysqli_error($this->db_link)."\n", E_USER_ERROR);
                   }
                   
                   $res = mysqli_fetch_assoc($res);
                   /* Getting ID of existing row */
-                  $insert_id = $res[$id_field];
+                  $insert_id = $res[$auto_inc_field];
                   
                }/* END IF row wasn't inserted */
                
                
                
-               /* Save ID mapping from data present in file TO row inserted in DB */
-               $table_id_mapping[$table_name][$row[$id_field]] = $insert_id;
+               /* Save ID mapping from data present in file TO row inserted (or already existing) in DB */
+               $table_id_mapping[$table_name][$row[$auto_inc_field]] = $insert_id;
                
             } /* END LOOP Going through table rows */
          
