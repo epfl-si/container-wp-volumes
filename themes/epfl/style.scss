@@ -43,6 +43,8 @@ Version: 1.0.0
 $primary-color: #ae0010; /* main color  */
 $color-alt:     #7e000c; /* hover color */
 
+$light-grey:    #cfd0ca;
+
 @mixin clearfix {
   
   &:after {
@@ -171,6 +173,7 @@ a {
 ul,
 ol {
   margin: 1em 0;
+  padding-left: 1em;
   
   ul,
   ol {
@@ -210,6 +213,10 @@ blockquote {
   line-height: 1.2em;
   margin: 1em 0;
 }
+b, strong {
+  color: #000;
+}
+
 
 /*  ---------------------------------------
     02 TWENTY SEVENTEEN RESETS
@@ -224,6 +231,12 @@ blockquote {
 .posts-navigation a,
 .widget_authors a strong {
   box-shadow: none !important;
+}
+
+.page .panel-content .entry-title,
+.page-title,
+body.page:not(.twentyseventeen-front-page) .entry-title {
+  font-size: inherit;
 }
 
 .entry-content .icon {
@@ -271,7 +284,13 @@ body.page-two-column #comments {
 
 /* --- Structure --- */
 
+.site-content {
+  margin-top: 10px;
+  padding: 0;
+}
+
 .panel-content .wrap {
+  padding: 0;
   width: 100%;
 }
 
@@ -461,6 +480,11 @@ body.page-two-column #comments {
 
 /* --- Main navigation --- */
 
+.nav,
+.nav ul {
+  padding-left: 0;
+}
+
 .navigation-top {
   background: $primary-color;
   border: 0;
@@ -520,21 +544,109 @@ body.page-two-column #comments {
     05 SIDEBAR
 ----------------------------------------- */
 
+#secondary {
+  padding-top: 0;
+}
+
 /* Secondary navigation */
 
-.sidebar .nav > li {
-  display: none;
+// Hide all pages, and show only the ones related to the current page (parent, ancestors, siblings, etc)
+
+.sidebar .nav {
+  & > li {
+    display: none;
+  }
+  
 }
 .sidebar .nav > li.current_page_ancestor,
 .sidebar .nav > li.current_page_parent,
 .sidebar .nav > li.current_page_item {
   display: block;
   
+  // Hide the top level item of the current page ancestry
   & > a {
     display: none;
   }
 }
 
+// Generic nav styles
+
+.sidebar .nav {
+  background: $primary-color;
+  list-style: none;
+  margin: 0 0 40px;
+  
+  li {
+    border-bottom: 1px solid #fff;
+    margin: 0;
+  }
+  
+  a {
+    border: none;
+    color: #fff;
+    display: block;
+    font-weight: bold;
+    padding: 3px 20px;
+    
+    &:hover {
+      background: $color-alt;
+    }
+  }
+}
+
+.sidebar .nav li.current_page_item > a {
+  background: #000;
+  color: #fff;
+}
+
+.sidebar .children,
+.sidebar .sub-menu {
+  list-style: none;
+  margin: 0;
+}
+
+// Current page, parents and ancestors
+.sidebar .nav li.current_page_ancestor,
+.sidebar .nav li.current_page_parent,
+.sidebar .nav li.current_page_item {
+  
+  // 2nd level children
+  .children .children,
+  .sub-menu .sub-menu {
+    background: #fff;
+    border-top: 1px solid #fff;
+    
+    li {
+      border-bottom: 1px solid #a3a3a3;
+      
+      &:last-child {
+        border: 0;
+      }
+    }
+    
+    a {
+      color: #000;
+      font-weight: bold;
+      margin-left: 20px;
+      
+      &:hover {
+        background: $light-grey;
+      }
+    }
+    
+    
+    // 3rd level children
+    ul li {
+      border: none;
+    }
+    
+  }
+}
+
+.sidebar .nav li.current_page_item > a {
+  background: #000;
+  color: #fff !important;
+}
 
 /* Widgets */
 
@@ -764,7 +876,7 @@ body.page-two-column #comments {
       padding: 2px 8px;
       
       &:hover {
-        background: #cfd0ca;
+        background: $light-grey;
       }
     }
   }

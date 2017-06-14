@@ -154,6 +154,7 @@ a:hover {
 ul,
 ol {
   margin: 1em 0;
+  padding-left: 1em;
 }
 ul ul,
 ul ol,
@@ -196,6 +197,10 @@ blockquote {
   margin: 1em 0;
 }
 
+b, strong {
+  color: #000;
+}
+
 /*  ---------------------------------------
     02 TWENTY SEVENTEEN RESETS
 ----------------------------------------- */
@@ -207,6 +212,12 @@ blockquote {
 .posts-navigation a,
 .widget_authors a strong {
   box-shadow: none !important;
+}
+
+.page .panel-content .entry-title,
+.page-title,
+body.page:not(.twentyseventeen-front-page) .entry-title {
+  font-size: inherit;
 }
 
 .entry-content .icon {
@@ -250,7 +261,13 @@ body.page-two-column #comments {
     03 GLOBAL CONTENT & SITE STRUCTURE
 ----------------------------------------- */
 /* --- Structure --- */
+.site-content {
+  margin-top: 10px;
+  padding: 0;
+}
+
 .panel-content .wrap {
+  padding: 0;
   width: 100%;
 }
 
@@ -466,6 +483,11 @@ body.page-two-column #comments {
 }
 
 /* --- Main navigation --- */
+.nav,
+.nav ul {
+  padding-left: 0;
+}
+
 .navigation-top {
   background: #ae0010;
   border: 0;
@@ -522,6 +544,10 @@ body.page-two-column #comments {
 /*  ---------------------------------------
     05 SIDEBAR
 ----------------------------------------- */
+#secondary {
+  padding-top: 0;
+}
+
 /* Secondary navigation */
 .sidebar .nav > li {
   display: none;
@@ -536,6 +562,94 @@ body.page-two-column #comments {
 .sidebar .nav > li.current_page_parent > a,
 .sidebar .nav > li.current_page_item > a {
   display: none;
+}
+
+.sidebar .nav {
+  background: #ae0010;
+  list-style: none;
+  margin: 0 0 40px;
+}
+.sidebar .nav li {
+  border-bottom: 1px solid #fff;
+  margin: 0;
+}
+.sidebar .nav a {
+  border: none;
+  color: #fff;
+  display: block;
+  font-weight: bold;
+  padding: 3px 20px;
+}
+.sidebar .nav a:hover {
+  background: #7e000c;
+}
+
+.sidebar .nav li.current_page_item > a {
+  background: #000;
+  color: #fff;
+}
+
+.sidebar .children,
+.sidebar .sub-menu {
+  list-style: none;
+  margin: 0;
+}
+
+.sidebar .nav li.current_page_ancestor .children .children,
+.sidebar .nav li.current_page_ancestor .sub-menu .sub-menu,
+.sidebar .nav li.current_page_parent .children .children,
+.sidebar .nav li.current_page_parent .sub-menu .sub-menu,
+.sidebar .nav li.current_page_item .children .children,
+.sidebar .nav li.current_page_item .sub-menu .sub-menu {
+  background: #fff;
+  border-top: 1px solid #fff;
+}
+.sidebar .nav li.current_page_ancestor .children .children li,
+.sidebar .nav li.current_page_ancestor .sub-menu .sub-menu li,
+.sidebar .nav li.current_page_parent .children .children li,
+.sidebar .nav li.current_page_parent .sub-menu .sub-menu li,
+.sidebar .nav li.current_page_item .children .children li,
+.sidebar .nav li.current_page_item .sub-menu .sub-menu li {
+  border-bottom: 1px solid #a3a3a3;
+}
+.sidebar .nav li.current_page_ancestor .children .children li:last-child,
+.sidebar .nav li.current_page_ancestor .sub-menu .sub-menu li:last-child,
+.sidebar .nav li.current_page_parent .children .children li:last-child,
+.sidebar .nav li.current_page_parent .sub-menu .sub-menu li:last-child,
+.sidebar .nav li.current_page_item .children .children li:last-child,
+.sidebar .nav li.current_page_item .sub-menu .sub-menu li:last-child {
+  border: 0;
+}
+.sidebar .nav li.current_page_ancestor .children .children a,
+.sidebar .nav li.current_page_ancestor .sub-menu .sub-menu a,
+.sidebar .nav li.current_page_parent .children .children a,
+.sidebar .nav li.current_page_parent .sub-menu .sub-menu a,
+.sidebar .nav li.current_page_item .children .children a,
+.sidebar .nav li.current_page_item .sub-menu .sub-menu a {
+  color: #000;
+  font-weight: bold;
+  margin-left: 20px;
+}
+.sidebar .nav li.current_page_ancestor .children .children a:hover,
+.sidebar .nav li.current_page_ancestor .sub-menu .sub-menu a:hover,
+.sidebar .nav li.current_page_parent .children .children a:hover,
+.sidebar .nav li.current_page_parent .sub-menu .sub-menu a:hover,
+.sidebar .nav li.current_page_item .children .children a:hover,
+.sidebar .nav li.current_page_item .sub-menu .sub-menu a:hover {
+  background: #cfd0ca;
+}
+.sidebar .nav li.current_page_ancestor .children .children ul li,
+.sidebar .nav li.current_page_ancestor .sub-menu .sub-menu ul li,
+.sidebar .nav li.current_page_parent .children .children ul li,
+.sidebar .nav li.current_page_parent .sub-menu .sub-menu ul li,
+.sidebar .nav li.current_page_item .children .children ul li,
+.sidebar .nav li.current_page_item .sub-menu .sub-menu ul li {
+  border: none;
+}
+
+.sidebar .nav li.current_page_item > a {
+  background: #000;
+  color: #fff !important;
 }
 
 /* Widgets */
