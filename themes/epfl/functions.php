@@ -66,6 +66,41 @@ function dequeue_fonts() {
 }
 add_action( 'wp_print_styles', 'dequeue_fonts' );
 
+/**
+ * Register widget area.
+ *
+ * @link https://developer.wordpress.org/themes/functionality/sidebars/#registering-a-sidebar
+ */
+ 
+function unregister_parent_sidebars(){
 
+	// Unregister Twenty Seventeen Sidebars
+	unregister_sidebar( 'sidebar-1' );
+}
+add_action( 'widgets_init', 'unregister_parent_sidebars', 11 );
+
+function epfl_widgets_init() {
+  
+  register_sidebar( array(
+      'name'          => 'Homepage widgets',
+      'id'            => 'homepage-widgets',
+      'description'   => 'Widgets présents uniquement sur la homepage',
+      'before_widget' => '<section id="%1$s" class="widget %2$s">',
+  		'after_widget'  => '</section>',
+  		'before_title'  => '<h3 class="widget-title">',
+  		'after_title'   => '</h3>'
+  ) );
+  
+  register_sidebar( array(
+      'name'          => 'Page widget',
+      'id'            => 'page-widgets',
+      'description'   => 'Widgets présents sur toutes les pages, y compris la homepage',
+      'before_widget' => '<section id="%1$s" class="widget %2$s">',
+  		'after_widget'  => '</section>',
+  		'before_title'  => '<h3 class="widget-title">',
+  		'after_title'   => '</h3>'
+  ) );
+}
+add_action( 'widgets_init', 'epfl_widgets_init' );
 
 ?>

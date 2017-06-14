@@ -18,25 +18,28 @@
 
 <aside id="secondary" class="sidebar col col-l-4" role="complementary">
   
-  <nav class="nav-pages">
-        <ul class="nav">
-        <?php wp_list_pages(array(
-          'title_li' => ''
-          )); ?>
-        </ul>
-      </nav><!-- .nav-pages -->
-      
+  <?php if ( is_front_page() ) : ?>
   
-  <?php wp_nav_menu( array(
-		'theme_location' => 'sidebar_nav',
-		'menu_id'        => 'top-menu',
-		'menu_class'     => 'nav',
-		'container'      => 'nav'
-	) ); ?>
-  
-  <?php if ( is_active_sidebar( 'sidebar-1' ) ): ?>
-  
-	  <?php dynamic_sidebar( 'sidebar-1' ); ?>
+    <?php if ( is_active_sidebar( 'homepage-widgets' ) ): ?>
+    
+  	  <?php dynamic_sidebar( 'homepage-widgets' ); ?>
+  	
+  	<?php
+    	endif; 
+    else: ?>
+    
+    <?php wp_nav_menu( array(
+  		'theme_location' => 'sidebar_nav',
+  		'menu_id'        => 'top-menu',
+  		'menu_class'     => 'nav',
+  		'container'      => 'nav'
+  	) ); ?>
+  	
+  <?php endif; ?>
+    
+	<?php if ( is_active_sidebar( 'page-widgets' ) ): ?>
+    
+	  <?php dynamic_sidebar( 'page-widgets' ); ?>
 	
 	<?php endif; ?>
 	
