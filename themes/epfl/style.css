@@ -569,6 +569,20 @@ body.page-two-column #comments {
   text-transform: none;
 }
 
+/*  ---------------------------------------
+    06 PRIMARY CONTENT
+----------------------------------------- */
+/* Page title */
+.site-main .entry-header .entry-title,
+.site-main .entry-header h1.entry-title {
+  font-family: "Arial black", Arial, Helvetica, sans-serif;
+  font-size: 1.6875em;
+  letter-spacing: normal;
+  line-height: 1.4em;
+  text-transform: none;
+}
+
+/* Page content */
 /*  -----------------------------------------------------------
 
 	Media Queries - Mobile phones (> 480px)
@@ -770,6 +784,15 @@ body.page-two-column #comments {
   /* --- Main navigation --- */
   .navigation-top .wrap {
     padding: 0;
+  }
+
+  /*  ---------------------------------------
+    06 PRIMARY CONTENT
+  ----------------------------------------- */
+  /* Page title & content */
+  .entry-header,
+  .entry-content {
+    padding-right: 35px;
   }
 }
 
