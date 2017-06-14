@@ -211,6 +211,15 @@ blockquote {
   box-shadow: none !important;
 }
 
+.entry-content .icon {
+  display: inline-block;
+  height: auto;
+  position: relative;
+  top: 0;
+  vertical-align: middle;
+  width: auto;
+}
+
 /* Navigation */
 
 .main-navigation ul li.menu-item-has-children:before,
@@ -230,7 +239,145 @@ blockquote {
     STRUCTURE
 ------------------------------- */
 
+/* --- Icons --- */
 
+.fa-icon {
+  border: 0;
+  position: relative;
+}
+.fa-icon:before {
+  content: "";
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.fa-icon.btn-icon > .label {
+  border-bottom: 1px dotted #000;
+  font: italic .75rem Georgia, 'Times New Roman', Times, serif;
+  transition: all .2s ease-in-out;
+  vertical-align: middle;
+}
+.fa-icon.btn-icon:before {
+  background: #ae0010;
+  border-radius: 50%;
+  border: 0;
+  color: #fff;
+  display: inline-block;
+  font: normal .875em/24px FontAwesome;
+  height: 24px;
+  margin-right: .5em;
+  text-align: center;
+  transition: all .2s ease-in-out;
+  vertical-align: middle;
+  width: 24px;
+}
+
+.fa-icon.btn-icon:hover > .label {
+  border-bottom-style: solid;
+}
+.fa-icon.btn-icon:hover:before {
+  background: #7e000c;
+}
+
+.fa-icon.print:before {
+  content: "\f02f";
+}
+.fa-icon.feed:before {
+  content: "\f09e";
+}
+.fa-icon.share:before {
+  content: "\f1e0";
+}
+.fa-icon.information:before {
+  content: "\f129";
+}
+.fa-icon.question:before {
+  content: "\f128";
+}
+.fa-icon.mail:before {
+  content: "\f0e0";
+}
+.fa-icon.podcast:before {
+  content: "\f2ce";
+}
+.fa-icon.contact:before {
+  content: "\f007";
+}
+.fa-icon.group:before {
+  content: "\f0c0";
+}
+.fa-icon.check:before {
+  content: "\f00c";
+}
+.fa-icon.cross:before {
+  content: "\f00d";
+}
+.fa-icon.plus:before {
+  content: "\f067";
+}
+.fa-icon.comment:before {
+  content: "\f075";
+}
+.fa-icon.edit:before {
+  content: "\f040";
+}
+.fa-icon.download:before {
+  content: "\f019";
+}
+.fa-icon.file:before {
+  content: "\f15b";
+}
+.fa-icon.file-pdf:before {
+  content: "\f1c1";
+}
+.fa-icon.files:before {
+  content: "\f0c5";
+}
+.fa-icon.stats:before {
+  content: "\f080";
+}
+.fa-icon.showall:before {
+  content: "\f06e";
+}
+.fa-icon.time:before {
+  content: "\f017";
+}
+.fa-icon.url:before {
+  content: "\f0c1";
+}
+.fa-icon.hierarchy:before {
+  content: "\f0e8";
+}
+.fa-icon.bullseye:before {
+  content: "\f05b";
+}
+.fa-icon.accred:before {
+  content: "\f084";
+}
+.fa-icon.data:before {
+  content: "\f233";
+}
+.fa-icon.up:before {
+  content: "\f077";
+}
+.fa-icon.down:before {
+  content: "\f078";
+}
+.fa-icon.previous:before {
+  content: "\f053";
+}
+.fa-icon.next:before {
+  content: "\f054";
+}
+.fa-icon.go-to-start:before {
+  content: "\f100";
+}
+.fa-icon.go-to-end:before {
+  content: "\f101";
+}
 
 /*  ---------------------------------------
     04 HEADER
