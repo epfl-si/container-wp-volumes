@@ -1,9 +1,50 @@
 <?PHP
 /*
-   GOAL: Allow to extract (by comparison) a WordPress plugin configuration so it can be used
-         to configure the plugin after a "fresh" WordPress install.
+   GOAL: 
+   =====
+   Allow to extract (by comparison) a WordPress plugin configuration so it can be used
+   to configure the plugin after a "fresh" WordPress install.
+
+
+
+   README:
+   =======
+   This script needs to be saved in '../master-wp/container-wp-volumes/plugins/' folder.
+      
+   Execution can be done with: 
+   docker exec wordpress sh -c "php /var/www/html/wp-content/plugins/manage-plugin-config.php <step_no> <plugin_name>"
+
+   
+   USE IN DOCKER DEPLOYMENT:
+   =========================
+   Modify the file '../master-wp/Makefile" in section "install" to add lines like the following:
+   docker exec wordpress sh -c "php /var/www/html/wp-content/plugins/manage-plugin-config.php 3 <plugin_name>"
+   
+   But to execute correctly, the 'config' file for the plugin you want to configure has to exists.
+
+   
+   HOW TO USE THIS SCRIPT:
+   =======================
+   0. Deploy WordPress instance with docker
+   1. Connect on WordPress admin panel
+   2. Activate plugin 
+   3. Go on all links on the left menu
+   4. Go on all plugin configuration page
+   5. Execute STEP 1 of this script
+      $ docker exec wordpress sh -c "php /var/www/html/wp-content/plugins/manage-plugin-config.php 1 <plugin_name>"
+   6. Configure plugin AND stay on configuration page !
+   7. Execute STEP 2 of this script to extract and save plugin configuration
+      $ docker exec wordpress sh -c "php /var/www/html/wp-content/plugins/manage-plugin-config.php 2 <plugin_name>"
+   8. Reinstall WordPress from scratch
+   9. Execute STEP 3 of this script to import plugin configuration. (have a look at 'Use in docker deployment')
+      $ docker exec wordpress sh -c "php /var/www/html/wp-content/plugins/manage-plugin-config.php 3 <plugin_name>"
+
+
+
+
 
    HISTORY : 
+   =========
    0.1
       - Working version (not flexible)
       - Minimum comments
@@ -31,6 +72,22 @@
         + Error will be thrown if 'base config' file doesn't exists
         + Import plugin configuration will be ignored if config file doesn't exists. 
         
+   0.5
+      - Config files have been moved in a dedicated directory (defined by CONFIG_FOLDER). If the
+        directory doesn't exists, it is created.
+      - Change created config files base names. The plugin name is now at the beginning of the file.
+      - Information to access WP database are not hard-coded anymore. They are now directly retrieved
+        in WordPress configuration file (wp-config.php). The recovered information are :
+        DB_NAME
+        DB_HOST
+        DB_USER
+        DB_PASSWORD
+        DB_CHARSET (not handled before)
+        $table_prefix (not handled before)
+      - WordPress tables name are now prefixed with the prefix defined in 'wp-config.php'
+      - Some code cleaning
+      - Single point to trigger errors
+      
      
    TODO :
    - Add error check (find what)
@@ -43,32 +100,21 @@
    ini_set('display_errors', 1);
    error_reporting(E_ALL^ E_NOTICE);
 
-/*
-   Exec with: docker exec wordpress sh -c "php /var/www/html/wp-content/plugins/manage-plugin-config.php <step_no> <plugin_name>"
 
 
-   1. Connect on WordPress admin panel
-   2. Activate plugin 
-   3. Go on all links on the left menu
-   4. Go on all plugin configuration page
-   5. Execute STEP 1 of this script
-   6. Configure plugin AND stay on configuration page !
-   7. Execute STEP 2 of this script to extract and save plugin configuration
-   8. Reinstall WordPress from scratch
-   9. Execute STEP 3 of this script to import plugin configuration.
-*/
+   /* Path to WordPress config file */
+   define('WP_CONFIG_FILE',   '/var/www/html/wp-config.php');
 
+   /* To store configuration files in another folder */
+   define('CONFIG_FOLDER',   '_plugin-config');
+
+
+   /* Folder where to store config files */
+   define('PLUGIN_CONFIG_FOLDER_PATH',   dirname(__FILE__).DIRECTORY_SEPARATOR.CONFIG_FOLDER.DIRECTORY_SEPARATOR);
    
-   /* To access DB */
-   define('MYSQL_ROOT_USER',     'root');
-   define('MYSQL_ROOT_PASSWORD', 'passw0rd!');
-   define('WORDPRESS_HOST',      'db:3306');
-   define('WORDPRESS_DB',        'wordpress');
-
    /* Base filenames to store configuration */
-   define('PLUGIN_CONFIG_FILE_BASE', dirname(__FILE__).DIRECTORY_SEPARATOR.'_config_base-%s.serial');
-   define('PLUGIN_CONFIG_FILE_FINAL', dirname(__FILE__).DIRECTORY_SEPARATOR.'_config-%s.serial');
-
+   define('PLUGIN_CONFIG_FILE_REF', '%s-reference.serial');
+   define('PLUGIN_CONFIG_FILE_FINAL', '%s-config.serial');
 
 
 
@@ -77,10 +123,10 @@
    
    class PluginConfig
    {
-      var $plugin_name;
-      var $db_link;
-      var $config_tables;
-      var $tables_relations;
+      var $plugin_name;       /* Save plugin name */
+      var $db_link;           /* Link to the DB */
+      var $config_tables;     /* Configuration about table (auto-gen fields, unique fields) */
+      var $tables_relations;  /* Information about "non-official" links/relations between tables */
    
       
       /*
@@ -91,52 +137,120 @@
       function PluginConfig($plugin_name)
       {
          $this->plugin_name = $plugin_name;
-         $this->wp_tables   = array();
          
-         /* Tables in which configuration is stored, with 'auto gen id' fields and 'unique field' (others than only auto-gen field). Those tables must be sorted to satisfy foreign keys*/
-         $this->config_tables = array('wp_postmeta'             => array('meta_id', null),
-                                      'wp_options'              => array('option_id', 'option_name'),
-                                      'wp_terms'                => array('term_id', null),
-                                      'wp_termmeta'             => array('meta_id', null), // include wp_terms.term_id
-                                      'wp_term_taxonomy'        => array('term_taxonomy_id', null), // include wp_terms.term_id
-                                      'wp_term_relationships'   => array(null, array('object_id', 'term_taxonomy_id'))); // include wp_term_taxonomy.term_taxonomy_id
-         
-         /* Relation between configuration tables. There are no explicit relation between tables in DB but there are relation coded in WP. */                             
-         $this->tables_relations = array('wp_termmeta'            => array('term_id' => 'wp_terms'),
-                                         'wp_term_taxonomy'       => array('term_id' => 'wp_terms'),
-                                         'wp_term_relationships'  => array('term_taxonomy_id' => 'wp_term_taxonomy'));
+ 
                                          
          
          
-         /* Open DB connection */
-         $this->db_link = mysqli_connect(WORDPRESS_HOST, MYSQL_ROOT_USER, MYSQL_ROOT_PASSWORD, WORDPRESS_DB);
+         /**** CONGIF FILES LOCATION ****/
+         
+         /* If directory to store config files doesn't exists, we create it */
+         if(!file_exists(PLUGIN_CONFIG_FOLDER_PATH))
+         {
+            mkdir(PLUGIN_CONFIG_FOLDER_PATH, 0777);
+         }
+
+         
+         /**** Get WordPress DATABASE configuration in the wp-config.php file. ****/
+         /* To do this, we will :
+            1. Read WordPress "wp-config.php" file
+            2. Extract the code defining the DB access configuration
+            3. Do an 'eval()' on the extracted code to have constants defined in this script */
+            
+         $define_to_find = array('DB_NAME', 'DB_USER', 'DB_PASSWORD', 'DB_HOST', 'DB_CHARSET');
+         
+         /* Base RegEx to look for 'define' */      
+         $base_wp_param_reg = '/define\([\s]*\'%s\'[\s]*,[\s]*\'[\S]+\'\);/i';
+   
+         /* Getting 'wp-config.php' file content */
+         $config = file_get_contents(WP_CONFIG_FILE);
+               
+         /* Going through 'define' to recover */
+         foreach($define_to_find as $define_name)
+         {
+            $matches = array();
+            
+            /* Generate RegEx for current 'define' */
+            $define_reg = sprintf($base_wp_param_reg, $define_name);
+
+            /* Searching information */
+            preg_match($define_reg, $config, $matches);
+            
+
+            /* Defining constant for current script */
+            eval($matches[0]);
+         }
+         
+         
+         /* Searching for DB table prefix. The line looks like :
+            $table_prefix = 'wp_';
+         */
+         preg_match('/\$table_prefix[\s]*=[\s]*\'[\S]+\';/i', $config, $matches);
+         
+         eval($matches[0]);
+         
+         
+         /**** DB Connection ****/
+         /* Open DB connection with previously recovered information */
+         $this->db_link = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
          if(mysqli_connect_errno() != 0) 
          {
             trigger_error(__FILE__.":".__FUNCTION__.": ".mysqli_connect_error()."\n", E_USER_ERROR);
 
          }
+         
+         /* Init database charset */
+         mysqli_set_charset($this->db_link, DB_CHARSET);
+         
+         
+         
+         
+         
+        
+         /**** WORDPRESS TABLES DESCRIPTION ****/
+         
+         /* Tables in which configuration is stored, with 'auto gen id' fields and 'unique field' (others than only auto-gen field). Those tables must be sorted to satisfy foreign keys*/
+         $this->config_tables = array($table_prefix.'postmeta'             => array('meta_id', null),
+                                      $table_prefix.'options'              => array('option_id', 'option_name'),
+                                      $table_prefix.'terms'                => array('term_id', null),
+                                      $table_prefix.'termmeta'             => array('meta_id', null), // include wp_terms.term_id
+                                      $table_prefix.'term_taxonomy'        => array('term_taxonomy_id', null), // include wp_terms.term_id
+                                      $table_prefix.'term_relationships'   => array(null, array('object_id', 'term_taxonomy_id'))); // include wp_term_taxonomy.term_taxonomy_id
+         
+         /* Relation between configuration tables. There are no explicit relation between tables in DB but there are relation coded in WP. */                             
+         $this->tables_relations = array($table_prefix.'termmeta'            => array('term_id'          => $table_prefix.'terms'),
+                                         $table_prefix.'term_taxonomy'       => array('term_id'          => $table_prefix.'terms'),
+                                         $table_prefix.'term_relationships'  => array('term_taxonomy_id' => $table_prefix.'term_taxonomy'));         
+         
       }
       
+      /* ----------------------------------------------------------------------- */
+      /*                           PROTECTED FUNCTIONS                           */
       /* ----------------------------------------------------------------------- */
       
       
       /*
          GOAL : Return the filename to use to store base configuration.
       */
-      protected function getBaseConfigFilename()
+      protected function getReferenceConfigFilename()
       {
-         return sprintf(PLUGIN_CONFIG_FILE_BASE, $this->plugin_name);
+         return sprintf(PLUGIN_CONFIG_FOLDER_PATH.PLUGIN_CONFIG_FILE_REF, $this->plugin_name);
       }
       
+      /* ----------------------------------------------------------------------- */
       
       /*
          GOAL : Return the filename to use to store plugin configuration.
       */
       protected function getPluginConfigFilename()
       {
-         return sprintf(PLUGIN_CONFIG_FILE_FINAL, $this->plugin_name);
+         return sprintf(PLUGIN_CONFIG_FOLDER_PATH.PLUGIN_CONFIG_FILE_FINAL, $this->plugin_name);
       }
+      
+      
+      /* ----------------------------------------------------------------------- */
+      
       
       /*
          GOAL : Return information about foreign key information if exists
@@ -166,17 +280,34 @@
          return null;
       }
       
+      /* ----------------------------------------------------------------------- */
+      
+      
+      /*
+         GOAL : Triggers an error. This function exists to have a single point to 
+                trigger error with the right information displayed
+                
+         $function      : name of the function where the error was triggered
+         $error_string  : Error message
+      */
+      protected function triggerError($function, $error_string)
+      {
+         trigger_error(__FILE__.":".$function.": ".$error_string."\n", E_USER_ERROR);
+      }
       
       
       /* ----------------------------------------------------------------------- */
+      /*                           PUBLIC FUNCTIONS                              */
+      /* ----------------------------------------------------------------------- */
       
       /*
-         GOAL  : Take a "snapshot" of configuration tables before plugin configuration.
-                 In fact, we get max ID for each tables in which configuration is stored.
+         GOAL  : We get max ID for each tables in which configuration is stored so we
+                 will be able to know what changed when we manually did the plugin
+                 configuration.
                  
                  The information are saved in a file
       */
-      function extractAndSaveConfigSnapshot()
+      function extractAndSaveConfigReference()
       {
       
          $base_config = array();
@@ -194,7 +325,7 @@
             
             if(($res = mysqli_query($this->db_link, $request))===false)
             {
-               trigger_error(__FILE__.":".__FUNCTION__.": ".mysqli_error($this->db_link)."\n", E_USER_ERROR);
+               $this->triggerError(__FUNCTION__, mysqli_error($this->db_link));
             }
             
             $res = mysqli_fetch_assoc($res);
@@ -205,7 +336,7 @@
          }/* END LOOP Going through tables */      
          
          /* Generate output filename */
-         $base_config_file = $this->getBaseConfigFilename();
+         $base_config_file = $this->getReferenceConfigFilename();
 
          $handle = fopen($base_config_file, 'w+');
          fwrite($handle, serialize($base_config));
@@ -228,12 +359,12 @@
          $config_diff = array();
          
          /* Generate filename and load base configuration  */
-         $base_config_file = $this->getBaseConfigFilename();
+         $base_config_file = $this->getReferenceConfigFilename();
          
          /* If base config file doesn't exists, we skip */
          if(!file_exists($base_config_file))
          {
-            trigger_error(__FILE__.":".__FUNCTION__.": Base config doesn't exists for plugin '".$this->plugin_name."'\n", E_USER_ERROR);  
+            $this->triggerError(__FUNCTION__,"Reference config doesn't exists for plugin '".$this->plugin_name);  
          }
          
          $base_config = unserialize(file_get_contents($base_config_file));         
@@ -251,7 +382,7 @@
             
             if(($res = mysqli_query($this->db_link, $request))===false)
             {
-               trigger_error(__FILE__.":".__FUNCTION__.": ".mysqli_error($this->db_link)."\n", E_USER_ERROR);
+               $this->triggerError(__FUNCTION__, mysqli_error($this->db_link));
             }
             
             /* To store configuration */
@@ -383,7 +514,7 @@
                
                if(($res = mysqli_query($this->db_link, $request))===false)
                {
-                  trigger_error(__FILE__.":".__FUNCTION__.": ".mysqli_error($this->db_link)."\n", E_USER_ERROR);
+                  $this->triggerError(__FUNCTION__, mysqli_error($this->db_link));
                }
                
                /* Getting ID of inserted value */
@@ -408,7 +539,7 @@
 
                   if(($res = mysqli_query($this->db_link, $request))===false)
                   {
-                     trigger_error(__FILE__.":".__FUNCTION__.": ".mysqli_error($this->db_link)."\n", E_USER_ERROR);
+                     $this->triggerError(__FUNCTION__, mysqli_error($this->db_link));
                   }
                   
                   $res = mysqli_fetch_assoc($res);
@@ -447,6 +578,8 @@
    }
 
 
+
+   /***********************************************************************/
    /**************************** FUNCTIONS ********************************/
 
 
@@ -466,7 +599,7 @@
    
 
 
-
+   /***************************************************************************/
    /**************************** MAIN PROGRAM *********************************/
 
    /* Check if all arguments are here */
@@ -487,12 +620,12 @@
 
    switch($step_no)
    {
-      /** Step 1 : Get "base" configuration in tables **/
+      /** Step 1 : Get "reference" configuration in tables **/
       case 1:
       {
          echo "Getting settings before configuration of plugin $plugin_name... ";
 
-         $pc->extractAndSaveConfigSnapshot();
+         $pc->extractAndSaveConfigReference();
          echo "done\n";
          break;
       }
