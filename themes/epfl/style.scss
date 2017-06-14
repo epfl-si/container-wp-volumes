@@ -670,26 +670,30 @@ body.page-two-column #comments {
     }
     
     &:hover {
-      background: $color-alt;
       border-color: #fff;
+    }
+    
+    a {
+      color: #fff;
+      display: block;
+      height: inherit;
+      line-height: 24px;
+      overflow: hidden;
+      padding: 0 8px;
+      
+      &:hover {
+         background: $color-alt;
+       }
     }
   }
   .main-navigation .menu li.current-menu-item,
   .main-navigation .menu li.current_page_item {
-    background: #000;
     border-color: #fff;
-  }
-  
-  .main-navigation .menu a {
-    color: #fff;
-    height: inherit;
-    line-height: 24px;
-    overflow: hidden;
-    padding: 0 8px;
-  }
-  .main-navigation .menu .current-menu-item > a,
-  .main-navigation .menu .current_page_item > a {
-    color: #fff;
+    
+    & > a {
+      background: #000;
+      color: #fff;
+    }
   }
   
   .main-navigation li.link-home {
@@ -720,20 +724,29 @@ body.page-two-column #comments {
     border-top-width: 0;
     padding-top: 1px;
     padding-bottom: 0;
+  }
+  
+  .main-navigation .sub-menu li {
+    background: #fff;
+    border: 0;
     
-    li {
-      border: 0;
-      margin: 0 1px 1px;
-      
-      &:hover {
-        background: #cfd0ca;
-      }
+    &:hover {
+      background: #fff;
+    }
+    
+    &.menu-item-has-children .icon {
+      display: none;
     }
     
     a {
       color: #000;
       line-height: 1.4em;
+      margin: 0 1px 1px;
       padding: 2px 8px;
+      
+      &:hover {
+        background: #cfd0ca;
+      }
     }
   }
   
@@ -749,7 +762,15 @@ body.page-two-column #comments {
   	color: #000;
 	}
   
-  
+  .sub-menu .sub-menu {
+    border: 0;
+    left: 0;
+    position: static;
+    
+    a {
+      font-weight: 400;
+    }
+  }
   
 }
 
