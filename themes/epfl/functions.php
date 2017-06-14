@@ -50,6 +50,15 @@ function enqueue_theme_styles() {
 }
 add_action('wp_enqueue_scripts', 'enqueue_theme_styles', 10000000001 );
 
+// Enqueue scripts
+
+function monptitchat_scripts() {
+	
+	wp_enqueue_script( 'monptitchat-scripts', get_stylesheet_directory_uri() .'/assets/js/main.js', array(), '20151215', true );
+
+}
+add_action( 'wp_enqueue_scripts', 'monptitchat_scripts' );
+
 // Dequeue Twenty Seventeen Fonts
 function dequeue_fonts() {
     wp_dequeue_style( 'twentyseventeen-fonts' );
