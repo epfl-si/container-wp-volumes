@@ -54,6 +54,19 @@ $light-grey:    #cfd0ca;
   } 
 }
 
+@mixin icon {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@mixin transition-colors {
+  transition: background-color .3s ease-in-out, color .3s ease-in-out, border-color .3s ease-in-out;
+}
+
 
 /* --- Typography --- */
 
@@ -309,13 +322,7 @@ body.page-two-column #comments {
   position: relative;
   
   &:before {
-    content: "";
-    display: inline-block;
-    font: normal normal normal 14px/1 FontAwesome;
-    font-size: inherit;
-    text-rendering: auto;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    @include icon;
   }
 }
 .fa-icon.btn-icon {

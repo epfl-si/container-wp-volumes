@@ -289,7 +289,6 @@ body.page-two-column #comments {
   position: relative;
 }
 .fa-icon:before {
-  content: "";
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
   font-size: inherit;
