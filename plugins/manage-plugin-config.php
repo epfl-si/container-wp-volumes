@@ -43,19 +43,19 @@
 
 
 
-   HISTORY : 
-   =========
-   0.1
+   VERSION HISTORY : 
+   =================
+   0.1 (13.06.2017)
       - Working version (not flexible)
       - Minimum comments
       - "Dirty code"
       
-   0.2
+   0.2 (13.06.2017)
       - More comments
       - Use input parameters
       - Simplify DB connection code   
       
-   0.3
+   0.3 (13.06.2017)
       - Now use a class to do things
       - Add "unique" key information for option tables
       - Add new option table (wp_postmeta)
@@ -65,14 +65,14 @@
       - Handle rows that are deleted and recreated with another ID (bigger) by the plugin. Duplicate entry 
         error is handled and existing row id is recovered
    
-   0.4
+   0.4 (13.06.2017)
       - Handle plugin that store "empty" configuration in DB before user do the manual configuration. 
         If configuration already exists, it is updated and the mapping with the existing is kept.
       - Check if config files exists before opening them.
         + Error will be thrown if 'base config' file doesn't exists
         + Import plugin configuration will be ignored if config file doesn't exists. 
         
-   0.5
+   0.5 (14.06.2017)
       - Config files have been moved in a dedicated directory (defined by CONFIG_FOLDER). If the
         directory doesn't exists, it is created.
       - Change created config files base names. The plugin name is now at the beginning of the file.
@@ -87,10 +87,19 @@
       - WordPress tables name are now prefixed with the prefix defined in 'wp-config.php'
       - Some code cleaning
       - Single point to trigger errors
+ 
+   0.6 (15.06.2017)
+      - Reference/config file names removed. We now only use different extensions for reference and config
+        files. This will be easier to do multiple import
+      - Add parameter to import config from all existing files (PARAM_IMPORT_ALL_CONFIG)  
+      - Add possibility to import multiple plugin configuration by giving all plugin names for which
+        we want to import configuration.
+      - Change classname so it fits bette what the script do
+      
       
      
    TODO :
-   - Add error check (find what)
+   - Add error check (find what) 
    - 
 
    -------------------------------------------------------------------------------------------
@@ -100,6 +109,8 @@
    ini_set('display_errors', 1);
    error_reporting(E_ALL^ E_NOTICE);
 
+
+   define('PARAM_IMPORT_ALL_CONFIG',   '-all');
 
 
    /* Path to WordPress config file */
@@ -112,18 +123,18 @@
    /* Folder where to store config files */
    define('PLUGIN_CONFIG_FOLDER_PATH',   dirname(__FILE__).DIRECTORY_SEPARATOR.CONFIG_FOLDER.DIRECTORY_SEPARATOR);
    
-   /* Base filenames to store configuration */
-   define('PLUGIN_CONFIG_FILE_REF', '%s-reference.serial');
-   define('PLUGIN_CONFIG_FILE_FINAL', '%s-config.serial');
+   /* File extensions for plugin configuration (reference and final config) */
+   define('PLUGIN_CONFIG_FILE_REF_EXT', '.ref');
+   define('PLUGIN_CONFIG_FILE_FINAL_EXT', '.config');
+   
 
 
 
    /****************************** CLASS **********************************/
    
    
-   class PluginConfig
+   class PluginConfigManager
    {
-      var $plugin_name;       /* Save plugin name */
       var $db_link;           /* Link to the DB */
       var $config_tables;     /* Configuration about table (auto-gen fields, unique fields) */
       var $tables_relations;  /* Information about "non-official" links/relations between tables */
@@ -131,16 +142,9 @@
       
       /*
          GOAL : Class contructor
-         
-         $plugin_name   : Plugin name for which we want to manage the configuration
       */     
-      function PluginConfig($plugin_name)
+      function PluginConfigManager()
       {
-         $this->plugin_name = $plugin_name;
-         
- 
-                                         
-         
          
          /**** CONGIF FILES LOCATION ****/
          
@@ -231,21 +235,26 @@
       
       
       /*
-         GOAL : Return the filename to use to store base configuration.
+         GOAL : Return the filename to use to store reference information for a
+                plugin.
+         
+         $plugin_name   : Plugin name 
       */
-      protected function getReferenceConfigFilename()
+      protected function getReferenceConfigFilename($plugin_name)
       {
-         return sprintf(PLUGIN_CONFIG_FOLDER_PATH.PLUGIN_CONFIG_FILE_REF, $this->plugin_name);
+         return PLUGIN_CONFIG_FOLDER_PATH.$plugin_name.PLUGIN_CONFIG_FILE_REF_EXT;
       }
       
       /* ----------------------------------------------------------------------- */
       
       /*
-         GOAL : Return the filename to use to store plugin configuration.
+         GOAL : Return the filename to use to store configuration for a plugin.
+         
+         $plugin_name   : Plugin name          
       */
-      protected function getPluginConfigFilename()
+      protected function getPluginConfigFilename($plugin_name)
       {
-         return sprintf(PLUGIN_CONFIG_FOLDER_PATH.PLUGIN_CONFIG_FILE_FINAL, $this->plugin_name);
+         return PLUGIN_CONFIG_FOLDER_PATH.$plugin_name.PLUGIN_CONFIG_FILE_FINAL_EXT;
       }
       
       
@@ -306,8 +315,10 @@
                  configuration.
                  
                  The information are saved in a file
+                 
+         $plugin_name   : Plugin name                  
       */
-      function extractAndSaveConfigReference()
+      function extractAndSaveConfigReference($plugin_name)
       {
       
          $base_config = array();
@@ -336,13 +347,13 @@
          }/* END LOOP Going through tables */      
          
          /* Generate output filename */
-         $base_config_file = $this->getReferenceConfigFilename();
+         $base_config_file = $this->getReferenceConfigFilename($plugin_name);
 
          $handle = fopen($base_config_file, 'w+');
          fwrite($handle, serialize($base_config));
          fclose($handle);
          
-         $this->closeDBConnection();
+
       
       }
       
@@ -353,18 +364,20 @@
                 added in the DB during plugin configuration.
                 
                 The difference contains the plugin configuration. We save it in a file.
+                
+         $plugin_name   : Plugin name                 
       */
-      function extractAndSavePluginConfig()
+      function extractAndSavePluginConfig($plugin_name)
       {
          $config_diff = array();
          
          /* Generate filename and load base configuration  */
-         $base_config_file = $this->getReferenceConfigFilename();
+         $base_config_file = $this->getReferenceConfigFilename($plugin_name);
          
          /* If base config file doesn't exists, we skip */
          if(!file_exists($base_config_file))
          {
-            $this->triggerError(__FUNCTION__,"Reference config doesn't exists for plugin '".$this->plugin_name);  
+            $this->triggerError(__FUNCTION__,"Reference config doesn't exists for plugin '".$plugin_name);  
          }
          
          $base_config = unserialize(file_get_contents($base_config_file));         
@@ -398,7 +411,7 @@
          
          //print_r($config_diff);
          
-          $diff_config_file = $this->getPluginConfigFilename();
+          $diff_config_file = $this->getPluginConfigFilename($plugin_name);
 
           
           /* Save configuration in file */
@@ -406,7 +419,7 @@
           fwrite($handle, serialize($config_diff));
           fclose($handle);
           
-          $this->closeDBConnection();
+
       }
 
 
@@ -415,15 +428,17 @@
       
       /*
          GOAL : Load the plugin configuration stored in the file and update WP database
+         
+         $plugin_name   : Plugin name          
       */      
-      function importPluginConfig()
+      function importPluginConfig($plugin_name)
       {
-         $diff_config_file = $this->getPluginConfigFilename();
+         $diff_config_file = $this->getPluginConfigFilename($plugin_name);
          
          /* If config file doesn't exists, we skip */
          if(!file_exists($diff_config_file))
          {
-            echo "Config file doesn't exists for plugin '".$this->plugin_name."'. Skipping.\n";
+            echo "Config file doesn't exists for plugin '".$plugin_name."'. Skipping.\n";
             return;
          }
          
@@ -561,7 +576,7 @@
          /* If simulation, we rollback the transaction */
          if($simulation)mysqli_rollback($this->db_link);
          
-         $this->closeDBConnection();
+
       }
       
       
@@ -575,7 +590,7 @@
          mysqli_close($this->db_link);
       }
       
-   }
+   }/* END CLASS */
 
 
 
@@ -609,23 +624,20 @@
       exit;
    }
 
-   /* Getting parameters */
-   $step_no = $argv[1];
-   $plugin_name = $argv[2];
 
    /* Object creation */
-   $pc = new PluginConfig($plugin_name);
+   $pcm = new PluginConfigManager();
 
 
 
-   switch($step_no)
+   switch($argv[1])
    {
       /** Step 1 : Get "reference" configuration in tables **/
       case 1:
       {
-         echo "Getting settings before configuration of plugin $plugin_name... ";
+         echo "Getting settings before configuration of plugin $argv[2]... ";
 
-         $pc->extractAndSaveConfigReference();
+         $pcm->extractAndSaveConfigReference($argv[2]);
          echo "done\n";
          break;
       }
@@ -634,9 +646,9 @@
       case 2: 
       {
 
-         echo "Getting configuration for plugin $plugin_name... ";
+         echo "Getting configuration for plugin $argv[2]... ";
          
-         $pc->extractAndSavePluginConfig();         
+         $pcm->extractAndSavePluginConfig($argv[2]);         
             
          echo "done\n";
 
@@ -648,21 +660,55 @@
       /** Step 3 : Load configuration for plugin and save it in DB **/
       case 3 :
       {
-         $substep=0;
-         echo "Importing configuration for plugin $plugin_name... ";
-
-         $pc->importPluginConfig();
          
-         echo "done\n";         
+         /* if we have to import from all existing configurations */
+         if($argv[2] == PARAM_IMPORT_ALL_CONFIG)
+         {
+            $plugin_to_import = array();
+            /* Getting config folder content */
+            $config_folder_content = scandir(PLUGIN_CONFIG_FOLDER_PATH);
+            
+            /* Regex to identify config files */
+            $config_file_regex = '/([\S]+)'.PLUGIN_CONFIG_FILE_FINAL_EXT.'/';
+
+            
+            /* Going through config folder content */
+            foreach($config_folder_content as $filename)
+            {
+               /* If current file is a configuration file for plugin */
+               if(preg_match($config_file_regex, $filename)===1)
+               {
+                  $plugin_to_import[] = preg_replace($config_file_regex, '${1}' , $filename);
+               }
+            }/* END LOOPING througn config folder content */
+            
+         }
+         else /* There is one (or more) plugin name for which to import configuration. */
+         {
+            /* Getting plugin names from parameters */
+            $plugin_to_import = array_slice($argv, 2);  
+         }
+         
+         /* Going through plugin to import */
+         foreach($plugin_to_import as $plugin_name)
+         {
+            echo "Importing configuration for plugin $plugin_name... ";
+
+            /* Import configuration for current plugin */
+            $pcm->importPluginConfig($plugin_name);
+         
+            echo "done\n";         
+         }/* END LOOPING plugin to import */
 
 
          break;
       }
 
 
-   }
+   }/* END SWTICH */
    
-
+   /* Close connection do DB */
+   $pcm->closeDBConnection();
    
 
    
