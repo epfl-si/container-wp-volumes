@@ -52,12 +52,12 @@ add_action('wp_enqueue_scripts', 'enqueue_theme_styles', 10000000001 );
 
 // Enqueue scripts
 
-function monptitchat_scripts() {
+function epfl_scripts() {
 	
-	wp_enqueue_script( 'monptitchat-scripts', get_stylesheet_directory_uri() .'/assets/js/main.js', array(), '20151215', true );
+	wp_enqueue_script( 'epfl-scripts', get_stylesheet_directory_uri() .'/assets/js/main.js', array(), '20151215', true );
 
 }
-add_action( 'wp_enqueue_scripts', 'monptitchat_scripts' );
+add_action( 'wp_enqueue_scripts', 'epfl_scripts' );
 
 // Dequeue Twenty Seventeen Fonts
 function dequeue_fonts() {
