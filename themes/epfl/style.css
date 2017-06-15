@@ -548,31 +548,16 @@ body.page-two-column #comments {
 }
 
 /* Secondary navigation */
-.sidebar .nav > li {
-  display: none;
-}
-
-.sidebar .nav > li.current_page_ancestor,
-.sidebar .nav > li.current_page_parent,
-.sidebar .nav > li.current_page_item {
-  display: block;
-}
-.sidebar .nav > li.current_page_ancestor > a,
-.sidebar .nav > li.current_page_parent > a,
-.sidebar .nav > li.current_page_item > a {
+.sidebar .nav > li.menu-item > a {
   display: none;
 }
 
 .sidebar .nav {
-  background: #ae0010;
   list-style: none;
   margin: 0 0 40px;
 }
-.sidebar .nav li {
-  border-bottom: 1px solid #fff;
-  margin: 0;
-}
 .sidebar .nav a {
+  background: #ae0010;
   border: none;
   color: #fff;
   display: block;
@@ -582,72 +567,53 @@ body.page-two-column #comments {
 .sidebar .nav a:hover {
   background: #7e000c;
 }
-
-.sidebar .nav li.current_page_item > a {
+.sidebar .nav li {
+  border-bottom: 1px solid #fff;
+  margin: 0;
+  position: relative;
+}
+.sidebar .nav li.current_page_item a {
   background: #000;
   color: #fff;
 }
+.sidebar .nav > .menu-item {
+  margin-bottom: 10px;
+}
 
-.sidebar .children,
 .sidebar .sub-menu {
+  border-top: 1px solid #fff;
   list-style: none;
   margin: 0;
 }
 
-.sidebar .nav li.current_page_ancestor .children .children,
-.sidebar .nav li.current_page_ancestor .sub-menu .sub-menu,
-.sidebar .nav li.current_page_parent .children .children,
-.sidebar .nav li.current_page_parent .sub-menu .sub-menu,
-.sidebar .nav li.current_page_item .children .children,
-.sidebar .nav li.current_page_item .sub-menu .sub-menu {
-  background: #fff;
+.sidebar .nav > .menu-item .sub-menu .sub-menu {
   border-top: 1px solid #fff;
 }
-.sidebar .nav li.current_page_ancestor .children .children li,
-.sidebar .nav li.current_page_ancestor .sub-menu .sub-menu li,
-.sidebar .nav li.current_page_parent .children .children li,
-.sidebar .nav li.current_page_parent .sub-menu .sub-menu li,
-.sidebar .nav li.current_page_item .children .children li,
-.sidebar .nav li.current_page_item .sub-menu .sub-menu li {
+.sidebar .nav > .menu-item .sub-menu .sub-menu li {
   border-bottom: 1px solid #a3a3a3;
+  color: #000;
 }
-.sidebar .nav li.current_page_ancestor .children .children li:last-child,
-.sidebar .nav li.current_page_ancestor .sub-menu .sub-menu li:last-child,
-.sidebar .nav li.current_page_parent .children .children li:last-child,
-.sidebar .nav li.current_page_parent .sub-menu .sub-menu li:last-child,
-.sidebar .nav li.current_page_item .children .children li:last-child,
-.sidebar .nav li.current_page_item .sub-menu .sub-menu li:last-child {
+.sidebar .nav > .menu-item .sub-menu .sub-menu li:last-child {
   border: 0;
 }
-.sidebar .nav li.current_page_ancestor .children .children a,
-.sidebar .nav li.current_page_ancestor .sub-menu .sub-menu a,
-.sidebar .nav li.current_page_parent .children .children a,
-.sidebar .nav li.current_page_parent .sub-menu .sub-menu a,
-.sidebar .nav li.current_page_item .children .children a,
-.sidebar .nav li.current_page_item .sub-menu .sub-menu a {
+.sidebar .nav > .menu-item .sub-menu .sub-menu a {
+  background: #fff;
   color: #000;
   font-weight: bold;
-  margin-left: 20px;
+  padding-left: 40px;
 }
-.sidebar .nav li.current_page_ancestor .children .children a:hover,
-.sidebar .nav li.current_page_ancestor .sub-menu .sub-menu a:hover,
-.sidebar .nav li.current_page_parent .children .children a:hover,
-.sidebar .nav li.current_page_parent .sub-menu .sub-menu a:hover,
-.sidebar .nav li.current_page_item .children .children a:hover,
-.sidebar .nav li.current_page_item .sub-menu .sub-menu a:hover {
+.sidebar .nav > .menu-item .sub-menu .sub-menu a:hover {
   background: #cfd0ca;
 }
-.sidebar .nav li.current_page_ancestor .children .children ul li,
-.sidebar .nav li.current_page_ancestor .sub-menu .sub-menu ul li,
-.sidebar .nav li.current_page_parent .children .children ul li,
-.sidebar .nav li.current_page_parent .sub-menu .sub-menu ul li,
-.sidebar .nav li.current_page_item .children .children ul li,
-.sidebar .nav li.current_page_item .sub-menu .sub-menu ul li {
+.sidebar .nav > .menu-item .sub-menu .sub-menu ul li {
   border: none;
+}
+.sidebar .nav > .menu-item .sub-menu .sub-menu ul li a {
+  padding-left: 60px;
 }
 
 .sidebar .nav li.current_page_item > a {
-  background: #000;
+  background: #000 !important;
   color: #fff !important;
 }
 

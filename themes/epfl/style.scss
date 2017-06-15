@@ -33,7 +33,6 @@ Version: 1.0.0
     
 ------------------------------------------*/
 
-
 /*  ---------------------------------------
     01 BASE STYLES
 ------------------------------------------*/
@@ -559,16 +558,7 @@ body.page-two-column #comments {
 
 // Hide all pages, and show only the ones related to the current page (parent, ancestors, siblings, etc)
 
-.sidebar .nav {
-  & > li {
-    display: none;
-  }
-  
-}
-.sidebar .nav > li.current_page_ancestor,
-.sidebar .nav > li.current_page_parent,
-.sidebar .nav > li.current_page_item {
-  display: block;
+.sidebar .nav > li.menu-item {
   
   // Hide the top level item of the current page ancestry
   & > a {
@@ -579,16 +569,11 @@ body.page-two-column #comments {
 // Generic nav styles
 
 .sidebar .nav {
-  background: $primary-color;
   list-style: none;
   margin: 0 0 40px;
   
-  li {
-    border-bottom: 1px solid #fff;
-    margin: 0;
-  }
-  
   a {
+    background: $primary-color;
     border: none;
     color: #fff;
     display: block;
@@ -599,32 +584,42 @@ body.page-two-column #comments {
       background: $color-alt;
     }
   }
+  
+  li {
+    border-bottom: 1px solid #fff;
+    margin: 0;
+    position: relative;
+    
+    &.current_page_item {
+      
+      a {
+        background: #000;
+        color: #fff;
+      }
+    }
+  }
+  
+  & > .menu-item {
+    margin-bottom: 10px;
+  }
 }
 
-.sidebar .nav li.current_page_item > a {
-  background: #000;
-  color: #fff;
-}
-
-.sidebar .children,
 .sidebar .sub-menu {
+  border-top: 1px solid #fff;
   list-style: none;
   margin: 0;
 }
 
-// Current page, parents and ancestors
-.sidebar .nav li.current_page_ancestor,
-.sidebar .nav li.current_page_parent,
-.sidebar .nav li.current_page_item {
+// Select top menu item
+.sidebar .nav > .menu-item {
   
   // 2nd level children
-  .children .children,
   .sub-menu .sub-menu {
-    background: #fff;
     border-top: 1px solid #fff;
     
     li {
       border-bottom: 1px solid #a3a3a3;
+      color: #000;
       
       &:last-child {
         border: 0;
@@ -632,9 +627,10 @@ body.page-two-column #comments {
     }
     
     a {
+      background: #fff;
       color: #000;
       font-weight: bold;
-      margin-left: 20px;
+      padding-left: 40px;
       
       &:hover {
         background: $light-grey;
@@ -645,13 +641,16 @@ body.page-two-column #comments {
     // 3rd level children
     ul li {
       border: none;
+      
+      a {
+        padding-left: 60px;
+      }
     }
     
   }
 }
-
 .sidebar .nav li.current_page_item > a {
-  background: #000;
+  background: #000 !important;
   color: #fff !important;
 }
 
