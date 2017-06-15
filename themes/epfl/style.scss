@@ -654,6 +654,40 @@ body.page-two-column #comments {
   color: #fff !important;
 }
 
+.sub-menu-control {
+  
+  @include icon;
+  
+  background: transparent;
+  color: #fff;
+  height: 20px;
+  padding: 0;
+  position: absolute;
+  top: 1px; right: auto; bottom: auto; left: 0;
+  width: 20px;
+  
+  &:hover {
+    background: transparent;
+  }
+  
+  &:before {
+    content: "\f105";
+  }
+  .open > &:before {
+    content: "\f107";
+  }
+  
+  .sub-menu .sub-menu & {
+    color: #000;
+    left: 20px;
+  }
+  
+}
+.sub-menu .sub-menu .sub-menu-control {
+  color: #000;
+  left: 20px;
+}
+
 /* Widgets */
 
 .sidebar .widget {
