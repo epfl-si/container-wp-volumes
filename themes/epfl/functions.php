@@ -103,4 +103,36 @@ function epfl_widgets_init() {
 }
 add_action( 'widgets_init', 'epfl_widgets_init' );
 
+// add temp shortcode mp4_video button to Tinmce
+
+function mp4_video($atts, $content = null) {
+  extract(shortcode_atts(array(
+    "src" => '',
+    "width" => '',
+    "height" => ''
+  ), $atts));
+  return '<video src="'.$src.'" width="'.$width.'" height="'.$height.'" controls autobuffer>';
+}
+add_shortcode('mp4', 'mp4_video');
+
+
+function tiny_mce_add_buttons( $plugins ) {
+  $plugins['mp4'] = get_template_directory_uri() . '/../epfl/js/tiny-mce/tiny-mce.js';
+  return $plugins;
+}
+
+function tiny_mce_register_buttons( $buttons ) {
+  $newBtns = array(
+    'mp4'
+  );
+  $buttons = array_merge( $buttons, $newBtns );
+  return $buttons;
+}
+
+add_action( 'init', 'tiny_mce_new_buttons' );
+
+function tiny_mce_new_buttons() {
+  add_filter( 'mce_external_plugins', 'tiny_mce_add_buttons' );
+  add_filter( 'mce_buttons', 'tiny_mce_register_buttons' );
+}
 ?>
