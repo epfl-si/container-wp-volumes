@@ -774,7 +774,25 @@ a.a2a_button_email:before {
   text-transform: none;
 }
 
-/* Page content */
+/* --- Page content --- */
+/* Publications */
+.publication {
+  border-bottom: 1px dotted #000;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+}
+.publication:last-child {
+  border: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+.publication .links {
+  font: italic .75rem Georgia, 'Times New Roman', Times, serif;
+}
+.publication .links a {
+  margin-right: .5em;
+}
+
 /*  -----------------------------------------------------------
 
 	Media Queries - Mobile phones (> 480px)

@@ -588,7 +588,29 @@ a.a2a_button_{
   text-transform: none;
 }
 
-/* Page content */
+/* --- Page content --- */
+
+/* Publications */
+
+.publication {
+  border-bottom: 1px dotted #000;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  
+  &:last-child {
+    border: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+  
+  .links {
+    @include minor-text;
+    
+    a {
+      margin-right: .5em;
+    }
+  }
+}
 
 
 /*  -----------------------------------------------------------

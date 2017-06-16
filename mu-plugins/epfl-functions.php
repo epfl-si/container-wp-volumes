@@ -123,6 +123,43 @@ add_filter('wp_get_attachment_link', 'oikos_get_attachment_link_filter', 10, 4);
  # Shortcodes
  
 --------------------------------------------------------------*/
+
+/**
+ * Create custom shortcodes
+ *
+ * @link https://codex.wordpress.org/Shortcode_API_
+ */
+
+// Désactive wpautop
+
+function remove_wpautop($content) { 
+  $content = do_shortcode( shortcode_unautop($content) ); 
+  $content = preg_replace( '#^<\/p>|^<br \/>|<p>$#', '', $content );
+  return $content;
+}
+ 
+// Publications
    
+function content_publication_list( $atts, $content = null ) { 
+  $return .= '<section class="publications clearfix">';
+  $return .= do_shortcode($content);
+  $return .= '</section>';
+  return $return;
+}
+add_shortcode('list-publications', 'content_publication_list');
 
+function content_publication( $atts, $content = null ) { 
+  $return .= '<article class="publication clearfix">';
+  $return .= do_shortcode($content);
+  $return .= '</article>';
+  return $return;
+}
+add_shortcode('publication', 'content_publication');
 
+function links( $atts, $content = null ) { 
+  $return .= '<p class="links">';
+  $return .= do_shortcode(remove_wpautop($content));
+  $return .= '</p>';
+  return $return;
+}
+add_shortcode('links', 'links');
