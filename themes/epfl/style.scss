@@ -306,6 +306,12 @@ body.page-two-column #comments {
   width: 100%;
 }
 
+.site-main {
+  @include clearfix;
+  border-top: 1px solid #000;
+  padding-top: 6px;
+}
+
 #primary.col,
 #secondary.col {
   @include clearfix;
@@ -452,6 +458,89 @@ body.page-two-column #comments {
 }
 .fa-icon.go-to-end:before {
   content: "\f101";
+}
+
+// Social icons
+
+a[class*="a2a_button_"] {
+  @include transition-colors;
+  background: #999c98;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 14px !important;
+  height: 26px;
+  margin: 0 6px 0 0;
+  padding: 0 !important;
+  width: 26px;
+  
+  svg,
+  .a2a_svg {
+    display: none;
+  }
+  
+  &:before {
+    @include icon;
+    height: inherit;
+    line-height: 26px;
+    text-align: center;
+    width: inherit;
+  }
+    
+  &:hover {
+    background: #ae0010;
+  }
+
+}
+
+a.a2a_button_{
+  
+  // Facebook
+  &facebook {
+    &:before {
+      content: "\f09a";
+    }
+    &:hover {
+      background: #3b5998;
+    }
+  }
+  
+  // Twitter
+  &twitter {
+    &:before {
+      content: "\f099";
+    }
+    &:hover {
+      background: #00b6f1;
+    }
+  }
+  
+  // LinkedIn
+  &linkedin {
+    &:before {
+      content: "\f0e1";
+    }
+    &:hover {
+      background: #007bb6;
+    }
+  }
+  
+  // Google +
+  &google_plus {
+    &:before {
+      content: "\f0d5";
+    }
+    &:hover {
+      background: #df4a32;
+    }
+  }
+  
+  // Email
+  &email {
+    &:before {
+      content: "\f0e0";
+    }
+  }
+  
 }
 
 /*  ---------------------------------------
@@ -730,7 +819,19 @@ body.page-two-column #comments {
     06 PRIMARY CONTENT
 ----------------------------------------- */
 
+/* Toolbar */
 
+.toolbar {
+  height: 28px;
+  margin-bottom: 8px;
+}
+
+.social-share .label {
+  display: inline-block;
+  font: italic .75em Georgia, 'Times New Roman', Times, serif;
+  margin: 0 .5em 0 0;
+  vertical-align: middle;
+}
 
 /* Page title */
 
@@ -958,7 +1059,8 @@ body.page-two-column #comments {
   ----------------------------------------- */
   
   .wrap {
-    margin: 0 auto;
+    margin-left: auto;
+    margin-right: auto;
     padding-left: 0;
     padding-right: 0;
     width: 980px;

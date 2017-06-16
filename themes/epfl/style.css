@@ -271,6 +271,16 @@ body.page-two-column #comments {
   width: 100%;
 }
 
+.site-main {
+  border-top: 1px solid #000;
+  padding-top: 6px;
+}
+.site-main:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
 #primary.col,
 #secondary.col {
   padding-left: 5px;
@@ -450,6 +460,65 @@ body.page-two-column #comments {
 
 .fa-icon.go-to-end:before {
   content: "\f101";
+}
+
+a[class*="a2a_button_"] {
+  transition: background-color .3s ease-in-out, color .3s ease-in-out, border-color .3s ease-in-out;
+  background: #999c98;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 14px !important;
+  height: 26px;
+  margin: 0 6px 0 0;
+  padding: 0 !important;
+  width: 26px;
+}
+a[class*="a2a_button_"] svg,
+a[class*="a2a_button_"] .a2a_svg {
+  display: none;
+}
+a[class*="a2a_button_"]:before {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  height: inherit;
+  line-height: 26px;
+  text-align: center;
+  width: inherit;
+}
+a[class*="a2a_button_"]:hover {
+  background: #ae0010;
+}
+
+a.a2a_button_facebook:before {
+  content: "\f09a";
+}
+a.a2a_button_facebook:hover {
+  background: #3b5998;
+}
+a.a2a_button_twitter:before {
+  content: "\f099";
+}
+a.a2a_button_twitter:hover {
+  background: #00b6f1;
+}
+a.a2a_button_linkedin:before {
+  content: "\f0e1";
+}
+a.a2a_button_linkedin:hover {
+  background: #007bb6;
+}
+a.a2a_button_google_plus:before {
+  content: "\f0d5";
+}
+a.a2a_button_google_plus:hover {
+  background: #df4a32;
+}
+a.a2a_button_email:before {
+  content: "\f0e0";
 }
 
 /*  ---------------------------------------
@@ -688,6 +757,19 @@ body.page-two-column #comments {
 /*  ---------------------------------------
     06 PRIMARY CONTENT
 ----------------------------------------- */
+/* Toolbar */
+.toolbar {
+  height: 28px;
+  margin-bottom: 8px;
+}
+
+.social-share .label {
+  display: inline-block;
+  font: italic .75em Georgia, 'Times New Roman', Times, serif;
+  margin: 0 .5em 0 0;
+  vertical-align: middle;
+}
+
 /* Page title */
 .site-main .entry-header .entry-title,
 .site-main .entry-header h1.entry-title {
@@ -882,7 +964,8 @@ body.page-two-column #comments {
     03 GLOBAL CONTENT & SITE STRUCTURE
   ----------------------------------------- */
   .wrap {
-    margin: 0 auto;
+    margin-left: auto;
+    margin-right: auto;
     padding-left: 0;
     padding-right: 0;
     width: 980px;
