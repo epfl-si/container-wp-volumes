@@ -316,8 +316,8 @@ body.page-two-column #comments {
   width: 24px;
 }
 .fa-icon.btn-icon > .label {
-  border-bottom: 1px dotted #000;
   font: italic .75rem Georgia, 'Times New Roman', Times, serif;
+  border-bottom: 1px dotted #000;
   transition: all .2s ease-in-out;
   vertical-align: middle;
 }

@@ -11,6 +11,10 @@
   } 
 }
 
+@mixin minor-text {
+  font: italic .75rem Georgia, 'Times New Roman', Times, serif;
+}
+
 @mixin icon {
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
