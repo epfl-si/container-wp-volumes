@@ -10,10 +10,22 @@ if ( ! function_exists( 'epfl_setup' ) ) :
  */
 function epfl_setup() {
   
-  // Register menus
+  /**
+    * Register menus
+    */
+    
 	register_nav_menus( array(
 		'sidebar_nav' => 'Sidebar menu',
 	) );
+	
+	/**
+    * Set up My Child Theme's textdomain.
+    *
+    * Declare textdomain for this child theme.
+    * Translations can be added to the /languages/ directory.
+    */
+    
+    load_child_theme_textdomain( 'epfl', get_stylesheet_directory() . '/languages' );
 } 
 endif;
 add_action( 'after_setup_theme', 'epfl_setup' );
