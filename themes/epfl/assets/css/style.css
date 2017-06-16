@@ -1,12 +1,4 @@
-/*
-Theme Name: EPFL
-Description: Theme enfant de Twenty Seventeen
-Author: Aline Keller
-Author URI: http://www.alinekeller.ch
-Template: twentyseventeen 
-Version: 1.0.0
-Text Domain: epfl
-*/
+/* CSS Document */
 /*-----------------------------------------
 >>> TABLE OF CONTENTS:
 -------------------------------------------
@@ -32,12 +24,13 @@ Text Domain: epfl
 --  MEDIA QUERIES
     
 ------------------------------------------*/
+/* SASS Mixins */
+/* SASS variables */
+/* main color  */
+/* hover color */
 /*  ---------------------------------------
     01 BASE STYLES
 ------------------------------------------*/
-/* SASS variables & mixins */
-/* main color  */
-/* hover color */
 /* --- Typography --- */
 /* General typography settings */
 html {
