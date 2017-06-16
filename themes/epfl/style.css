@@ -911,27 +911,23 @@ body.page-two-column #comments {
     padding-right: 35px;
   }
 }
+/*# temp breadcrumbs css */
+#breadcrumbs {
+  list-style: none;
+  margin: 5px 0;
+  overflow: hidden;
+}
+
+#breadcrumbs li {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
+#breadcrumbs .separator {
+  font-size: 18px;
+  font-weight: 100;
+  color: #ccc;
+}
 
 /*# sourceMappingURL=style.css.map */
-
-
-
-/*# temp breadcrumbs css */
-
-#breadcrumbs{
-    list-style:none;
-    margin:5px 0;
-    overflow:hidden;
-}
-  
-#breadcrumbs li{
-    display:inline-block;
-    vertical-align:middle;
-    margin-right:10px;
-}
-  
-#breadcrumbs .separator{
-    font-size:18px;
-    font-weight:100;
-    color:#ccc;
-}
