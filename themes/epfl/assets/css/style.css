@@ -21,6 +21,10 @@
 
 05  FOOTER
 
+06  SIDEBAR
+
+07  PRIMARY CONTENT
+
 --  MEDIA QUERIES
     
 ------------------------------------------*/
@@ -260,6 +264,11 @@ body.page-two-column #comments {
   padding: 0;
 }
 
+#content.site-content,
+.page:not(.home) #content {
+  padding-bottom: 40px;
+}
+
 .panel-content .wrap {
   padding: 0;
   width: 100%;
@@ -277,8 +286,7 @@ body.page-two-column #comments {
 
 #primary.col,
 #secondary.col {
-  padding-left: 5px;
-  padding-right: 5px;
+  padding: 0 5px;
 }
 #primary.col:after,
 #secondary.col:after {
@@ -604,7 +612,69 @@ a.a2a_button_email:before {
 }
 
 /*  ---------------------------------------
-    05 SIDEBAR
+    05 FOOTER
+----------------------------------------- */
+.site-footer {
+  border: 0;
+  margin-top: 0;
+}
+.site-footer .wrap {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.site-footer .footer-content {
+  border-top: 1px solid #000;
+  padding: 40px 0;
+}
+.site-footer p {
+  font-size: .6875em;
+}
+
+.footer-nav {
+  list-style: none;
+  margin-top: 0;
+}
+.footer-nav:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.footer-nav li {
+  float: left;
+  font-size: .6875em;
+  margin-right: .5em;
+  position: relative;
+}
+.footer-nav li:after {
+  content: "|";
+  margin-left: .5em;
+}
+
+.footer-content .site-info span {
+  float: left;
+  margin-right: .5em;
+  position: relative;
+}
+.footer-content .site-info span:after {
+  content: "|";
+  margin-left: .5em;
+}
+.footer-content .site-info span:last-child:after {
+  display: none;
+}
+
+.footer-content .site-admin:before {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  content: "\f061";
+}
+
+/*  ---------------------------------------
+    06 SIDEBAR
 ----------------------------------------- */
 #secondary {
   padding-top: 0;
@@ -722,6 +792,9 @@ a.a2a_button_email:before {
   margin-bottom: 40px;
   padding: 0;
 }
+.sidebar .widget:last-child {
+  margin-bottom: 0;
+}
 
 .sidebar .widget-title {
   border-bottom: 1px solid #000;
@@ -749,7 +822,7 @@ a.a2a_button_email:before {
 }
 
 /*  ---------------------------------------
-    06 PRIMARY CONTENT
+    07 PRIMARY CONTENT
 ----------------------------------------- */
 /* Toolbar */
 .toolbar {
@@ -965,6 +1038,29 @@ a.a2a_button_email:before {
   .sub-menu .sub-menu a {
     font-weight: 400;
   }
+
+  /*  ---------------------------------------
+    05 FOOTER
+  ----------------------------------------- */
+  .site-footer {
+    font-size: 1rem;
+  }
+  .site-footer .footer-content {
+    padding-top: 15px;
+  }
+
+  .footer-nav {
+    float: left;
+  }
+
+  .footer-content .site-info {
+    margin: 0;
+    padding: 0;
+    width: auto;
+  }
+  .footer-content .site-admin {
+    float: right;
+  }
 }
 /*  -----------------------------------------------------------
 
@@ -998,7 +1094,7 @@ a.a2a_button_email:before {
   }
 
   /*  ---------------------------------------
-    06 PRIMARY CONTENT
+    07 PRIMARY CONTENT
   ----------------------------------------- */
   /* Page title & content */
   .entry-header,
