@@ -1,11 +1,6 @@
-/*
-Theme Name: EPFL
-Description: Theme enfant de Twenty Seventeen
-Author: Aline Keller
-Author URI: http://www.alinekeller.ch
-Template: twentyseventeen 
-Version: 1.0.0
-*/
+@charset "UTF-8";
+
+/* CSS Document */
 
 /*-----------------------------------------
 >>> TABLE OF CONTENTS:
@@ -29,254 +24,19 @@ Version: 1.0.0
 
 05  FOOTER
 
+06  SIDEBAR
+
+07  PRIMARY CONTENT
+
 --  MEDIA QUERIES
     
 ------------------------------------------*/
 
+@import "mixins.scss";
+@import "variables.scss";
+@import "base.scss";
+@import "twenty17_resets.scss";
 
-/*  ---------------------------------------
-    01 BASE STYLES
-------------------------------------------*/
-
-/* SASS variables & mixins */
-
-$primary-color: #ae0010; /* main color  */
-$color-alt:     #7e000c; /* hover color */
-
-$light-grey:    #cfd0ca;
-
-@mixin clearfix {
-  
-  &:after {
-    content: "";
-    display: block;
-    clear: both;
-  } 
-}
-
-
-/* --- Typography --- */
-
-/* General typography settings */
-
-html {
-  -webkit-text-size-adjust: 100%;
-  -ms-text-size-adjust: 100%;
-  text-size-adjust: 100%;
-}
-body {
-  background: #fff;
-  color: #454545;
-  font-family: Arial, Helvetica, Verdana, sans-serif;
-  font-size: 100.01%;
-  line-height: 1.4em;
-}
-
-*:last-child {
-  margin-bottom: 0;
-}
-
-/* Body copy */
-
-p {
-  line-height: 1.4em;
-  margin-bottom: 1em;
-  padding: 0;
-}
-
-p,
-li,
-td,
-th,
-dt,
-dd {
-  font-size: .8125em /* 13px */;
-  line-height: 1.3em;
-}
-
-li p,
-td p,
-th p,
-dt p,
-dd p,
-blockquote p,
-
-li li,
-td li
-td li,
-dt li,
-dd li {
-  font-size: 1em;
-}
-
-/* Headings */
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  color: #000;
-  margin-bottom: .75em;
-}
-
-h2,
-h3 {
-  font-family: "Arial black", Arial, Helvetica, Verdana, sans-serif;
-}
-h4,
-h5,
-h6 {
-  font-family: Arial, Helvetica, Verdana, sans-serif;
-  font-weight: bold;
-}
-
-h1 {
-  font-family: Impact, Arial, sans-serif;
-  font-size: 1.625em /* 26px */;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-h2 {
-  font-size: 1.6875em /* 27px */;
-  line-height: 1.4em;
-}
-h3 {
-  font-size: 1.125em /* 18px */;
-  line-height: 1.2em;
-}
-h4 {
-  font-size: .875em /* 14px */;
-  line-height: 1.6em;
-}
-h5 {
-  font-size: .8125em /* 13px */;
-  line-height: 1.6em;
-}
-
-/* Links */
-
-a {
-  box-shadow: none;
-  color: #000;
-  border-bottom: 1px dotted #000;
-  text-decoration: none;
-  transition: all .3s ease-in-out;
-  &:hover {
-    border-bottom-style: solid;
-  }
-}
-
-/* Lists */
-
-ul,
-ol {
-  margin: 1em 0;
-  padding-left: 1em;
-  
-  ul,
-  ol {
-    margin-top: .375em;
-  }
-}
-
-li {
-  margin-bottom: .375em;
-}
-
-dl dt {
-  color: #000;
-  font-weight: bold;
-  position: relative;
-  top: 16px;
-  width: 160px;
-}
-dl dd {
-  border-left: 1px solid #000;
-  margin-left: 160px;
-  margin-bottom: 0;
-  padding-left: 4px;
-}
-dl dd + dd {
-  padding-top: .375em;
-}
-
-/* Misc text elements */
-
-blockquote {
-  color: #000000;
-  font-family: Georgia,'Times New Roman',Times,serif;
-  font-size: .9375em;
-  font-style: italic;
-  font-weight: bold;
-  line-height: 1.2em;
-  margin: 1em 0;
-}
-b, strong {
-  color: #000;
-}
-
-
-/*  ---------------------------------------
-    02 TWENTY SEVENTEEN RESETS
------------------------------------------ */
-
-/* Typography */
-
-.entry-content a,
-.entry-summary a,
-.widget a,
-.site-footer .widget-area a,
-.posts-navigation a,
-.widget_authors a strong {
-  box-shadow: none !important;
-}
-
-.page .panel-content .entry-title,
-.page-title,
-body.page:not(.twentyseventeen-front-page) .entry-title {
-  font-size: inherit;
-}
-
-.entry-content .icon {
-  display: inline-block;
-  height: auto;
-  position: relative;
-  top: 0;
-  vertical-align: middle;
-  width: auto;
-}
-
-/* Navigation */
-
-.main-navigation ul li.menu-item-has-children:before,
-.main-navigation ul li.menu-item-has-children:after,
-.main-navigation ul li.page_item_has_children:before,
-.main-navigation ul li.page_item_has_children:after {
-	display: none !important;
-}
-
-/* Content */
-
-body:not(.has-sidebar):not(.page-one-column) .page-header,
-body.has-sidebar.error404 #primary .page-header,
-body.page-two-column:not(.archive) #primary .entry-header,
-body.page-two-column.archive:not(.has-sidebar) #primary .page-header {
-  float: none;
-  width: auto;
-}
-
-.blog:not(.has-sidebar) #primary article,
-.archive:not(.page-one-column):not(.has-sidebar) #primary article,
-.search:not(.has-sidebar) #primary article,
-.error404:not(.has-sidebar) #primary .page-content,
-.error404.has-sidebar #primary .page-content,
-body.page-two-column:not(.archive) #primary .entry-content,
-body.page-two-column #comments {
-  float: none;
-  width: auto;
-}
 
 /*  ---------------------------------------
     03 GLOBAL CONTENT & SITE STRUCTURE
@@ -288,18 +48,26 @@ body.page-two-column #comments {
   margin-top: 10px;
   padding: 0;
 }
+#content.site-content,
+.page:not(.home) #content {
+  padding-bottom: 40px;
+}
 
 .panel-content .wrap {
   padding: 0;
   width: 100%;
 }
 
+.site-main {
+  @include clearfix;
+  border-top: 1px solid #000;
+  padding-top: 6px;
+}
+
 #primary.col,
 #secondary.col {
   @include clearfix;
-  
-  padding-left: 5px;
-	padding-right: 5px; 
+  padding: 0 5px;
 }
 
 /* --- Icons --- */
@@ -309,13 +77,7 @@ body.page-two-column #comments {
   position: relative;
   
   &:before {
-    content: "";
-    display: inline-block;
-    font: normal normal normal 14px/1 FontAwesome;
-    font-size: inherit;
-    text-rendering: auto;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    @include icon;
   }
 }
 .fa-icon.btn-icon {
@@ -336,8 +98,8 @@ body.page-two-column #comments {
   }
   
   & > .label {
+    @include minor-text;
     border-bottom: 1px dotted #000;
-    font: italic .75rem Georgia, 'Times New Roman', Times, serif;
     transition: all .2s ease-in-out;
     vertical-align: middle;
   }
@@ -448,6 +210,89 @@ body.page-two-column #comments {
   content: "\f101";
 }
 
+// Social icons
+
+a[class*="a2a_button_"] {
+  @include transition-colors;
+  background: #999c98;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 14px !important;
+  height: 26px;
+  margin: 0 6px 0 0;
+  padding: 0 !important;
+  width: 26px;
+  
+  svg,
+  .a2a_svg {
+    display: none;
+  }
+  
+  &:before {
+    @include icon;
+    height: inherit;
+    line-height: 26px;
+    text-align: center;
+    width: inherit;
+  }
+    
+  &:hover {
+    background: #ae0010;
+  }
+
+}
+
+a.a2a_button_{
+  
+  // Facebook
+  &facebook {
+    &:before {
+      content: "\f09a";
+    }
+    &:hover {
+      background: #3b5998;
+    }
+  }
+  
+  // Twitter
+  &twitter {
+    &:before {
+      content: "\f099";
+    }
+    &:hover {
+      background: #00b6f1;
+    }
+  }
+  
+  // LinkedIn
+  &linkedin {
+    &:before {
+      content: "\f0e1";
+    }
+    &:hover {
+      background: #007bb6;
+    }
+  }
+  
+  // Google +
+  &google_plus {
+    &:before {
+      content: "\f0d5";
+    }
+    &:hover {
+      background: #df4a32;
+    }
+  }
+  
+  // Email
+  &email {
+    &:before {
+      content: "\f0e0";
+    }
+  }
+  
+}
+
 /*  ---------------------------------------
     04 HEADER
 ----------------------------------------- */
@@ -541,7 +386,74 @@ body.page-two-column #comments {
 }
 
 /*  ---------------------------------------
-    05 SIDEBAR
+    05 FOOTER
+----------------------------------------- */
+
+.site-footer {
+  border: 0;
+  margin-top: 0;
+  
+  .wrap {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  
+  .footer-content {
+    border-top: 1px solid #000;
+    padding: 40px 0;
+  }
+  
+  p {
+    font-size: .6875em;
+  }
+}
+
+.footer-nav {
+  @include clearfix;
+  list-style: none;
+  margin-top: 0;
+  
+  li {
+    float: left;
+    font-size: .6875em;
+    margin-right: .5em;
+    position: relative;
+    
+    &:after {
+      content: "|";
+      margin-left: .5em;
+    }
+  }
+}
+
+.footer-content .site-info {
+  
+  span {
+    float: left;
+    margin-right: .5em;
+    position: relative;
+    
+    &:after {
+      content: "|";
+      margin-left: .5em;
+    }
+    
+    &:last-child:after {
+      display: none;
+    }
+  }
+}
+
+.footer-content .site-admin {
+  
+  &:before {
+    @include icon;
+    content: "\f061";
+  }
+}
+
+/*  ---------------------------------------
+    06 SIDEBAR
 ----------------------------------------- */
 
 #secondary {
@@ -552,16 +464,7 @@ body.page-two-column #comments {
 
 // Hide all pages, and show only the ones related to the current page (parent, ancestors, siblings, etc)
 
-.sidebar .nav {
-  & > li {
-    display: none;
-  }
-  
-}
-.sidebar .nav > li.current_page_ancestor,
-.sidebar .nav > li.current_page_parent,
-.sidebar .nav > li.current_page_item {
-  display: block;
+.sidebar .nav > li.menu-item {
   
   // Hide the top level item of the current page ancestry
   & > a {
@@ -572,16 +475,11 @@ body.page-two-column #comments {
 // Generic nav styles
 
 .sidebar .nav {
-  background: $primary-color;
   list-style: none;
   margin: 0 0 40px;
   
-  li {
-    border-bottom: 1px solid #fff;
-    margin: 0;
-  }
-  
   a {
+    background: $primary-color;
     border: none;
     color: #fff;
     display: block;
@@ -592,32 +490,42 @@ body.page-two-column #comments {
       background: $color-alt;
     }
   }
+  
+  li {
+    border-bottom: 1px solid #fff;
+    margin: 0;
+    position: relative;
+    
+    &.current_page_item {
+      
+      a {
+        background: #000;
+        color: #fff;
+      }
+    }
+  }
+  
+  & > .menu-item {
+    margin-bottom: 10px;
+  }
 }
 
-.sidebar .nav li.current_page_item > a {
-  background: #000;
-  color: #fff;
-}
-
-.sidebar .children,
 .sidebar .sub-menu {
+  border-top: 1px solid #fff;
   list-style: none;
   margin: 0;
 }
 
-// Current page, parents and ancestors
-.sidebar .nav li.current_page_ancestor,
-.sidebar .nav li.current_page_parent,
-.sidebar .nav li.current_page_item {
+// Select top menu item
+.sidebar .nav > .menu-item {
   
   // 2nd level children
-  .children .children,
   .sub-menu .sub-menu {
-    background: #fff;
     border-top: 1px solid #fff;
     
     li {
       border-bottom: 1px solid #a3a3a3;
+      color: #000;
       
       &:last-child {
         border: 0;
@@ -625,9 +533,10 @@ body.page-two-column #comments {
     }
     
     a {
+      background: #fff;
       color: #000;
       font-weight: bold;
-      margin-left: 20px;
+      padding-left: 40px;
       
       &:hover {
         background: $light-grey;
@@ -638,14 +547,51 @@ body.page-two-column #comments {
     // 3rd level children
     ul li {
       border: none;
+      
+      a {
+        padding-left: 60px;
+      }
     }
     
   }
 }
-
 .sidebar .nav li.current_page_item > a {
-  background: #000;
+  background: #000 !important;
   color: #fff !important;
+}
+
+.sub-menu-control {
+  
+  @include icon;
+  
+  background: transparent;
+  color: #fff;
+  height: 20px;
+  padding: 0;
+  position: absolute;
+  top: 1px; right: auto; bottom: auto; left: 0;
+  width: 20px;
+  
+  &:hover {
+    background: transparent;
+  }
+  
+  &:before {
+    content: "\f105";
+  }
+  .open > &:before {
+    content: "\f107";
+  }
+  
+  .sub-menu .sub-menu & {
+    color: #000;
+    left: 20px;
+  }
+  
+}
+.sub-menu .sub-menu .sub-menu-control {
+  color: #000;
+  left: 20px;
 }
 
 /* Widgets */
@@ -653,6 +599,10 @@ body.page-two-column #comments {
 .sidebar .widget {
   margin-bottom: 40px;
   padding: 0;
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
 }
 
 .sidebar .widget-title {
@@ -687,10 +637,22 @@ body.page-two-column #comments {
 }
 
 /*  ---------------------------------------
-    06 PRIMARY CONTENT
+    07 PRIMARY CONTENT
 ----------------------------------------- */
 
+/* Toolbar */
 
+.toolbar {
+  height: 28px;
+  margin-bottom: 8px;
+}
+
+.social-share .label {
+  display: inline-block;
+  font: italic .75em Georgia, 'Times New Roman', Times, serif;
+  margin: 0 .5em 0 0;
+  vertical-align: middle;
+}
 
 /* Page title */
 
@@ -703,7 +665,29 @@ body.page-two-column #comments {
   text-transform: none;
 }
 
-/* Page content */
+/* --- Page content --- */
+
+/* Publications */
+
+.publication {
+  border-bottom: 1px dotted #000;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  
+  &:last-child {
+    border: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+  
+  .links {
+    @include minor-text;
+    
+    a {
+      margin-right: .5em;
+    }
+  }
+}
 
 
 /*  -----------------------------------------------------------
@@ -903,6 +887,38 @@ body.page-two-column #comments {
     }
   }
   
+  /*  ---------------------------------------
+    05 FOOTER
+  ----------------------------------------- */
+  
+  .site-footer {
+    font-size: 1rem;
+    
+    .footer-content {
+      //border: 0;
+      //padding-top: 0;
+      padding-top: 15px;
+    }
+  }
+  
+  .footer-nav {
+    float: left;
+  }
+  
+  .footer-content {
+    
+    
+    .site-info {
+      margin: 0;
+      padding: 0;
+      width: auto;
+    }
+    
+    .site-admin {
+      float: right;
+    }
+  }
+  
 }
 
 /*  -----------------------------------------------------------
@@ -918,7 +934,8 @@ body.page-two-column #comments {
   ----------------------------------------- */
   
   .wrap {
-    margin: 0 auto;
+    margin-left: auto;
+    margin-right: auto;
     padding-left: 0;
     padding-right: 0;
     width: 980px;
@@ -941,7 +958,7 @@ body.page-two-column #comments {
   }
   
   /*  ---------------------------------------
-    06 PRIMARY CONTENT
+    07 PRIMARY CONTENT
   ----------------------------------------- */
   
   /* Page title & content */
@@ -951,4 +968,24 @@ body.page-two-column #comments {
     padding-right: 35px;
   }
   
+}
+
+/*# temp breadcrumbs css */
+
+#breadcrumbs{
+    list-style:none;
+    margin:5px 0;
+    overflow:hidden;
+}
+  
+#breadcrumbs li{
+    display:inline-block;
+    vertical-align:middle;
+    margin-right:10px;
+}
+  
+#breadcrumbs .separator{
+    font-size:18px;
+    font-weight:100;
+    color:#ccc;
 }

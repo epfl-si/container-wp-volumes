@@ -10,10 +10,22 @@ if ( ! function_exists( 'epfl_setup' ) ) :
  */
 function epfl_setup() {
   
-  // Register menus
+  /**
+    * Register menus
+    */
+    
 	register_nav_menus( array(
 		'sidebar_nav' => 'Sidebar menu',
 	) );
+	
+	/**
+    * Set up My Child Theme's textdomain.
+    *
+    * Declare textdomain for this child theme.
+    * Translations can be added to the /languages/ directory.
+    */
+    
+    load_child_theme_textdomain( 'epfl', get_stylesheet_directory() . '/languages' );
 } 
 endif;
 add_action( 'after_setup_theme', 'epfl_setup' );
@@ -45,19 +57,20 @@ function enqueue_theme_styles() {
 	wp_enqueue_style('grid', get_stylesheet_directory_uri() .'/assets/css/stylisticss.grid.css');
 	
 	// enqueue child styles
-	wp_enqueue_style( 'child-styles', get_stylesheet_uri() );
+	wp_enqueue_style('child-styles', get_stylesheet_uri() );
+	wp_enqueue_style('compiled-styles', get_stylesheet_directory_uri() .'/assets/css/style.css');
 	
 }
 add_action('wp_enqueue_scripts', 'enqueue_theme_styles', 10000000001 );
 
 // Enqueue scripts
 
-function monptitchat_scripts() {
+function epfl_scripts() {
 	
-	wp_enqueue_script( 'monptitchat-scripts', get_stylesheet_directory_uri() .'/assets/js/main.js', array(), '20151215', true );
+	wp_enqueue_script( 'epfl-scripts', get_stylesheet_directory_uri() .'/assets/js/main.js', array(), '20151215', true );
 
 }
-add_action( 'wp_enqueue_scripts', 'monptitchat_scripts' );
+add_action( 'wp_enqueue_scripts', 'epfl_scripts' );
 
 // Dequeue Twenty Seventeen Fonts
 function dequeue_fonts() {
