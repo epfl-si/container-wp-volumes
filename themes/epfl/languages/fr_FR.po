@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: EPFL\n"
-"POT-Creation-Date: 2017-06-16 10:06+0200\n"
-"PO-Revision-Date: 2017-06-16 10:06+0200\n"
+"POT-Creation-Date: 2017-06-16 15:11+0200\n"
+"PO-Revision-Date: 2017-06-16 15:12+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -21,11 +21,35 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
+#: footer.php:32
+msgid "Last update: "
+msgstr "Dernière mise à jour: "
+
+#: footer.php:36
+msgid "Log into site admin"
+msgstr "Connexion à l’administration du site"
+
+#: footer.php:36
+msgid "Login"
+msgstr "Connexion"
+
+#: functions.php:18
+msgid "Sidebar menu"
+msgstr "Menu de la colonne latérale"
+
+#: functions.php:19
+msgid "Footer menu"
+msgstr "Menu du pied de page"
+
+#: functions.php:366
+msgid "Page"
+msgstr ""
+
 #: header.php:27
 msgid "Skip to content"
 msgstr "Accéder au contenu"
 
-#: header.php:67
+#: header.php:64
 msgid "Share"
 msgstr "Partager"
 
