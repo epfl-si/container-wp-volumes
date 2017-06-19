@@ -15,7 +15,8 @@ function epfl_setup() {
     */
     
 	register_nav_menus( array(
-		'sidebar_nav' => 'Sidebar menu',
+		'sidebar_nav' => __( 'Sidebar menu', 'epfl' ),
+		'footer_nav' => __( 'Footer menu', 'epfl' )
 	) );
 	
 	/**
