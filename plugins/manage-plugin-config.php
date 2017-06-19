@@ -95,12 +95,16 @@
 		- Add possibility to import multiple plugin configuration by giving all plugin names for which
 		  we want to import configuration.
 		- Change classname so it fits bette what the script do
-		
+
+	0.7 (16.06.2017)
+		- Add log file (can be activated or not using LOG_ENABLED). The log file have the same name as
+		  the script but with ".log" at the end
+		- Disable usage of charset (utf8) to access DB because there's problem with encoding.... special
+		  characters aren't correctly reinserted when loading plugin config.
 		
 	  
 	TODO :
 	- Add error check (find what) 
-	- 
 
 	-------------------------------------------------------------------------------------------
 */
@@ -123,6 +127,10 @@
 	/* Folder where to store config files */
 	define('PLUGIN_CONFIG_FOLDER_PATH',	dirname(__FILE__).DIRECTORY_SEPARATOR.CONFIG_FOLDER.DIRECTORY_SEPARATOR);
 	
+	/* File in which we will store the log */
+	define('LOG_FILE', __FILE__.".log");
+	define('LOG_ENABLED',	false);
+	
 	/* File extensions for plugin configuration (reference and final config) */
 	define('PLUGIN_CONFIG_FILE_REF_EXT', '.ref');
 	define('PLUGIN_CONFIG_FILE_FINAL_EXT', '.config');
@@ -138,7 +146,7 @@
 		var $db_link;			  /* Link to the DB */
 		var $config_tables;	  /* Configuration about table (auto-gen fields, unique fields) */
 		var $tables_relations;  /* Information about "non-official" links/relations between tables */
-	
+		var $log_handle;			/* To handle log file */
 		
 		/*
 			GOAL : Class contructor
@@ -205,7 +213,8 @@
 			}
 			
 			/* Init database charset */
-			mysqli_set_charset($this->db_link, DB_CHARSET);
+			/* This has been commented because of problems with special characters */
+			//mysqli_set_charset($this->db_link, DB_CHARSET);
 			
 			
 			
@@ -225,7 +234,11 @@
 			/* Relation between configuration tables. There are no explicit relation between tables in DB but there are relation coded in WP. */									  
 			$this->tables_relations = array($table_prefix.'termmeta'				=> array('term_id'			 => $table_prefix.'terms'),
 													  $table_prefix.'term_taxonomy'		 => array('term_id'			 => $table_prefix.'terms'),
-													  $table_prefix.'term_relationships'  => array('term_taxonomy_id' => $table_prefix.'term_taxonomy'));			
+													  $table_prefix.'term_relationships'  => array('term_taxonomy_id' => $table_prefix.'term_taxonomy'));	
+													  
+													  
+			/**** LOG FILE ****/		
+			$this->log_handle = fopen(LOG_FILE, 'a');
 			
 		}
 		
@@ -291,6 +304,24 @@
 		
 		/* ----------------------------------------------------------------------- */
 		
+		/*
+			GOAL : Add a line at the end of the log file.
+			
+			$function	-> Name of the function from which the log add is requested.
+			$str			-> Line to add
+		*/
+		protected function addToLog($function, $str)
+		{
+			/* If logging is disabled */
+			if(!LOG_ENABLED) return;
+			
+			
+			fwrite($this->log_handle, "$function: $str\n");
+			fflush($this->log_handle);
+		}
+		
+		/* ----------------------------------------------------------------------- */
+		
 		
 		/*
 			GOAL : Triggers an error. This function exists to have a single point to 
@@ -301,7 +332,11 @@
 		*/
 		protected function triggerError($function, $error_string)
 		{
+			/* Logging error */
+			$this->addToLog($function, $error_string);
+			/* Triggering error */
 			trigger_error(__FILE__.":".$function.": ".$error_string."\n", E_USER_ERROR);
+			
 		}
 		
 		
@@ -330,9 +365,17 @@
 				list($auto_inc_field, $unique_fields) = $fields_infos;
 		
 				/* if no "auto-inc" field, we skip because we don't need a comparison snap */
-				if($auto_inc_field === null) continue;
+				if($auto_inc_field === null)
+				{
+					
+					$this->addToLog(__FUNCTION__, "Table '$table_name' doesn't have an 'auto-gen' field. Skipping...");
+					continue;
+				}
 
 				$request = "SELECT MAX($auto_inc_field) AS 'max' FROM $table_name";  
+				
+				$this->addToLog(__FUNCTION__, $request);
+				
 				
 				if(($res = mysqli_query($this->db_link, $request))===false)
 				{
@@ -343,6 +386,8 @@
 
 				/* Determining max ID */			
 				$base_config[$table_name] = ($res['max']=="")?0:$res['max'];
+				
+				$this->addToLog(__FUNCTION__, "Max ID for '$table_name' is ".$res['max']);
 
 			}/* END LOOP Going through tables */		
 			
@@ -393,6 +438,8 @@
 				/* If there's an "auto-gen" field */
 				if($auto_inc_field!==null) $request.= " WHERE $auto_inc_field > $base_config[$table_name]";
 				
+				$this->addToLog(__FUNCTION__, $request);
+				
 				if(($res = mysqli_query($this->db_link, $request))===false)
 				{
 					$this->triggerError(__FUNCTION__, mysqli_error($this->db_link));
@@ -438,7 +485,9 @@
 			/* If config file doesn't exists, we skip */
 			if(!file_exists($diff_config_file))
 			{
-				echo "Config file doesn't exists for plugin '".$plugin_name."'. Skipping.\n";
+				$info = "Config file doesn't exists for plugin '".$plugin_name."'. Skipping.";
+				echo "$info\n";
+				$this->addToLog(__FUNCTION__, $info);
 				return;
 			}
 			
@@ -525,7 +574,8 @@
 					/* Creating request to insert row or to update it if already exists */
 					$request = "INSERT INTO $table_name VALUES('".implode("','", $insert_values)."') ".
 								  " ON DUPLICATE KEY UPDATE ".implode(",", $update_values);
-
+								  
+					$this->addToLog(__FUNCTION__, $request);
 					
 					if(($res = mysqli_query($this->db_link, $request))===false)
 					{
@@ -551,6 +601,8 @@
 						
 						/* Creating request to search existing row information */					
 						$request = "SELECT * FROM $table_name WHERE ".implode(" AND ", $search_conditions);
+
+						$this->addToLog(__FUNCTION__, $request);
 
 						if(($res = mysqli_query($this->db_link, $request))===false)
 						{
@@ -583,11 +635,12 @@
 		/* ----------------------------------------------------------------------- */
 		
 		/*
-			GOAL : Close DB connection
+			GOAL : Finalize the work
 		*/
-		function closeDBConnection()
+		function finalize()
 		{
 			mysqli_close($this->db_link);
+			fclose($this->log_handle);
 		}
 		
 	}/* END CLASS */
@@ -707,8 +760,8 @@
 
 	}/* END SWTICH */
 	
-	/* Close connection do DB */
-	$pcm->closeDBConnection();
+	/* Finalize things */
+	$pcm->finalize();
 	
 
 	
