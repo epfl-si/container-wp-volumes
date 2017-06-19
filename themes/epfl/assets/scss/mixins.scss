@@ -37,3 +37,15 @@
     color: #fff;
   }
 }
+
+@mixin border-bottom-dots {
+  border-bottom: 1px dotted #000;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  
+  &:last-child {
+    border: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+}

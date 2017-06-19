@@ -69,7 +69,8 @@ td,
 th,
 dt,
 dd {
-  font-size: 0.8125em;
+  font-size: .8125em;
+  font-size: 0.8125rem;
   line-height: 1.3em;
 }
 
@@ -200,6 +201,52 @@ b, strong {
   color: #000;
 }
 
+/* --- Forms --- */
+button,
+input,
+select,
+textarea,
+label {
+  font-size: .8125rem;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="url"],
+input[type="password"],
+input[type="search"],
+input[type="number"],
+input[type="tel"],
+input[type="range"],
+input[type="date"],
+input[type="month"],
+input[type="week"],
+input[type="time"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="color"],
+textarea {
+  background: #fff;
+  border-radius: 0;
+  padding: .4em;
+}
+
+button,
+input[type="button"],
+input[type="submit"] {
+  transition: background-color .3s ease-in-out, color .3s ease-in-out, border-color .3s ease-in-out;
+  background: #999c98;
+  border-radius: 0;
+  padding: .75em 1.25em;
+}
+button:hover, button:focus,
+input[type="button"]:hover,
+input[type="button"]:focus,
+input[type="submit"]:hover,
+input[type="submit"]:focus {
+  background: #ae0010;
+}
+
 /*  ---------------------------------------
     02 TWENTY SEVENTEEN RESETS
 ----------------------------------------- */
@@ -211,6 +258,58 @@ b, strong {
 .posts-navigation a,
 .widget_authors a strong {
   box-shadow: none !important;
+}
+
+.entry-content a:focus,
+.entry-content a:hover,
+.entry-summary a:focus,
+.entry-summary a:hover,
+.widget a:focus,
+.widget a:hover,
+.site-footer .widget-area a:focus,
+.site-footer .widget-area a:hover,
+.posts-navigation a:focus,
+.posts-navigation a:hover,
+.comment-metadata a:focus,
+.comment-metadata a:hover,
+.comment-metadata a.comment-edit-link:focus,
+.comment-metadata a.comment-edit-link:hover,
+.comment-reply-link:focus,
+.comment-reply-link:hover,
+.widget_authors a:focus strong,
+.widget_authors a:hover strong,
+.entry-title a:focus,
+.entry-title a:hover,
+.entry-meta a:focus,
+.entry-meta a:hover,
+.page-links a:focus .page-number,
+.page-links a:hover .page-number,
+.entry-footer a:focus,
+.entry-footer a:hover,
+.entry-footer .cat-links a:focus,
+.entry-footer .cat-links a:hover,
+.entry-footer .tags-links a:focus,
+.entry-footer .tags-links a:hover,
+.post-navigation a:focus,
+.post-navigation a:hover,
+.pagination a:focus:not(.prev):not(.next),
+.pagination a:hover:not(.prev):not(.next),
+.comments-pagination a:focus:not(.prev):not(.next),
+.comments-pagination a:hover:not(.prev):not(.next),
+.logged-in-as a:focus,
+.logged-in-as a:hover,
+a:focus .nav-title,
+a:hover .nav-title,
+.edit-link a:focus,
+.edit-link a:hover,
+.site-info a:focus,
+.site-info a:hover,
+.widget .widget-title a:focus,
+.widget .widget-title a:hover,
+.widget ul li a:focus,
+.widget ul li a:hover {
+  box-shadow: none !important;
+  color: inherit;
 }
 
 .page .panel-content .entry-title,
@@ -902,8 +1001,8 @@ a.a2a_button_email:before {
 /* Publications */
 .publication {
   border-bottom: 1px dotted #000;
-  margin-bottom: 10px;
-  padding-bottom: 10px;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
 }
 .publication:last-child {
   border: 0;
@@ -935,6 +1034,55 @@ a.a2a_button_email:before {
 }
 .post-meta .label {
   font-weight: bold;
+}
+
+/* Comments */
+.comment-list {
+  border-bottom: 1px dotted #000;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+}
+.comment-list:last-child {
+  border: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+.comment-list .comment {
+  border-bottom: 1px dotted #000;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+}
+.comment-list .comment:last-child {
+  border: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+.comment-list .comment-body {
+  margin-left: 0;
+}
+.comment-list .avatar {
+  display: none;
+}
+
+.comment .comment-meta {
+  font: italic .75rem Georgia, 'Times New Roman', Times, serif;
+}
+.comment .comment-meta .comment-author {
+  font-size: .875rem;
+}
+.comment .comment-meta .comment-metadata {
+  font-size: .6875rem;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.comment .reply {
+  font: italic .75rem Georgia, 'Times New Roman', Times, serif;
+  margin-top: 10px;
+}
+.comment .reply .comment-reply-link {
+  left: 2em;
+  position: relative;
 }
 
 /*  -----------------------------------------------------------

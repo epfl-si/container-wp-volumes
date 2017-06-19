@@ -732,15 +732,7 @@ a.a2a_button_{
 /* Publications */
 
 .publication {
-  border-bottom: 1px dotted #000;
-  margin-bottom: 10px;
-  padding-bottom: 10px;
-  
-  &:last-child {
-    border: 0;
-    margin-bottom: 0;
-    padding-bottom: 0;
-  }
+  @include border-bottom-dots;
   
   .links {
     @include minor-text;
@@ -767,6 +759,50 @@ a.a2a_button_{
   
   .label {
     font-weight: bold;
+  }
+}
+
+/* Comments */
+
+
+.comment-list {
+  @include border-bottom-dots;
+  
+  .comment {
+    @include border-bottom-dots;
+  }
+  
+  .comment-body {
+    margin-left: 0;
+  }
+  
+  .avatar {
+    display: none;
+  }
+  
+}
+
+.comment .comment-meta {
+  @include minor-text;
+  
+  .comment-author {
+    font-size: .875rem;
+  }
+  
+  .comment-metadata {
+    font-size: .6875rem;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+}
+
+.comment .reply {
+  @include minor-text;
+  margin-top: 10px;
+  
+  .comment-reply-link {
+    left: 2em;
+    position: relative;
   }
 }
 
