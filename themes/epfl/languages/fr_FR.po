@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: EPFL\n"
-"POT-Creation-Date: 2017-06-16 15:11+0200\n"
-"PO-Revision-Date: 2017-06-16 15:12+0200\n"
+"POT-Creation-Date: 2017-06-19 17:26+0200\n"
+"PO-Revision-Date: 2017-06-19 17:28+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -21,15 +21,15 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: footer.php:32
+#: footer.php:33
 msgid "Last update: "
 msgstr "Dernière mise à jour: "
 
-#: footer.php:36
+#: footer.php:37
 msgid "Log into site admin"
 msgstr "Connexion à l’administration du site"
 
-#: footer.php:36
+#: footer.php:37
 msgid "Login"
 msgstr "Connexion"
 
@@ -43,15 +43,45 @@ msgstr "Menu du pied de page"
 
 #: functions.php:366
 msgid "Page"
-msgstr ""
+msgstr "Page"
 
 #: header.php:27
 msgid "Skip to content"
 msgstr "Accéder au contenu"
 
-#: header.php:64
+#: header.php:78
 msgid "Share"
 msgstr "Partager"
+
+#: single.php:31
+msgid "Previous Post"
+msgstr "Article précédent"
+
+#: single.php:31
+msgid "Previous"
+msgstr "Précédent"
+
+#: single.php:32
+msgid "Next Post"
+msgstr "Article suivant"
+
+#: single.php:32
+msgid "Next"
+msgstr "Suivant"
+
+#: template-parts/post/content.php:46
+#, php-format
+msgid "Continue reading<span class=\"screen-reader-text\"> \"%s\"</span>"
+msgstr ""
+"Continuer la lecture de<span class=\"screen-reader-text\"> \"%s\"</span>"
+
+#: template-parts/post/content.php:51
+msgid "Pages:"
+msgstr "Pages:"
+
+#: template-parts/post/content.php:64
+msgid "Author"
+msgstr "Auteur"
 
 #. Theme Name of the plugin/theme
 msgid "EPFL"
