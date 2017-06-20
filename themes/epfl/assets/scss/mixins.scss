@@ -27,3 +27,25 @@
 @mixin transition-colors {
   transition: background-color .3s ease-in-out, color .3s ease-in-out, border-color .3s ease-in-out;
 }
+
+@mixin colored-box {
+  background: #ae0010;
+  color: #fff;
+  
+  a {
+    border-color: #fff;
+    color: #fff;
+  }
+}
+
+@mixin border-bottom-dots {
+  border-bottom: 1px dotted #000;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  
+  &:last-child {
+    border: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+}

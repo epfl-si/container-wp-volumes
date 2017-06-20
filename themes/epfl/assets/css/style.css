@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* CSS Document */
 /*-----------------------------------------
 >>> TABLE OF CONTENTS:
@@ -28,10 +29,10 @@
 --  MEDIA QUERIES
     
 ------------------------------------------*/
-/* SASS Mixins */
 /* SASS variables */
 /* main color  */
 /* hover color */
+/* SASS Mixins */
 /*  ---------------------------------------
     01 BASE STYLES
 ------------------------------------------*/
@@ -68,7 +69,8 @@ td,
 th,
 dt,
 dd {
-  font-size: 0.8125em;
+  font-size: .8125em;
+  font-size: 0.8125rem;
   line-height: 1.3em;
 }
 
@@ -199,6 +201,52 @@ b, strong {
   color: #000;
 }
 
+/* --- Forms --- */
+button,
+input,
+select,
+textarea,
+label {
+  font-size: .8125rem;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="url"],
+input[type="password"],
+input[type="search"],
+input[type="number"],
+input[type="tel"],
+input[type="range"],
+input[type="date"],
+input[type="month"],
+input[type="week"],
+input[type="time"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="color"],
+textarea {
+  background: #fff;
+  border-radius: 0;
+  padding: .4em;
+}
+
+button,
+input[type="button"],
+input[type="submit"] {
+  transition: background-color .3s ease-in-out, color .3s ease-in-out, border-color .3s ease-in-out;
+  background: #999c98;
+  border-radius: 0;
+  padding: .75em 1.25em;
+}
+button:hover, button:focus,
+input[type="button"]:hover,
+input[type="button"]:focus,
+input[type="submit"]:hover,
+input[type="submit"]:focus {
+  background: #ae0010;
+}
+
 /*  ---------------------------------------
     02 TWENTY SEVENTEEN RESETS
 ----------------------------------------- */
@@ -210,6 +258,58 @@ b, strong {
 .posts-navigation a,
 .widget_authors a strong {
   box-shadow: none !important;
+}
+
+.entry-content a:focus,
+.entry-content a:hover,
+.entry-summary a:focus,
+.entry-summary a:hover,
+.widget a:focus,
+.widget a:hover,
+.site-footer .widget-area a:focus,
+.site-footer .widget-area a:hover,
+.posts-navigation a:focus,
+.posts-navigation a:hover,
+.comment-metadata a:focus,
+.comment-metadata a:hover,
+.comment-metadata a.comment-edit-link:focus,
+.comment-metadata a.comment-edit-link:hover,
+.comment-reply-link:focus,
+.comment-reply-link:hover,
+.widget_authors a:focus strong,
+.widget_authors a:hover strong,
+.entry-title a:focus,
+.entry-title a:hover,
+.entry-meta a:focus,
+.entry-meta a:hover,
+.page-links a:focus .page-number,
+.page-links a:hover .page-number,
+.entry-footer a:focus,
+.entry-footer a:hover,
+.entry-footer .cat-links a:focus,
+.entry-footer .cat-links a:hover,
+.entry-footer .tags-links a:focus,
+.entry-footer .tags-links a:hover,
+.post-navigation a:focus,
+.post-navigation a:hover,
+.pagination a:focus:not(.prev):not(.next),
+.pagination a:hover:not(.prev):not(.next),
+.comments-pagination a:focus:not(.prev):not(.next),
+.comments-pagination a:hover:not(.prev):not(.next),
+.logged-in-as a:focus,
+.logged-in-as a:hover,
+a:focus .nav-title,
+a:hover .nav-title,
+.edit-link a:focus,
+.edit-link a:hover,
+.site-info a:focus,
+.site-info a:hover,
+.widget .widget-title a:focus,
+.widget .widget-title a:hover,
+.widget ul li a:focus,
+.widget ul li a:hover {
+  box-shadow: none !important;
+  color: inherit;
 }
 
 .page .panel-content .entry-title,
@@ -611,6 +711,56 @@ a.a2a_button_email:before {
   padding-bottom: 10px;
 }
 
+/* --- Page tools --- */
+.page-tools {
+  background: #eee;
+  padding: 4px 0;
+}
+
+/* Breadcrumbs */
+.page-tools .breadcrumbs {
+  display: none;
+  list-style: none;
+  margin: 5px 0;
+  overflow: hidden;
+}
+.page-tools .breadcrumbs li {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: .75em;
+}
+
+/* Language switcher */
+.language-switcher {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.language-switcher li {
+  display: inline-block;
+  font-size: .75em;
+  margin-right: .5em;
+  margin-bottom: 0;
+}
+.language-switcher li:after {
+  content: "/";
+  color: #a3a3a3;
+  margin-left: .75em;
+}
+.language-switcher li:last-child {
+  margin-right: 0;
+}
+.language-switcher li:last-child:after {
+  display: none;
+}
+.language-switcher a {
+  color: #666;
+}
+.language-switcher .current-lang a {
+  color: #000;
+  font-weight: bold;
+}
+
 /*  ---------------------------------------
     05 FOOTER
 ----------------------------------------- */
@@ -851,8 +1001,8 @@ a.a2a_button_email:before {
 /* Publications */
 .publication {
   border-bottom: 1px dotted #000;
-  margin-bottom: 10px;
-  padding-bottom: 10px;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
 }
 .publication:last-child {
   border: 0;
@@ -864,6 +1014,75 @@ a.a2a_button_email:before {
 }
 .publication .links a {
   margin-right: .5em;
+}
+
+/* --- Single article --- */
+/* Meta data */
+.post-meta {
+  background: #ae0010;
+  color: #fff;
+  color: #fff;
+  margin: 2em 0;
+  padding: .2em .5em;
+}
+.post-meta a {
+  border-color: #fff;
+  color: #fff;
+}
+.post-meta p {
+  font: italic .75rem Georgia, 'Times New Roman', Times, serif;
+}
+.post-meta .label {
+  font-weight: bold;
+}
+
+/* Comments */
+.comment-list {
+  border-bottom: 1px dotted #000;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+}
+.comment-list:last-child {
+  border: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+.comment-list .comment {
+  border-bottom: 1px dotted #000;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+}
+.comment-list .comment:last-child {
+  border: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+.comment-list .comment-body {
+  margin-left: 0;
+}
+.comment-list .avatar {
+  display: none;
+}
+
+.comment .comment-meta {
+  font: italic .75rem Georgia, 'Times New Roman', Times, serif;
+}
+.comment .comment-meta .comment-author {
+  font-size: .875rem;
+}
+.comment .comment-meta .comment-metadata {
+  font-size: .6875rem;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.comment .reply {
+  font: italic .75rem Georgia, 'Times New Roman', Times, serif;
+  margin-top: 10px;
+}
+.comment .reply .comment-reply-link {
+  left: 2em;
+  position: relative;
 }
 
 /*  -----------------------------------------------------------
@@ -904,7 +1123,7 @@ a.a2a_button_email:before {
   ----------------------------------------- */
   /* --- Site title --- */
   .site-branding {
-    padding: 30px 0;
+    padding: 40px 0 30px;
   }
 
   .custom-header {
@@ -1039,6 +1258,57 @@ a.a2a_button_email:before {
     font-weight: 400;
   }
 
+  /* --- Page tools --- */
+  .site-header .page-tools {
+    background: transparent;
+    position: relative;
+  }
+
+  /* Breadcrumbs */
+  .page-tools .breadcrumbs {
+    display: block;
+    float: left;
+    max-width: 48%;
+    margin: 0;
+    padding: 0;
+  }
+  .page-tools .breadcrumbs:after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+  .page-tools .breadcrumbs li {
+    font-size: .75em;
+    margin-bottom: 0;
+  }
+  .page-tools .breadcrumbs li.separator {
+    display: none;
+  }
+  .page-tools .breadcrumbs li:after {
+    content: "›";
+    color: #a3a3a3;
+    margin-left: .75em;
+  }
+  .page-tools .breadcrumbs li:last-child {
+    margin-right: 0;
+  }
+  .page-tools .breadcrumbs li:last-child:after {
+    display: none;
+  }
+
+  /* Language switcher */
+  .page-tools .language-switcher {
+    float: right;
+    margin: 0;
+    max-width: 48%;
+    padding: 0;
+  }
+  .page-tools .language-switcher:after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+
   /*  ---------------------------------------
     05 FOOTER
   ----------------------------------------- */
@@ -1101,24 +1371,6 @@ a.a2a_button_email:before {
   .entry-content {
     padding-right: 35px;
   }
-}
-/*# temp breadcrumbs css */
-#breadcrumbs {
-  list-style: none;
-  margin: 5px 0;
-  overflow: hidden;
-}
-
-#breadcrumbs li {
-  display: inline-block;
-  vertical-align: middle;
-  margin-right: 10px;
-}
-
-#breadcrumbs .separator {
-  font-size: 18px;
-  font-weight: 100;
-  color: #ccc;
 }
 
 /*# sourceMappingURL=style.css.map */

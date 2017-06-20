@@ -24,10 +24,24 @@
 
 <body <?php body_class(); ?>>
 <div id="page" class="site">
-	<a class="skip-link screen-reader-text" href="#content"><?php _e( 'Skip to content', 'twentyseventeen' ); ?></a>
+	<a class="skip-link screen-reader-text" href="#content"><?php _e( 'Skip to content', 'epfl' ); ?></a>
 
 	<header id="masthead" class="site-header" role="banner">
 
+		<section class="page-tools">
+  		<div class="wrap">
+  		
+  		<div class="breadcrumb"><?php get_breadcrumb(); ?></div>
+  		
+  		<div class="lang">
+    		<ul class="language-switcher">
+    		  <?php if(function_exists('pll_the_languages'))pll_the_languages(array('hide_if_no_translation'=>1)); ?>
+    		</ul>
+  		</div>
+  		
+  		</div><!-- .wrap -->
+		</section><!-- .page-tools -->
+		
 		<?php get_template_part( 'template-parts/header/header', 'image' ); ?>
 
 		<?php if ( has_nav_menu( 'top' ) ) : ?>

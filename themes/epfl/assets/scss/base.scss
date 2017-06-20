@@ -39,7 +39,8 @@ td,
 th,
 dt,
 dd {
-  font-size: .8125em /* 13px */;
+  font-size: .8125em;
+  font-size: .8125rem /* 13px */;
   line-height: 1.3em;
 }
 
@@ -164,4 +165,49 @@ blockquote {
 }
 b, strong {
   color: #000;
+}
+
+/* --- Forms --- */
+
+button,
+input,
+select,
+textarea,
+label {
+  font-size: .8125rem;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="url"],
+input[type="password"],
+input[type="search"],
+input[type="number"],
+input[type="tel"],
+input[type="range"],
+input[type="date"],
+input[type="month"],
+input[type="week"],
+input[type="time"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="color"],
+textarea {
+  background: #fff;
+  border-radius: 0;
+  padding: .4em;
+}
+
+button,
+input[type="button"],
+input[type="submit"] {
+  @include transition-colors;
+  background: #999c98;
+	border-radius: 0;
+	padding: .75em 1.25em;
+	
+	&:hover,
+	&:focus {
+  	background: $primary-color;
+	}
 }

@@ -28,20 +28,22 @@
     	endif; 
     else: ?>
     
-    <?php wp_nav_menu( array(
-  		'theme_location' => 'sidebar_nav',
-  		'menu_id'        => 'top-menu',
-  		'menu_class'     => 'nav',
-  		'container'      => 'nav'
-  	) ); ?>
-  	
-  <?php endif; ?>
+      <?php if ( has_nav_menu( 'sidebar_nav' ) ) :
+        
+         wp_nav_menu( array(
+      		'theme_location' => 'sidebar_nav',
+      		'menu_id'        => 'top-menu',
+      		'menu_class'     => 'nav',
+      		'container'      => 'nav'
+      	) ); 
+      
+      endif;
     
-	<?php if ( is_active_sidebar( 'page-widgets' ) ): ?>
+    endif; 
     
-	  <?php dynamic_sidebar( 'page-widgets' ); ?>
-	
-	<?php endif; ?>
+    if ( is_active_sidebar( 'page-widgets' ) ): 
+      dynamic_sidebar( 'page-widgets' );
+    endif; ?>
 	
 </aside><!-- #secondary -->
 

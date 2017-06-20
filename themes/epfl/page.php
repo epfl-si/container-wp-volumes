@@ -21,7 +21,6 @@ get_header(); ?>
   <div class="grid">
   	<div id="primary" class="content-area col col-l-8">
   		<main id="main" class="site-main" role="main">
-  <div class="breadcrumb"><?php get_breadcrumb(); ?></div>
   			<?php
   			while ( have_posts() ) : the_post();
   
