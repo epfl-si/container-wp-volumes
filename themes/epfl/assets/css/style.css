@@ -662,6 +662,52 @@ a.a2a_button_email:before {
   content: "\f0e0";
 }
 
+/* Collapsible panels */
+.collapsible {
+  margin: 1.5em 0;
+}
+
+.collapsible-header {
+  cursor: pointer;
+  position: relative;
+}
+
+.collapsible-header .title {
+  border-bottom: 1px dotted #000;
+  display: inline-block;
+  font-size: .8125em;
+  font-weight: 500;
+  margin-left: 1em;
+}
+.collapsible-header .title:hover {
+  border-bottom-style: solid;
+}
+.collapsible-header .title:before {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  content: "\f0da";
+  color: #000;
+  font-weight: 400;
+  line-height: 1em;
+  position: absolute;
+  top: auto;
+  right: auto;
+  bottom: auto;
+  left: 0;
+}
+.open .collapsible-header .title:before {
+  content: "\f0d7";
+}
+
+.collapsible-content {
+  padding-top: 15px;
+  padding-right: 50px;
+}
+
 /*  ---------------------------------------
     04 HEADER
 ----------------------------------------- */
