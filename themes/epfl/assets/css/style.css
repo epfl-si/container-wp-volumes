@@ -755,15 +755,21 @@ a.a2a_button_email:before {
   background: #eee;
   padding: 4px 0;
 }
+.page-tools a:hover {
+  border-bottom: 1px solid #000;
+}
 
 /* Breadcrumbs */
-.page-tools .breadcrumbs {
+.page-tools .breadcrumb {
   display: none;
-  list-style: none;
-  margin: 5px 0;
-  overflow: hidden;
 }
-.page-tools .breadcrumbs li {
+.page-tools .breadcrumb .breadcrumbs {
+  list-style: none;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+}
+.page-tools .breadcrumb li {
   display: inline-block;
   vertical-align: middle;
   margin-right: .75em;
@@ -1368,45 +1374,45 @@ a.a2a_button_email:before {
   }
 
   /* Breadcrumbs */
-  .page-tools .breadcrumbs {
+  .page-tools .breadcrumb {
     display: block;
     float: left;
-    max-width: 48%;
+    max-width: 74%;
     margin: 0;
     padding: 0;
   }
-  .page-tools .breadcrumbs:after {
+  .page-tools .breadcrumb:after {
     content: "";
     display: block;
     clear: both;
   }
-  .page-tools .breadcrumbs li {
+  .page-tools .breadcrumb li {
     font-size: .75em;
     margin-bottom: 0;
   }
-  .page-tools .breadcrumbs li.separator {
+  .page-tools .breadcrumb li.separator {
     display: none;
   }
-  .page-tools .breadcrumbs li:after {
+  .page-tools .breadcrumb li:after {
     content: "›";
     color: #a3a3a3;
     margin-left: .75em;
   }
-  .page-tools .breadcrumbs li:last-child {
+  .page-tools .breadcrumb li:last-child {
     margin-right: 0;
   }
-  .page-tools .breadcrumbs li:last-child:after {
+  .page-tools .breadcrumb li:last-child:after {
     display: none;
   }
 
   /* Language switcher */
-  .page-tools .language-switcher {
+  .page-tools .lang {
     float: right;
     margin: 0;
-    max-width: 48%;
+    max-width: 24%;
     padding: 0;
   }
-  .page-tools .language-switcher:after {
+  .page-tools .lang:after {
     content: "";
     display: block;
     clear: both;

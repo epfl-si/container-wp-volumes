@@ -390,15 +390,25 @@ a.a2a_button_{
 .page-tools {
   background: #eee;
   padding: 4px 0;
+  
+  a {
+    &:hover {
+      border-bottom: 1px solid #000;
+    }
+  }
 }
 
 /* Breadcrumbs */
 
-.page-tools .breadcrumbs {
+.page-tools .breadcrumb {
   display: none;
-  list-style:none;
-  margin: 5px 0;
-  overflow: hidden;
+  
+  .breadcrumbs {
+    list-style: none;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+  }
   
   li {
     display: inline-block;
@@ -1086,11 +1096,11 @@ a.a2a_button_{
   
   /* Breadcrumbs */
   
-  .page-tools .breadcrumbs {
+  .page-tools .breadcrumb {
     @include clearfix;
     display: block;
     float: left;
-    max-width: 48%;
+    max-width: 74%;
     margin: 0;
     padding: 0;
     
@@ -1119,11 +1129,11 @@ a.a2a_button_{
   
   /* Language switcher */
   
-  .page-tools .language-switcher {
+  .page-tools .lang {
     @include clearfix;
     float: right;
     margin: 0;
-    max-width: 48%;
+    max-width: 24%;
     padding: 0;
   }
   
