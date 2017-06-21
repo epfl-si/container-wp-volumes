@@ -36,6 +36,7 @@
 @import "mixins.scss";
 @import "base.scss";
 @import "twenty17_resets.scss";
+@import "webservices.scss";
 
 
 /*  ---------------------------------------
@@ -785,22 +786,6 @@ a.a2a_button_{
   letter-spacing: normal;
   line-height: 1.4em;
   text-transform: none;
-}
-
-/* --- Page content --- */
-
-/* Publications */
-
-.publication {
-  @include border-bottom-dots;
-  
-  .links {
-    @include minor-text;
-    
-    a {
-      margin-right: .5em;
-    }
-  }
 }
 
 /* --- Single article --- */

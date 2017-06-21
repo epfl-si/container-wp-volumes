@@ -395,6 +395,24 @@ body.page-two-column #comments {
 }
 
 /*  ---------------------------------------
+    WEBSERVICES
+----------------------------------------- */
+/* Infoscience */
+.infoscience_record {
+  border-bottom: 1px dotted #000;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+}
+.infoscience_record:last-child {
+  border: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+.infoscience_record .infoscience_links {
+  font: italic .75rem Georgia, 'Times New Roman', Times, serif;
+}
+
+/*  ---------------------------------------
     03 GLOBAL CONTENT & SITE STRUCTURE
 ----------------------------------------- */
 /* --- Structure --- */
@@ -1179,25 +1197,6 @@ a.a2a_button_email:before {
   letter-spacing: normal;
   line-height: 1.4em;
   text-transform: none;
-}
-
-/* --- Page content --- */
-/* Publications */
-.publication {
-  border-bottom: 1px dotted #000;
-  margin-bottom: 15px;
-  padding-bottom: 15px;
-}
-.publication:last-child {
-  border: 0;
-  margin-bottom: 0;
-  padding-bottom: 0;
-}
-.publication .links {
-  font: italic .75rem Georgia, 'Times New Roman', Times, serif;
-}
-.publication .links a {
-  margin-right: .5em;
 }
 
 /* --- Single article --- */
