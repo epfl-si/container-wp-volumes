@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: EPFL\n"
-"POT-Creation-Date: 2017-06-19 17:26+0200\n"
-"PO-Revision-Date: 2017-06-19 17:28+0200\n"
+"POT-Creation-Date: 2017-06-20 10:17+0200\n"
+"PO-Revision-Date: 2017-06-20 10:18+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -41,7 +41,7 @@ msgstr "Menu de la colonne latérale"
 msgid "Footer menu"
 msgstr "Menu du pied de page"
 
-#: functions.php:366
+#: functions.php:366 index.php:52
 msgid "Page"
 msgstr "Page"
 
@@ -53,33 +53,45 @@ msgstr "Accéder au contenu"
 msgid "Share"
 msgstr "Partager"
 
-#: single.php:31
+#: index.php:26 index.php:30
+msgid "News"
+msgstr "Actualités"
+
+#: index.php:50
+msgid "Previous page"
+msgstr "Page précédente"
+
+#: index.php:51
+msgid "Next page"
+msgstr "Page suivante"
+
+#: single.php:32
 msgid "Previous Post"
 msgstr "Article précédent"
 
-#: single.php:31
+#: single.php:32
 msgid "Previous"
 msgstr "Précédent"
 
-#: single.php:32
+#: single.php:33
 msgid "Next Post"
 msgstr "Article suivant"
 
-#: single.php:32
+#: single.php:33
 msgid "Next"
 msgstr "Suivant"
 
-#: template-parts/post/content.php:46
+#: template-parts/post/content.php:49
 #, php-format
 msgid "Continue reading<span class=\"screen-reader-text\"> \"%s\"</span>"
 msgstr ""
 "Continuer la lecture de<span class=\"screen-reader-text\"> \"%s\"</span>"
 
-#: template-parts/post/content.php:51
+#: template-parts/post/content.php:54
 msgid "Pages:"
 msgstr "Pages:"
 
-#: template-parts/post/content.php:64
+#: template-parts/post/content.php:68
 msgid "Author"
 msgstr "Auteur"
 

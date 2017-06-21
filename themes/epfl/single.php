@@ -13,6 +13,7 @@
 get_header(); ?>
 
 <div class="wrap">
+  <div class="grid">
 	<div id="primary" class="content-area col col-l-8">
 		<main id="main" class="site-main" role="main">
 
@@ -38,6 +39,7 @@ get_header(); ?>
 		</main><!-- #main -->
 	</div><!-- #primary -->
 	<?php get_sidebar(); ?>
+  </div><!-- .grid -->
 </div><!-- .wrap -->
 
 <?php get_footer();

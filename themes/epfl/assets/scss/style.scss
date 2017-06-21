@@ -36,6 +36,7 @@
 @import "mixins.scss";
 @import "base.scss";
 @import "twenty17_resets.scss";
+@import "webservices.scss";
 
 
 /*  ---------------------------------------
@@ -293,6 +294,73 @@ a.a2a_button_{
   
 }
 
+/* Collapsible panels */
+
+.collapsible {
+  margin: 1.5em 0;
+}
+
+.collapsible-header {
+  cursor: pointer;
+  position: relative;
+}
+.collapsible-header .title {
+  border-bottom: 1px dotted #000;
+  display: inline-block;
+  font-size: .8125em;
+  font-weight: 500;
+  margin-left: 1em;
+  
+  &:hover {
+    border-bottom-style: solid;
+  }
+  
+  &:before {
+    @include icon;
+    content: "\f0da";
+    color: #000;
+    font-weight: 400;
+    line-height: 1em;
+    position: absolute;
+    top: auto; right: auto; bottom: auto; left: 0;
+  }
+  
+  .open &:before {
+    content: "\f0d7";
+  }
+}
+
+.collapsible-content {
+  padding-top: 15px;
+  padding-right: 50px;
+}
+
+/* Faq items */
+
+.faq-item {
+  @include border-bottom-dots;
+  
+  &:last-child {
+    border-bottom: 1px dotted #000;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+  }
+}
+
+.faq-title {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .9375em;
+  font-weight: bold;
+}
+
+/* Colored box */
+
+.colored-box {
+  @include colored-text-box;
+  @include clearfix;
+  margin: 1.5em 0;
+}
+
 /*  ---------------------------------------
     04 HEADER
 ----------------------------------------- */
@@ -390,15 +458,25 @@ a.a2a_button_{
 .page-tools {
   background: #eee;
   padding: 4px 0;
+  
+  a {
+    &:hover {
+      border-bottom: 1px solid #000;
+    }
+  }
 }
 
 /* Breadcrumbs */
 
-.page-tools .breadcrumbs {
+.page-tools .breadcrumb {
   display: none;
-  list-style:none;
-  margin: 5px 0;
-  overflow: hidden;
+  
+  .breadcrumbs {
+    list-style: none;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+  }
   
   li {
     display: inline-block;
@@ -677,23 +755,6 @@ a.a2a_button_{
   padding: 1px 0 4px 1px;
 }
 
-/* Colored text box */
-
-@mixin colored-text-box {
-  background-color: $primary-color;
-  color: #fff;
-  padding: 8px 10px;
-  
-  .widget-title {
-    border: none;
-    color: #fff;
-    font: bold 1.125em "Arial black", Arial, Helvetica, sans-serif;
-    letter-spacing: 1px;
-    padding: 0;
-    text-transform: none;
-  }
-}
-
 .sidebar .home-panel {
   @include colored-text-box;
 }
@@ -727,27 +788,87 @@ a.a2a_button_{
   text-transform: none;
 }
 
-/* --- Page content --- */
+/* --- Single article --- */
 
-/* Publications */
+.post-thumbnail img {
+  display: block;
+  vertical-align: top;
+}
 
-.publication {
-  @include border-bottom-dots;
+.entry-meta {
+  letter-spacing: 0;
+  padding: 0;
+  text-transform: none;
+}
+
+/* Article list */
+
+.list-articles .entry-header {
   
-  .links {
-    @include minor-text;
+  .entry-title {
+    font-family: Arial,Helvetica,Verdana,sans-serif;
+    font-size: .875rem;
+    font-weight: bold;
+    padding: 0;
+    margin: 0 0 .3075em 0;
+    color: #000;
+    text-transform: none;
+
+  }
+  
+}
+.list-articles .post-thumbnail {
+  margin-bottom: 20px;
+  
+  a {
+    border: none;
+    display: block;
+  }
+}
+
+.post-link {
+  border: none;
+  display: block;
+  
+  &:hover {
+    box-shadow: none !important;
+  }
+}
+
+.list-articles .entry-content {
     
-    a {
-      margin-right: .5em;
+  .entry-meta {
+    @include minor-text;
+    color: #000;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .entry-date {
+    margin-right: .5em;
+    
+    &:after {
+      content: "-";
+      margin-left: .4em;
+    }
+  }
+  
+  .post-categories {
+    display: inline-block;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    
+    li {
+      display: inline-block;
+      margin: 0 .1em;
     }
   }
 }
 
-/* --- Single article --- */
-
 /* Meta data */
 
-.post-meta {
+.entry-footer .entry-meta {
   @include colored-box;
   color: #fff;
   margin: 2em 0;
@@ -763,7 +884,6 @@ a.a2a_button_{
 }
 
 /* Comments */
-
 
 .comment-list {
   @include border-bottom-dots;
@@ -822,7 +942,7 @@ a.a2a_button_{
   /* --- Site title --- */
   
   .site-branding {
-    padding: 1em 0;
+    padding: 1em 0 !important;
   }
   
 }
@@ -856,7 +976,7 @@ a.a2a_button_{
   /* --- Site title --- */
   
   .site-branding {
-    padding: 40px 0 30px;
+    padding: 30px 0 !important;
   }
   
   .custom-header {
@@ -919,7 +1039,11 @@ a.a2a_button_{
     }
   }
   .main-navigation .menu li.current-menu-item,
-  .main-navigation .menu li.current_page_item {
+  .main-navigation .menu li.current_page_item,
+  .main-navigation .menu > li.current-menu-ancestor,
+  .main-navigation .menu > li.current-menu-ancestor,
+  .main-navigation .menu > li.current-menu-parent,
+  .main-navigation .menu > li.current_page_ancestor {
     border-color: #fff;
     
     & > a {
@@ -943,14 +1067,6 @@ a.a2a_button_{
   
   /* --- Sub menu (dropdown) --- */
   
-  .main-navigation .menu li.current-menu-ancestor,
-  .main-navigation .menu li.current-menu-ancestor,
-  .main-navigation .menu li.current-menu-parent,
-  .main-navigation .menu li.current_page_ancestor {
-    background: #000;
-    border-color: #fff;
-  }
-  
   .main-navigation .sub-menu {
     border: 1px solid #000;
     border-top-width: 0;
@@ -961,6 +1077,8 @@ a.a2a_button_{
   .main-navigation .sub-menu li {
     background: #fff;
     border: 0;
+    float: none;
+    white-space: nowrap;
     
     &:hover {
       background: #fff;
@@ -1013,11 +1131,11 @@ a.a2a_button_{
   
   /* Breadcrumbs */
   
-  .page-tools .breadcrumbs {
+  .page-tools .breadcrumb {
     @include clearfix;
     display: block;
     float: left;
-    max-width: 48%;
+    max-width: 74%;
     margin: 0;
     padding: 0;
     
@@ -1046,11 +1164,11 @@ a.a2a_button_{
   
   /* Language switcher */
   
-  .page-tools .language-switcher {
+  .page-tools .lang {
     @include clearfix;
     float: right;
     margin: 0;
-    max-width: 48%;
+    max-width: 24%;
     padding: 0;
   }
   
@@ -1086,6 +1204,29 @@ a.a2a_button_{
     }
   }
   
+  /*  ---------------------------------------
+    07 PRIMARY CONTENT
+  ----------------------------------------- */
+  
+  /* --- Articles --- */
+  
+  /* List */
+  
+  .list-articles .entry-header {
+    float: right;
+    width: 70%;
+  }
+  .list-articles .post-thumbnail {
+    float: left;
+    padding-right: 20px;
+    width: 30%;
+  }
+  
+  .list-articles .entry-content {
+    clear: right;
+    padding-left: 30%;
+  }
+  
 }
 
 /*  -----------------------------------------------------------
@@ -1105,7 +1246,7 @@ a.a2a_button_{
     margin-right: auto;
     padding-left: 0;
     padding-right: 0;
-    width: 980px;
+    width: 976px;
   }
   
   #primary.col,
