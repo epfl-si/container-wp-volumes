@@ -247,6 +247,13 @@ input[type="submit"]:focus {
   background: #ae0010;
 }
 
+/* --- Grid and structure --- */
+.grid:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
 /*  ---------------------------------------
     02 TWENTY SEVENTEEN RESETS
 ----------------------------------------- */
@@ -1380,7 +1387,7 @@ a.a2a_button_email:before {
     margin-right: auto;
     padding-left: 0;
     padding-right: 0;
-    width: 980px;
+    width: 976px;
   }
 
   #primary.col,

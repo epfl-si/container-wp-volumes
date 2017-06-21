@@ -211,3 +211,9 @@ input[type="submit"] {
   	background: $primary-color;
 	}
 }
+
+/* --- Grid and structure --- */
+
+.grid {
+  @include clearfix;
+}
