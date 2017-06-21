@@ -1056,22 +1056,84 @@ a.a2a_button_email:before {
 }
 
 /* --- Single article --- */
+.post-thumbnail img {
+  display: block;
+  vertical-align: top;
+}
+
+.entry-meta {
+  letter-spacing: 0;
+  padding: 0;
+  text-transform: none;
+}
+
+/* Article list */
+.list-articles .entry-header .entry-title {
+  font-family: Arial,Helvetica,Verdana,sans-serif;
+  font-size: .875rem;
+  font-weight: bold;
+  padding: 0;
+  margin: 0 0 .3075em 0;
+  color: #000;
+  text-transform: none;
+}
+
+.list-articles .post-thumbnail {
+  margin-bottom: 20px;
+}
+.list-articles .post-thumbnail a {
+  border: none;
+  display: block;
+}
+
+.post-link {
+  border: none;
+  display: block;
+}
+.post-link:hover {
+  box-shadow: none !important;
+}
+
+.list-articles .entry-content .entry-meta {
+  font: italic .75rem Georgia, 'Times New Roman', Times, serif;
+  color: #000;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.list-articles .entry-content .entry-date {
+  margin-right: .5em;
+}
+.list-articles .entry-content .entry-date:after {
+  content: "-";
+  margin-left: .4em;
+}
+.list-articles .entry-content .post-categories {
+  display: inline-block;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.list-articles .entry-content .post-categories li {
+  display: inline-block;
+  margin: 0 .1em;
+}
+
 /* Meta data */
-.post-meta {
+.entry-footer .entry-meta {
   background: #ae0010;
   color: #fff;
   color: #fff;
   margin: 2em 0;
   padding: .2em .5em;
 }
-.post-meta a {
+.entry-footer .entry-meta a {
   border-color: #fff;
   color: #fff;
 }
-.post-meta p {
+.entry-footer .entry-meta p {
   font: italic .75rem Georgia, 'Times New Roman', Times, serif;
 }
-.post-meta .label {
+.entry-footer .entry-meta .label {
   font-weight: bold;
 }
 
@@ -1371,6 +1433,27 @@ a.a2a_button_email:before {
   }
   .footer-content .site-admin {
     float: right;
+  }
+
+  /*  ---------------------------------------
+    07 PRIMARY CONTENT
+  ----------------------------------------- */
+  /* --- Articles --- */
+  /* List */
+  .list-articles .entry-header {
+    float: right;
+    width: 70%;
+  }
+
+  .list-articles .post-thumbnail {
+    float: left;
+    padding-right: 20px;
+    width: 30%;
+  }
+
+  .list-articles .entry-content {
+    clear: right;
+    padding-left: 30%;
   }
 }
 /*  -----------------------------------------------------------
