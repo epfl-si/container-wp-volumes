@@ -100,8 +100,13 @@
 		- Add log file (can be activated or not using LOG_ENABLED). The log file have the same name as
 		  the script but with ".log" at the end
 		- Disable usage of charset (utf8) to access DB because there's problem with encoding.... special
-		  characters aren't correctly reinserted when loading plugin config.
-		
+		  characters aren't correctly reinserted when loading plugin config.	
+		  
+	0.8 (21.06.2017)
+		- Add check to see if parameters for WP DB access are found or not.
+		- RegEx to look for parameters in wp-config.php file have been modified to allow more "spaces"
+		  at a place where it wasn't possible to have spaces...
+		- 
 	  
 	TODO :
 	- Add error check (find what) 
@@ -172,10 +177,11 @@
 			$define_to_find = array('DB_NAME', 'DB_USER', 'DB_PASSWORD', 'DB_HOST', 'DB_CHARSET');
 			
 			/* Base RegEx to look for 'define' */		
-			$base_wp_param_reg = '/define\([\s]*\'%s\'[\s]*,[\s]*\'[\S]+\'\);/i';
+			$base_wp_param_reg = '/define\([\s]*\'%s\'[\s]*,[\s]*\'[\S]+\'[\s]*\);/i';
 	
 			/* Getting 'wp-config.php' file content */
 			$config = file_get_contents(WP_CONFIG_FILE);
+			
 					
 			/* Going through 'define' to recover */
 			foreach($define_to_find as $define_name)
@@ -188,7 +194,11 @@
 				/* Searching information */
 				preg_match($define_reg, $config, $matches);
 				
-
+				if(sizeof($matches)==0)
+				{
+					trigger_error(__FILE__.":".__FUNCTION__.": No value found for '".$define_name."'" , E_USER_ERROR);
+				}
+				
 				/* Defining constant for current script */
 				eval($matches[0]);
 			}
@@ -197,7 +207,12 @@
 			/* Searching for DB table prefix. The line looks like :
 				$table_prefix = 'wp_';
 			*/
-			preg_match('/\$table_prefix[\s]*=[\s]*\'[\S]+\';/i', $config, $matches);
+			preg_match('/\$table_prefix[\s]*=[\s]*\'[\S]+\'[\s]*;/i', $config, $matches);
+			
+			if(sizeof($matches)==0)
+			{
+				trigger_error(__FILE__.":".__FUNCTION__.": No value found for 'table_prefix'" , E_USER_ERROR);
+			}
 			
 			eval($matches[0]);
 			
@@ -208,7 +223,7 @@
 
 			if(mysqli_connect_errno() != 0) 
 			{
-				trigger_error(__FILE__.":".__FUNCTION__.": ".mysqli_connect_error()."\n", E_USER_ERROR);
+				trigger_error(__FILE__.":".__FUNCTION__.": ".mysqli_connect_error()."\nHost: ".DB_HOST."\nUser: ".DB_USER."\nDB: ".DB_NAME, E_USER_ERROR);
 
 			}
 			
@@ -514,6 +529,8 @@
 
 				/* Creating mapping array for current table */
 				$table_id_mapping[$table_name] = array();
+
+
 
 				/* Going through rows to add in table */
 				foreach($diff_config[$table_name] as $row)
