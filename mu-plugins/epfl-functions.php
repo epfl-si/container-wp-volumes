@@ -186,3 +186,13 @@ function faq_item( $atts, $content = null ) {
 }
 add_shortcode('faq-item', 'faq_item');
 
+function colored_box( $atts, $content = null ) { 
+  $return .= '<section class="colored-box clearfix">';
+  $return .= do_shortcode($content);
+  $return .= '</section>';
+  return $return;
+}
+add_shortcode('colored-box', 'colored_box');
+
+?>
+
