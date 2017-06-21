@@ -731,6 +731,47 @@ a.a2a_button_email:before {
   font-weight: bold;
 }
 
+/* Colored box */
+.colored-box {
+  background: #ae0010;
+  color: #fff;
+  padding: 10px 14px;
+  margin: 1.5em 0;
+}
+.colored-box a {
+  border-color: rgba(255, 255, 255, 0.9);
+  color: #fff;
+}
+.colored-box p {
+  color: #fff;
+}
+.colored-box .widget-title,
+.colored-box h1,
+.colored-box h2,
+.colored-box h3,
+.colored-box h4,
+.colored-box h5,
+.colored-box h6 {
+  border: none;
+  color: #fff;
+  font: bold "Arial black", Arial, Helvetica, sans-serif;
+  letter-spacing: 1px;
+  padding: 0;
+  text-transform: none;
+}
+.colored-box h2 {
+  font-size: 1.25em;
+}
+.colored-box .widget-title,
+.colored-box h3 {
+  font-size: 1.125em;
+}
+.colored-box h4,
+.colored-box h5,
+.colored-box h6 {
+  font-size: 1em;
+}
+
 /*  ---------------------------------------
     04 HEADER
 ----------------------------------------- */
@@ -1070,19 +1111,43 @@ a.a2a_button_email:before {
   padding: 1px 0 4px 1px;
 }
 
-/* Colored text box */
 .sidebar .home-panel {
-  background-color: #ae0010;
+  background: #ae0010;
   color: #fff;
-  padding: 8px 10px;
+  padding: 10px 14px;
 }
-.sidebar .home-panel .widget-title {
+.sidebar .home-panel a {
+  border-color: rgba(255, 255, 255, 0.9);
+  color: #fff;
+}
+.sidebar .home-panel p {
+  color: #fff;
+}
+.sidebar .home-panel .widget-title,
+.sidebar .home-panel h1,
+.sidebar .home-panel h2,
+.sidebar .home-panel h3,
+.sidebar .home-panel h4,
+.sidebar .home-panel h5,
+.sidebar .home-panel h6 {
   border: none;
   color: #fff;
-  font: bold 1.125em "Arial black", Arial, Helvetica, sans-serif;
+  font: bold "Arial black", Arial, Helvetica, sans-serif;
   letter-spacing: 1px;
   padding: 0;
   text-transform: none;
+}
+.sidebar .home-panel h2 {
+  font-size: 1.25em;
+}
+.sidebar .home-panel .widget-title,
+.sidebar .home-panel h3 {
+  font-size: 1.125em;
+}
+.sidebar .home-panel h4,
+.sidebar .home-panel h5,
+.sidebar .home-panel h6 {
+  font-size: 1em;
 }
 
 /*  ---------------------------------------
@@ -1202,7 +1267,7 @@ a.a2a_button_email:before {
   padding: .2em .5em;
 }
 .entry-footer .entry-meta a {
-  border-color: #fff;
+  border-color: rgba(255, 255, 255, 0.9);
   color: #fff;
 }
 .entry-footer .entry-meta p {

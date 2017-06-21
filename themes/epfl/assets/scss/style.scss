@@ -352,6 +352,13 @@ a.a2a_button_{
   font-weight: bold;
 }
 
+/* Colored box */
+
+.colored-box {
+  @include colored-text-box;
+  margin: 1.5em 0;
+}
+
 /*  ---------------------------------------
     04 HEADER
 ----------------------------------------- */
@@ -744,23 +751,6 @@ a.a2a_button_{
   margin-bottom: .5em;
   text-transform: uppercase;
   padding: 1px 0 4px 1px;
-}
-
-/* Colored text box */
-
-@mixin colored-text-box {
-  background-color: $primary-color;
-  color: #fff;
-  padding: 8px 10px;
-  
-  .widget-title {
-    border: none;
-    color: #fff;
-    font: bold 1.125em "Arial black", Arial, Helvetica, sans-serif;
-    letter-spacing: 1px;
-    padding: 0;
-    text-transform: none;
-  }
 }
 
 .sidebar .home-panel {
