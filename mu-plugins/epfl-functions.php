@@ -163,3 +163,15 @@ function links( $atts, $content = null ) {
   return $return;
 }
 add_shortcode('links', 'links');
+
+function toggle( $atts, $content = null ) { 
+  $a = shortcode_atts( array(
+        'title' => 'Title',
+    ), $atts );
+  $return .= '<section class="collapsible"><div class="collapsible-header"><h3 class="title collapse-link">' . esc_attr( $a['title'] ) . '</h3></div><div class="content collapsible-content clearfix">';
+  $return .= do_shortcode(remove_wpautop($content));
+  $return .= '</div></section>';
+  return $return;
+}
+add_shortcode('toggle-box', 'toggle');
+
