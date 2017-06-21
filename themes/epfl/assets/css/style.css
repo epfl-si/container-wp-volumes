@@ -771,6 +771,11 @@ a.a2a_button_email:before {
 .colored-box h6 {
   font-size: 1em;
 }
+.colored-box:after {
+  content: "";
+  display: block;
+  clear: both;
+}
 
 /*  ---------------------------------------
     04 HEADER
