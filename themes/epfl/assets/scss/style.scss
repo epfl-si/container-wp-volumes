@@ -919,7 +919,11 @@ a.a2a_button_{
     }
   }
   .main-navigation .menu li.current-menu-item,
-  .main-navigation .menu li.current_page_item {
+  .main-navigation .menu li.current_page_item,
+  .main-navigation .menu > li.current-menu-ancestor,
+  .main-navigation .menu > li.current-menu-ancestor,
+  .main-navigation .menu > li.current-menu-parent,
+  .main-navigation .menu > li.current_page_ancestor {
     border-color: #fff;
     
     & > a {
@@ -943,14 +947,6 @@ a.a2a_button_{
   
   /* --- Sub menu (dropdown) --- */
   
-  .main-navigation .menu li.current-menu-ancestor,
-  .main-navigation .menu li.current-menu-ancestor,
-  .main-navigation .menu li.current-menu-parent,
-  .main-navigation .menu li.current_page_ancestor {
-    background: #000;
-    border-color: #fff;
-  }
-  
   .main-navigation .sub-menu {
     border: 1px solid #000;
     border-top-width: 0;
@@ -961,6 +957,8 @@ a.a2a_button_{
   .main-navigation .sub-menu li {
     background: #fff;
     border: 0;
+    float: none;
+    white-space: nowrap;
     
     &:hover {
       background: #fff;

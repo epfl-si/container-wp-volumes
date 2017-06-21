@@ -1213,11 +1213,19 @@ a.a2a_button_email:before {
   }
 
   .main-navigation .menu li.current-menu-item,
-  .main-navigation .menu li.current_page_item {
+  .main-navigation .menu li.current_page_item,
+  .main-navigation .menu > li.current-menu-ancestor,
+  .main-navigation .menu > li.current-menu-ancestor,
+  .main-navigation .menu > li.current-menu-parent,
+  .main-navigation .menu > li.current_page_ancestor {
     border-color: #fff;
   }
   .main-navigation .menu li.current-menu-item > a,
-  .main-navigation .menu li.current_page_item > a {
+  .main-navigation .menu li.current_page_item > a,
+  .main-navigation .menu > li.current-menu-ancestor > a,
+  .main-navigation .menu > li.current-menu-ancestor > a,
+  .main-navigation .menu > li.current-menu-parent > a,
+  .main-navigation .menu > li.current_page_ancestor > a {
     background: #000;
     color: #fff;
   }
@@ -1234,14 +1242,6 @@ a.a2a_button_email:before {
   }
 
   /* --- Sub menu (dropdown) --- */
-  .main-navigation .menu li.current-menu-ancestor,
-  .main-navigation .menu li.current-menu-ancestor,
-  .main-navigation .menu li.current-menu-parent,
-  .main-navigation .menu li.current_page_ancestor {
-    background: #000;
-    border-color: #fff;
-  }
-
   .main-navigation .sub-menu {
     border: 1px solid #000;
     border-top-width: 0;
@@ -1252,6 +1252,8 @@ a.a2a_button_email:before {
   .main-navigation .sub-menu li {
     background: #fff;
     border: 0;
+    float: none;
+    white-space: nowrap;
   }
   .main-navigation .sub-menu li:hover {
     background: #fff;
