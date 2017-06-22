@@ -8,7 +8,8 @@ WORKDIR /var/www/html/wp-content
 
 COPY ./plugins ./plugins
 COPY ./themes ./themes
+COPY ./mu-plugins ./mu-plugins
 
-VOLUME ["/var/www/html/wp-content/plugins", "/var/www/html/wp-content/themes"]
+VOLUME ["/var/www/html/wp-content/plugins", "/var/www/html/wp-content/themes", "/var/www/html/wp-content/mu-plugins"]
 
 CMD [ "/bin/true" ]
