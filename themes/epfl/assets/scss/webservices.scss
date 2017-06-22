@@ -1,0 +1,15 @@
+@charset "UTF-8";
+
+/*  ---------------------------------------
+    WEBSERVICES
+----------------------------------------- */
+
+/* Infoscience */
+
+.infoscience_record {
+  @include border-bottom-dots;
+  
+  .infoscience_links {
+    @include minor-text;
+  }
+}

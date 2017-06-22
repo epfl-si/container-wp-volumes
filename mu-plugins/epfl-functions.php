@@ -163,3 +163,36 @@ function links( $atts, $content = null ) {
   return $return;
 }
 add_shortcode('links', 'links');
+
+function toggle( $atts, $content = null ) { 
+  $a = shortcode_atts( array(
+        'title' => 'Title',
+    ), $atts );
+  $return .= '<section class="collapsible"><div class="collapsible-header"><h3 class="title collapse-link">' . esc_attr( $a['title'] ) . '</h3></div><div class="content collapsible-content clearfix">';
+  $return .= do_shortcode($content);
+  $return .= '</div></section>';
+  return $return;
+}
+add_shortcode('toggle-box', 'toggle');
+
+function faq_item( $atts, $content = null ) { 
+  $a = shortcode_atts( array(
+        'title' => 'Title',
+    ), $atts );
+  $return .= '<section class="faq-item"><h3 class="title faq-title" id="">' . esc_attr( $a['title'] ) . '</h3><div class="content">';
+  $return .= do_shortcode($content);
+  $return .= '</div></section>';
+  return $return;
+}
+add_shortcode('faq-item', 'faq_item');
+
+function colored_box( $atts, $content = null ) { 
+  $return .= '<section class="colored-box">';
+  $return .= do_shortcode($content);
+  $return .= '</section>';
+  return $return;
+}
+add_shortcode('colored-box', 'colored_box');
+
+?>
+

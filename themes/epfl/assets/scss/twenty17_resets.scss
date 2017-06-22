@@ -82,13 +82,46 @@ body.page:not(.twentyseventeen-front-page) .entry-title {
   width: auto;
 }
 
+/* Site branding */
+
+.has-header-image.twentyseventeen-front-page .site-branding,
+.has-header-video.twentyseventeen-front-page .site-branding,
+.has-header-image.home.blog .site-branding,
+.has-header-video.home.blog .site-branding {
+  display: block;
+	position: static;
+}
+
+.has-header-image:not(.twentyseventeen-front-page):not(.home) .custom-header-media,
+.has-header-video:not(.twentyseventeen-front-page):not(.home) .custom-header-media {
+  display: block;
+	position: static;
+}
+
+body.has-header-image .site-title a {
+  color: #222;
+}
+
 /* Navigation */
+
+.main-navigation ul ul a {
+  width: auto;
+}
 
 .main-navigation ul li.menu-item-has-children:before,
 .main-navigation ul li.menu-item-has-children:after,
 .main-navigation ul li.page_item_has_children:before,
 .main-navigation ul li.page_item_has_children:after {
 	display: none !important;
+}
+
+.site-header .navigation-top .menu-scroll-down {
+  display: none;
+}
+
+.main-navigation .menu-item-has-children > a > .icon,
+.main-navigation .page_item_has_children > a > .icon {
+  display: none;
 }
 
 /* Content */
