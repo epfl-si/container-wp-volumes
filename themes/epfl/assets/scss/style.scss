@@ -339,12 +339,6 @@ a.a2a_button_{
 
 .faq-item {
   @include border-bottom-dots;
-  
-  &:last-child {
-    border-bottom: 1px dotted #000;
-    margin-bottom: 15px;
-    padding-bottom: 15px;
-  }
 }
 
 .faq-title {

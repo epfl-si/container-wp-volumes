@@ -13,6 +13,7 @@
 .posts-navigation a,
 .widget_authors a strong {
   box-shadow: none !important;
+  @include transition-colors;
 }
 
 .entry-content a:focus,
