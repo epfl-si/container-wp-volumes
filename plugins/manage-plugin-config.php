@@ -100,8 +100,23 @@
 		- Add log file (can be activated or not using LOG_ENABLED). The log file have the same name as
 		  the script but with ".log" at the end
 		- Disable usage of charset (utf8) to access DB because there's problem with encoding.... special
-		  characters aren't correctly reinserted when loading plugin config.
+		  characters aren't correctly reinserted when loading plugin config.	
+		  
+	0.8 (21.06.2017)
+		- Add check to see if parameters for WP DB access are found or not.
+		- RegEx to look for parameters in wp-config.php file have been modified to allow more "spaces"
+		  at a place where it wasn't possible to have spaces...
 		
+	0.9 (21.06.2017)
+		- Either WordPress 4.8 is different of WordPress 4.7.5 or either the plugins are written differently but
+		  the way their configuration are stored in the DB is different than before. Now, the configuration is
+		  written in the DB but with "empty" values... so the rows already exists in the DB and it wasn't possible
+		  to identify "new rows" (containing configuration) anymore... So, now the script store all the content of
+		  defined tables in step 1. Then, in step 2, it also list all content of defined tables and compare each
+		  row (for each table) to the stored one. If the row has been modified or is new, it is stored in the
+		  final config file. The mecanism to import the configuration from the final file hasn't changed because
+		  it was already handling existing information in DB so it just modify the necessary things (and add the 
+		  others).
 	  
 	TODO :
 	- Add error check (find what) 
@@ -172,10 +187,11 @@
 			$define_to_find = array('DB_NAME', 'DB_USER', 'DB_PASSWORD', 'DB_HOST', 'DB_CHARSET');
 			
 			/* Base RegEx to look for 'define' */		
-			$base_wp_param_reg = '/define\([\s]*\'%s\'[\s]*,[\s]*\'[\S]+\'\);/i';
+			$base_wp_param_reg = '/define\([\s]*\'%s\'[\s]*,[\s]*\'[\S]+\'[\s]*\);/i';
 	
 			/* Getting 'wp-config.php' file content */
 			$config = file_get_contents(WP_CONFIG_FILE);
+			
 					
 			/* Going through 'define' to recover */
 			foreach($define_to_find as $define_name)
@@ -188,7 +204,11 @@
 				/* Searching information */
 				preg_match($define_reg, $config, $matches);
 				
-
+				if(sizeof($matches)==0)
+				{
+					trigger_error(__FILE__.":".__FUNCTION__.": No value found for '".$define_name."'" , E_USER_ERROR);
+				}
+				
 				/* Defining constant for current script */
 				eval($matches[0]);
 			}
@@ -197,7 +217,12 @@
 			/* Searching for DB table prefix. The line looks like :
 				$table_prefix = 'wp_';
 			*/
-			preg_match('/\$table_prefix[\s]*=[\s]*\'[\S]+\';/i', $config, $matches);
+			preg_match('/\$table_prefix[\s]*=[\s]*\'[\S]+\'[\s]*;/i', $config, $matches);
+			
+			if(sizeof($matches)==0)
+			{
+				trigger_error(__FILE__.":".__FUNCTION__.": No value found for 'table_prefix'" , E_USER_ERROR);
+			}
 			
 			eval($matches[0]);
 			
@@ -208,7 +233,7 @@
 
 			if(mysqli_connect_errno() != 0) 
 			{
-				trigger_error(__FILE__.":".__FUNCTION__.": ".mysqli_connect_error()."\n", E_USER_ERROR);
+				trigger_error(__FILE__.":".__FUNCTION__.": ".mysqli_connect_error()."\nHost: ".DB_HOST."\nUser: ".DB_USER."\nDB: ".DB_NAME, E_USER_ERROR);
 
 			}
 			
@@ -345,9 +370,8 @@
 		/* ----------------------------------------------------------------------- */
 		
 		/*
-			GOAL  : We get max ID for each tables in which configuration is stored so we
-					  will be able to know what changed when we manually did the plugin
-					  configuration.
+			GOAL  : Go through all table that contains configuration information for 
+					  plugins and store everything in a file.
 					  
 					  The information are saved in a file
 					  
@@ -361,18 +385,7 @@
 			/* Going throught tables */
 			foreach($this->config_tables as $table_name => $fields_infos)
 			{
-				/* Extract infos */
-				list($auto_inc_field, $unique_fields) = $fields_infos;
-		
-				/* if no "auto-inc" field, we skip because we don't need a comparison snap */
-				if($auto_inc_field === null)
-				{
-					
-					$this->addToLog(__FUNCTION__, "Table '$table_name' doesn't have an 'auto-gen' field. Skipping...");
-					continue;
-				}
-
-				$request = "SELECT MAX($auto_inc_field) AS 'max' FROM $table_name";  
+				$request = "SELECT * FROM $table_name";  
 				
 				$this->addToLog(__FUNCTION__, $request);
 				
@@ -382,12 +395,15 @@
 					$this->triggerError(__FUNCTION__, mysqli_error($this->db_link));
 				}
 				
-				$res = mysqli_fetch_assoc($res);
-
-				/* Determining max ID */			
-				$base_config[$table_name] = ($res['max']=="")?0:$res['max'];
+				/* Create array to store table content */
+				$base_config[$table_name] = array();
 				
-				$this->addToLog(__FUNCTION__, "Max ID for '$table_name' is ".$res['max']);
+				/* Going through table content */
+				while($row = mysqli_fetch_assoc($res))
+				{
+					$base_config[$table_name][] = $row;
+				}
+				
 
 			}/* END LOOP Going through tables */		
 			
@@ -406,7 +422,7 @@
 		
 		/*
 			GOAL : Use the base configuration saved before to determine which rows have been
-					 added in the DB during plugin configuration.
+					 added/modified in the DB during plugin configuration.
 					 
 					 The difference contains the plugin configuration. We save it in a file.
 					 
@@ -425,6 +441,7 @@
 				$this->triggerError(__FUNCTION__,"Reference config doesn't exists for plugin '".$plugin_name);  
 			}
 			
+			/* Getting base config information  */
 			$base_config = unserialize(file_get_contents($base_config_file));			
 			
 			/* Going throught tables */
@@ -435,8 +452,6 @@
 				
 				/* Get diff for table */
 				$request = "SELECT * FROM $table_name";
-				/* If there's an "auto-gen" field */
-				if($auto_inc_field!==null) $request.= " WHERE $auto_inc_field > $base_config[$table_name]";
 				
 				$this->addToLog(__FUNCTION__, $request);
 				
@@ -448,23 +463,107 @@
 				/* To store configuration */
 				$config_diff[$table_name] = array();
 
-				/* Going through result and store in array */
-				while($row = mysqli_fetch_assoc($res))
+				//$ref_fields=array();	
+				/* If we have a 'unique field' for the current table */
+				if($unique_fields !== null)
 				{
-					$config_diff[$table_name][] = $row;
+					$ref_fields = (is_array($unique_fields))?$unique_fields:array($unique_fields);
 				}
+				/* If we have an autogen field, */
+				else if($auto_inc_field!==null)
+				{
+				   $ref_fields = array($auto_inc_field);
+				}
+
+				
+				/* Going through differential content */
+				while($diff_row = mysqli_fetch_assoc($res))
+				{
+					
+					/* Going through base rows (saved in step 1) */			
+					foreach($base_config[$table_name] as $base_row)
+					{
+						$row_match=true;
+					
+						/* Going through id/primary/unique fields to see if row match */
+						foreach($ref_fields as $ref_field)
+						{
+							/* If no match between same field in 'base' and 'diff' rows*/
+							if($base_row[$ref_field] != $diff_row[$ref_field])
+							{	
+								$row_match=false;
+								break;
+							}
+							
+						}/* END LOOP Going through $match_found=false; fields */
+						
+						/* If we found the corresponding row, */
+						if($row_match)
+						{
+							
+							/* We can exit the loop to continue the process */
+							break;
+						}
+						
+						/*** If we arrive here, it means that the current 'base' row doesn't match the current 'diff' row. 
+							We continue to search or... have reached the end of the loop and it means we have a new row ***/
+					
+					}/* END LOOP Going through base rows */
+					
+					
+					/* If we found the corresponding row */
+					if($row_match)
+					{
+						$this->addToLog(__FUNCTION__, "Diff row match base\nDiff=".var_export($diff_row, true));
+						
+						/* We now have to check if 'base' and 'diff' row are equal or different (for the values not used to identify the row, like id/unique/primary fields). */
+						
+						$identical_rows = true;
+						
+						/* Going through fields of row to compare them */
+						foreach(array_keys($base_row) as $key)
+						{
+							/* If key isn't used to identify the row */
+							if(!in_array($key, $ref_fields))
+							{
+								/* If the values are different, */
+								if($base_row[$key] != $diff_row[$key])
+								{
+									$identical_rows = false;
+									break;
+								}
+							} /* END IF the key is not used to identify the row */
+							
+						}/* END LOOP Going through row fields */
+						
+						/* If rows are different, */
+						if(!$identical_rows)
+						{
+							$this->addToLog(__FUNCTION__, "Diff row is different than base row");
+							/* We store the modified row */
+							$config_diff[$table_name][] = $diff_row;
+						}
+					
+					}
+					else /* We didn't find a corresponding row. So it means the "diff" row is a new row in the DB */
+					{
+						/* We store the new row */
+						$config_diff[$table_name][] = $diff_row;
+					}
+					
+				}/*END LOOP Going through recovered content */
 
 			}/* END LOOP Going through tables */	
 			
 			//print_r($config_diff);
 			
-			 $diff_config_file = $this->getPluginConfigFilename($plugin_name);
+			$diff_config_file = $this->getPluginConfigFilename($plugin_name);
 
 			 
-			 /* Save configuration in file */
-			 $handle = fopen($diff_config_file, 'w+');
-			 fwrite($handle, serialize($config_diff));
-			 fclose($handle);
+			/* Save configuration in file */
+			$handle = fopen($diff_config_file, 'w+');
+			fwrite($handle, serialize($config_diff));
+			fclose($handle);
 			 
 
 		}
@@ -504,7 +603,7 @@
 			
 			/* Going throught tables */
 			foreach($this->config_tables as $table_name => $fields_infos)
-			{
+			{ 
 			
 				/* Extract infos */
 				list($auto_inc_field, $unique_fields) = $fields_infos;
@@ -514,6 +613,8 @@
 
 				/* Creating mapping array for current table */
 				$table_id_mapping[$table_name] = array();
+
+
 
 				/* Going through rows to add in table */
 				foreach($diff_config[$table_name] as $row)
