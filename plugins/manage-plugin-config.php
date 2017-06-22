@@ -603,7 +603,7 @@
 			
 			/* Going throught tables */
 			foreach($this->config_tables as $table_name => $fields_infos)
-			{
+			{ 
 			
 				/* Extract infos */
 				list($auto_inc_field, $unique_fields) = $fields_infos;
