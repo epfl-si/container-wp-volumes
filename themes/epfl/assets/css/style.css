@@ -1709,9 +1709,23 @@ a.a2a_button_email:before {
     07 PRIMARY CONTENT
   ----------------------------------------- */
   /* Page title & content */
-  .entry-header,
-  .entry-content {
+  .entry-content p,
+  .entry-content h1,
+  .entry-content h2,
+  .entry-content h3,
+  .entry-content h4,
+  .entry-content h5,
+  .entry-content h6 {
     padding-right: 35px;
+  }
+  .entry-content .colored-box p,
+  .entry-content .colored-box h1,
+  .entry-content .colored-box h2,
+  .entry-content .colored-box h3,
+  .entry-content .colored-box h4,
+  .entry-content .colored-box h5,
+  .entry-content .colored-box h6 {
+    padding-right: 0;
   }
 }
 
