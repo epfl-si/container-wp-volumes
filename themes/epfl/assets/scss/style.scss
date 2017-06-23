@@ -213,16 +213,18 @@
 
 // Social icons
 
-a[class*="a2a_button_"] {
+a[class*="a2a_button_"],
+.a2a_dd {
   @include transition-colors;
   background: #999c98;
   border-radius: 50%;
   color: #fff;
   font-size: 14px !important;
-  height: 26px;
+  height: 26px !important;
+  line-height: 26px !important;
   margin: 0 6px 0 0;
   padding: 0 !important;
-  width: 26px;
+  width: 26px !important;
   
   svg,
   .a2a_svg {
@@ -239,6 +241,7 @@ a[class*="a2a_button_"] {
     
   &:hover {
     background: #ae0010;
+    color: #fff;
   }
 
 }
@@ -291,7 +294,10 @@ a.a2a_button_{
       content: "\f0e0";
     }
   }
-  
+}
+
+.addtoany_share_save:before {
+  content: "\f067";
 }
 
 /* Collapsible panels */

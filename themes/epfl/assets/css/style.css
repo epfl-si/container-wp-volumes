@@ -704,22 +704,27 @@ body.page-two-column #comments {
   content: "\f101";
 }
 
-a[class*="a2a_button_"] {
+a[class*="a2a_button_"],
+.a2a_dd {
   transition: background-color .3s ease-in-out, color .3s ease-in-out, border-color .3s ease-in-out;
   background: #999c98;
   border-radius: 50%;
   color: #fff;
   font-size: 14px !important;
-  height: 26px;
+  height: 26px !important;
+  line-height: 26px !important;
   margin: 0 6px 0 0;
   padding: 0 !important;
-  width: 26px;
+  width: 26px !important;
 }
 a[class*="a2a_button_"] svg,
-a[class*="a2a_button_"] .a2a_svg {
+a[class*="a2a_button_"] .a2a_svg,
+.a2a_dd svg,
+.a2a_dd .a2a_svg {
   display: none;
 }
-a[class*="a2a_button_"]:before {
+a[class*="a2a_button_"]:before,
+.a2a_dd:before {
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
   font-size: inherit;
@@ -731,8 +736,10 @@ a[class*="a2a_button_"]:before {
   text-align: center;
   width: inherit;
 }
-a[class*="a2a_button_"]:hover {
+a[class*="a2a_button_"]:hover,
+.a2a_dd:hover {
   background: #ae0010;
+  color: #fff;
 }
 
 a.a2a_button_facebook:before {
@@ -761,6 +768,10 @@ a.a2a_button_google_plus:hover {
 }
 a.a2a_button_email:before {
   content: "\f0e0";
+}
+
+.addtoany_share_save:before {
+  content: "\f067";
 }
 
 /* Collapsible panels */
