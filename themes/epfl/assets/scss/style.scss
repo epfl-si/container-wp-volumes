@@ -213,16 +213,18 @@
 
 // Social icons
 
-a[class*="a2a_button_"] {
+a[class*="a2a_button_"],
+.a2a_dd {
   @include transition-colors;
   background: #999c98;
   border-radius: 50%;
   color: #fff;
   font-size: 14px !important;
-  height: 26px;
+  height: 26px !important;
+  line-height: 26px !important;
   margin: 0 6px 0 0;
   padding: 0 !important;
-  width: 26px;
+  width: 26px !important;
   
   svg,
   .a2a_svg {
@@ -239,6 +241,7 @@ a[class*="a2a_button_"] {
     
   &:hover {
     background: #ae0010;
+    color: #fff;
   }
 
 }
@@ -291,7 +294,10 @@ a.a2a_button_{
       content: "\f0e0";
     }
   }
-  
+}
+
+.addtoany_share_save:before {
+  content: "\f067";
 }
 
 /* Collapsible panels */
@@ -339,12 +345,6 @@ a.a2a_button_{
 
 .faq-item {
   @include border-bottom-dots;
-  
-  &:last-child {
-    border-bottom: 1px dotted #000;
-    margin-bottom: 15px;
-    padding-bottom: 15px;
-  }
 }
 
 .faq-title {
@@ -1135,7 +1135,7 @@ a.a2a_button_{
     @include clearfix;
     display: block;
     float: left;
-    max-width: 74%;
+    max-width: 80%;
     margin: 0;
     padding: 0;
     
@@ -1168,7 +1168,7 @@ a.a2a_button_{
     @include clearfix;
     float: right;
     margin: 0;
-    max-width: 24%;
+    max-width: 20%;
     padding: 0;
   }
   
@@ -1271,9 +1271,27 @@ a.a2a_button_{
   
   /* Page title & content */
   
-  .entry-header,
   .entry-content {
-    padding-right: 35px;
+    p,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      padding-right: 35px;
+    }
+    
+    .colored-box p,
+    .colored-box h1,
+    .colored-box h2,
+    .colored-box h3,
+    .colored-box h4,
+    .colored-box h5,
+    .colored-box h6 {
+      padding-right: 0;
+    }
+    
   }
   
 }
