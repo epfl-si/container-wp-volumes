@@ -21,8 +21,11 @@ body {
   line-height: 1.4em;
 }
 
-*:last-child {
-  margin-bottom: 0;
+* {
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
 }
 
 /* Body copy */
@@ -31,6 +34,10 @@ p {
   line-height: 1.4em;
   margin-bottom: 1em;
   padding: 0;
+  
+  &:empty {
+    display: none;
+  }
 }
 
 p,
@@ -67,8 +74,10 @@ h3,
 h4,
 h5,
 h6 {
+  clear: none;
   color: #000;
   margin-bottom: .75em;
+  @include transition-colors;
 }
 
 h2,
@@ -113,8 +122,13 @@ a {
   border-bottom: 1px dotted #000;
   text-decoration: none;
   transition: all .3s ease-in-out;
+  
   &:hover {
     border-bottom-style: solid;
+  }
+  
+  &:empty {
+    display: none;
   }
 }
 
