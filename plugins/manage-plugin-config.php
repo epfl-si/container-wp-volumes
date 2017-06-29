@@ -133,7 +133,7 @@
 
 
 	/* Path to WordPress config file */
-	define('WP_CONFIG_FILE',	'/var/www/html/wp-config.php');
+	define('WP_CONFIG_FILE',	'/var/www/html/'.$_ENV['WP_PATH'].'/wp-config.php');
 
 	/* To store configuration files in another folder */
 	define('CONFIG_FOLDER',	'_plugin-config');
