@@ -12,15 +12,22 @@
 	This script needs to be saved in '../master-wp/container-wp-volumes/plugins/' folder.
 		
 	Execution can be done with: 
-	docker exec wordpress sh -c "php /var/www/html/wp-content/plugins/manage-plugin-config.php <step_no> <plugin_name>"
+	docker exec wpcli sh -c "php /var/www/html/<wp_folder>/wp-content/plugins/manage-plugin-config.php <wp_folder> <step_no> <config_name>"
 
+	<wp_folder> is the name of the folder in which WP is deployed. You can found it by exectuing the following command:
+	docker exec wpcli sh -c "ls -alh"
+	
+	<config_name> is the name of the configuration where to store information. This will be used to generate the filename
+	where we will store the information about configuration. 
+	
 	
 	USE IN DOCKER DEPLOYMENT:
 	=========================
-	Modify the file '../master-wp/Makefile" in section "install" to add lines like the following:
-	docker exec wordpress sh -c "php /var/www/html/wp-content/plugins/manage-plugin-config.php 3 <plugin_name>"
+	Modify the file '../master-wp/container-wp-cli/bin/docker-entrypoint.sh", after calling "core_install.sh", to add lines like the following:
+	php /var/www/html/<wp_folder>/wp-content/plugins/manage-plugin-config.php <wp_folder> 3 <config_name>
 	
-	But to execute correctly, the 'config' file for the plugin you want to configure has to exists.
+	For <wp_folder>, you can normally use $WP_PATH environment variable.
+	And to execute correctly, the 'config_name' file for the plugin you want to configure has to exists.
 
 	
 	HOW TO USE THIS SCRIPT:
@@ -31,16 +38,16 @@
 	3. Go on all links on the left menu
 	4. Go on all plugin configuration page
 	5. Execute STEP 1 of this script
-		$ docker exec wordpress sh -c "php /var/www/html/wp-content/plugins/manage-plugin-config.php 1 <plugin_name>"
+		$ docker exec wpcli sh -c "php /var/www/html/<wp_folder>/wp-content/plugins/manage-plugin-config.php <wp_folder> 1 <config_name>"
 	6. Configure plugin AND stay on configuration page !
 	7. Execute STEP 2 of this script to extract and save plugin configuration
-		$ docker exec wordpress sh -c "php /var/www/html/wp-content/plugins/manage-plugin-config.php 2 <plugin_name>"
+		$ docker exec wpcli sh -c "php /var/www/html/<wp_folder>/wp-content/plugins/manage-plugin-config.php <wp_folder> 2 <config_name>"
 	8. Reinstall WordPress from scratch
 	9. Execute STEP 3 of this script to import plugin configuration. (have a look at 'Use in docker deployment')
-		$ docker exec wordpress sh -c "php /var/www/html/wp-content/plugins/manage-plugin-config.php 3 <plugin_name>"
+		$ docker exec wpcli sh -c "php /var/www/html/<wp_folder>/wp-content/plugins/manage-plugin-config.php <wp_folder> 3 <config_name>"
 
 
- 
+
 
 
 	VERSION HISTORY : 
@@ -117,7 +124,13 @@
 		  final config file. The mecanism to import the configuration from the final file hasn't changed because
 		  it was already handling existing information in DB so it just modify the necessary things (and add the 
 		  others).
-	  
+	
+	0.10 (30.06.2017)
+		- Add check to see if WordPress config file exists and trigger error if not.	
+		- Change some documentation about how to use this script.
+		- Add new parameter to have WordPress install folder as first parameter. This is needed to correctly
+		  read WordPress config file ("wp-config.php")
+	
 	TODO :
 	- Add error check (find what) 
 
@@ -130,10 +143,42 @@
 
 
 	define('PARAM_IMPORT_ALL_CONFIG',	'-all');
+	
+	
+	
+	
+	/*
+		GOAL : Display how to use this script 
+	*/
+	function displayUsage()
+	{
+		global $argv;
+		echo "USAGE : php ".$argv[0]." <wp_folder> <step_no> <plugin_name>\n";
+		echo "\t<wp_folder> = Relative folder where WP is located (inside /var/www/html/)\n";
+		echo "\tstep_no : 1|2|3\n";
+		echo "\t\t1 = Get WP config before plugin configuration\n";
+		echo "\t\t2 = Get WP diff config after plugin configuration\n";
+		echo "\t\t3 = Load diff config in WP after fresh install\n";
+		echo "\n";
+	}
+	
+
+
+	/***************************************************************************/
+	/**************************** MAIN PROGRAM *********************************/
+
+	/* Check if all arguments are here */
+	if(sizeof($argv)<4)
+	{
+		displayUsage();
+		exit;
+	}
+	
+	
 
 
 	/* Path to WordPress config file */
-	define('WP_CONFIG_FILE',	'/var/www/html/'.$_ENV['WP_PATH'].'/wp-config.php');
+	define('WP_CONFIG_FILE',	'/var/www/html/'.$argv[1].'/wp-config.php');
 
 	/* To store configuration files in another folder */
 	define('CONFIG_FOLDER',	'_plugin-config');
@@ -158,9 +203,9 @@
 	
 	class PluginConfigManager
 	{
-		var $db_link;			  /* Link to the DB */
-		var $config_tables;	  /* Configuration about table (auto-gen fields, unique fields) */
-		var $tables_relations;  /* Information about "non-official" links/relations between tables */
+		var $db_link;				/* Link to the DB */
+		var $config_tables;		/* Configuration about table (auto-gen fields, unique fields) */
+		var $tables_relations;	/* Information about "non-official" links/relations between tables */
 		var $log_handle;			/* To handle log file */
 		
 		/*
@@ -188,6 +233,12 @@
 			
 			/* Base RegEx to look for 'define' */		
 			$base_wp_param_reg = '/define\([\s]*\'%s\'[\s]*,[\s]*\'[\S]+\'[\s]*\);/i';
+	
+			/* If config file cannot be found, */
+			if(!file_exists(WP_CONFIG_FILE))
+			{
+				trigger_error(__FILE__.":".__FUNCTION__.": Wordpress config file '".WP_CONFIG_FILE."' not found" , E_USER_ERROR);			
+			}
 	
 			/* Getting 'wp-config.php' file content */
 			$config = file_get_contents(WP_CONFIG_FILE);
@@ -249,17 +300,17 @@
 			/**** WORDPRESS TABLES DESCRIPTION ****/
 			
 			/* Tables in which configuration is stored, with 'auto gen id' fields and 'unique field' (others than only auto-gen field). Those tables must be sorted to satisfy foreign keys*/
-			$this->config_tables = array($table_prefix.'postmeta'				 => array('meta_id', null),
-												  $table_prefix.'options'				  => array('option_id', 'option_name'),
-												  $table_prefix.'terms'					 => array('term_id', null),
-												  $table_prefix.'termmeta'				 => array('meta_id', null), // include wp_terms.term_id
-												  $table_prefix.'term_taxonomy'		  => array('term_taxonomy_id', null), // include wp_terms.term_id
+			$this->config_tables = array($table_prefix.'postmeta'					=> array('meta_id', null),
+												  $table_prefix.'options'					=> array('option_id', 'option_name'),
+												  $table_prefix.'terms'						=> array('term_id', null),
+												  $table_prefix.'termmeta'					=> array('meta_id', null), // include wp_terms.term_id
+												  $table_prefix.'term_taxonomy'			=> array('term_taxonomy_id', null), // include wp_terms.term_id
 												  $table_prefix.'term_relationships'	=> array(null, array('object_id', 'term_taxonomy_id'))); // include wp_term_taxonomy.term_taxonomy_id
 			
 			/* Relation between configuration tables. There are no explicit relation between tables in DB but there are relation coded in WP. */									  
-			$this->tables_relations = array($table_prefix.'termmeta'				=> array('term_id'			 => $table_prefix.'terms'),
-													  $table_prefix.'term_taxonomy'		 => array('term_id'			 => $table_prefix.'terms'),
-													  $table_prefix.'term_relationships'  => array('term_taxonomy_id' => $table_prefix.'term_taxonomy'));	
+			$this->tables_relations = array($table_prefix.'termmeta'					=> array('term_id'			=> $table_prefix.'terms'),
+													  $table_prefix.'term_taxonomy'			=> array('term_id'			=> $table_prefix.'terms'),
+													  $table_prefix.'term_relationships'	=> array('term_taxonomy_id'=> $table_prefix.'term_taxonomy'));	
 													  
 													  
 			/**** LOG FILE ****/		
@@ -747,36 +798,11 @@
 	}/* END CLASS */
 
 
-
-	/***********************************************************************/
-	/**************************** FUNCTIONS ********************************/
-
-
-	/*
-		GOAL : Display how to use this script
-	*/
-	function displayUsage()
-	{
-		global $argv;
-		echo "USAGE : php ".$argv[0]." <step_no> <plugin_name>\n";
-		echo "\tstep_no : 1|2|3\n";
-		echo "\t\t1 = Get WP config before plugin configuration\n";
-		echo "\t\t2 = Get WP diff config after plugin configuration\n";
-		echo "\t\t3 = Load diff config in WP after fresh install\n";
-		echo "\n";
-	}
 	
 
 
 	/***************************************************************************/
 	/**************************** MAIN PROGRAM *********************************/
-
-	/* Check if all arguments are here */
-	if(sizeof($argv)<3)
-	{
-		displayUsage();
-		exit;
-	}
 
 
 	/* Object creation */
@@ -784,14 +810,14 @@
 
 
 
-	switch($argv[1])
+	switch($argv[2])
 	{
 		/** Step 1 : Get "reference" configuration in tables **/
 		case 1:
 		{
-			echo "Getting settings before configuration of plugin $argv[2]... ";
+			echo "Getting settings before configuration of plugin $argv[3]... ";
 
-			$pcm->extractAndSaveConfigReference($argv[2]);
+			$pcm->extractAndSaveConfigReference($argv[3]);
 			echo "done\n";
 			break;
 		}
@@ -800,9 +826,9 @@
 		case 2: 
 		{
 
-			echo "Getting configuration for plugin $argv[2]... ";
+			echo "Getting configuration for plugin $argv[3]... ";
 			
-			$pcm->extractAndSavePluginConfig($argv[2]);			
+			$pcm->extractAndSavePluginConfig($argv[3]);			
 				
 			echo "done\n";
 
@@ -816,7 +842,7 @@
 		{ 
 			
 			/* if we have to import from all existing configurations */
-			if($argv[2] == PARAM_IMPORT_ALL_CONFIG)
+			if($argv[3] == PARAM_IMPORT_ALL_CONFIG)
 			{
 				$plugin_to_import = array();
 				/* Getting config folder content */
@@ -840,7 +866,7 @@
 			else /* There is one (or more) plugin name for which to import configuration. */
 			{
 				/* Getting plugin names from parameters */
-				$plugin_to_import = array_slice($argv, 2);  
+				$plugin_to_import = array_slice($argv, 3);  
 			}
 			
 			/* Going through plugin to import */
@@ -864,8 +890,4 @@
 	/* Finalize things */
 	$pcm->finalize();
 	
-
-	
-
-
 ?>
