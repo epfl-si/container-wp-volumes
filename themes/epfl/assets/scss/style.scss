@@ -926,6 +926,84 @@ a.a2a_button_{
   }
 }
 
+/* --- Plugins --- */
+
+.simple-sitemap-page {
+  list-style: none;
+  padding-left: 24px;
+  position: relative;
+  
+  &:before {
+    content: "";
+    border-left: 1px dotted #000;
+    height: auto;
+    position: absolute;
+    top: 2px; right: auto; bottom: 8px; left: 9px;
+    width: 0;
+  }
+  
+  a {
+    position: relative;
+    
+      &:before {
+      content: "";
+      border-bottom: 1px dotted #000;
+      position: absolute;
+      top: 50%; right: auto; bottom: auto; left: -14px;
+      width: 12px;
+    }
+    
+  }
+}
+
+.simple-sitemap-page .page_item_has_children {
+  position: relative;
+  
+}
+.simple-sitemap-page .children-toggle {
+    background: #fff;
+    border: 1px solid #808080;
+    color: #000;
+    height: 14px;
+    line-height: 1;
+    padding: 0;
+    position: absolute;
+    top: 1px; right: auto; bottom: auto; left: -22px;
+    text-align: center;
+    width: 14px;
+    z-index: 1;
+  
+  &:before {
+    content: "–";
+    display: inline-block;
+    height: 12px;
+    line-height: 10px;
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    width: 12px;
+  }
+  
+  &.open:before {
+    content: "+";
+  }
+}
+
+.simple-sitemap-page .children {
+  list-style: none;
+  margin-left: 15px;
+  padding-left: 15px;
+  position: relative;
+  
+  &:before {
+    content: "";
+    border-left: 1px dotted #000;
+    height: auto;
+    position: absolute;
+    top: 2px; right: auto; bottom: 8px; left: 0;
+    width: 0;
+  }
+}
+
 
 /*  -----------------------------------------------------------
 

@@ -12,6 +12,15 @@ jQuery(document).ready(function($){
     $(this).parents(".collapsible").toggleClass("open");
   });
   
+  // Sitemap
+  
+  $(".simple-sitemap-page .page_item_has_children").prepend('<button class="children-toggle"><span class="visuallyhidden">Afficher / masquer les enfants</span></button>');
+  
+  $(".simple-sitemap-page .page_item_has_children .children-toggle").click(function(){
+    $(this).toggleClass("open");
+    $(this).siblings(".children").toggle();
+  });
+  
   // Secondary navigation
   
   function secondaryNavigation() {
