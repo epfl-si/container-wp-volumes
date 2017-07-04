@@ -32,6 +32,7 @@
     
 ------------------------------------------*/
 
+@import "epfl.scss";
 @import "variables.scss";
 @import "mixins.scss";
 @import "base.scss";
@@ -316,6 +317,7 @@ a.a2a_button_{
   font-size: .8125em;
   font-weight: 500;
   margin-left: 1em;
+  padding-right: 0;
   
   &:hover {
     border-bottom-style: solid;
@@ -364,6 +366,124 @@ a.a2a_button_{
 /*  ---------------------------------------
     04 HEADER
 ----------------------------------------- */
+
+/* --- EPFL banner --- */
+
+.header-top,
+#header2013 {
+  box-sizing: content-box;
+}
+
+#header2013 {
+  margin-left: -8px;
+  margin-right: -8px;
+  padding: 0 8px;
+  position: relative;
+  width: 100%;
+  z-index: 9999;
+}
+
+#header2013 #nav-logo a {
+  border: none;
+}
+
+#nav-menus {
+  width: auto;
+}
+
+#header2013 #nav-menus a.main-link {
+  border-bottom: none;
+  
+  &:after {
+    @include icon;
+    content: "\f063";
+    float: right;
+    font-size: 10px;
+    height: auto;
+    position: absolute;
+    top: auto; right: -1px; bottom: -1px; left: auto;
+    transform: rotate(-45deg);
+    width: auto;
+  }
+}
+
+#header2013 #nav-menus .navigation-panel {
+  background: #fff;
+  width: 976px;
+  z-index: 9999;
+}
+
+.navigation-panel .group-2-cols {
+  box-sizing: border-box;
+  margin-right: 0;
+  margin-bottom: 10px;
+  padding-right: 10px;
+  width: 33.3334%;
+  
+  ul {
+    margin-left: 0;
+  }
+  
+  h3 a {
+    border: 0;
+  }
+}
+
+#nav-search {
+  @include clearfix;
+  float: right; 
+  width: 320px;
+  
+  #search-box {
+    position: static;
+  }
+}
+
+#header2013 input.search {
+  width: 150px;
+  width: calc(100% - 145px - 18px);
+}
+
+#header2013 .search-filter {
+  position: relative;
+  
+  &:before {
+    content: "";
+    border-left: 1px dotted #c5c5c5;
+    position: absolute;
+    top: 3px; right: auto; bottom: 3px; left: 0;
+  }
+}
+
+#header2013 .search-filter .menu {
+  margin-top: 0;
+}
+
+#header2013 .search-filter .selected-field {
+  position: relative;
+  
+  &:after {
+    @include icon;
+    content: "\f063";
+    float: right;
+    font-size: 10px;
+    position: absolute;
+    top: auto; right: 5px; bottom: 5px; left: auto;
+    transform: rotate(-45deg);
+    
+  }
+}
+
+#header2013 .search-button {
+  background: $primary-color url(../images/search.png) no-repeat;
+  color: black;
+  padding: 0;
+  position: relative;
+  
+  .svg & {
+    background-image: url(../images/search.svg);
+  }
+}
 
 /* --- Site title --- */
 
@@ -1054,7 +1174,7 @@ a.a2a_button_{
   /* --- Site title --- */
   
   .site-branding {
-    padding: 30px 0 !important;
+    padding: 24px 0 !important;
   }
   
   .custom-header {

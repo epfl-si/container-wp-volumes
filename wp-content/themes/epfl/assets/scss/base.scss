@@ -5,6 +5,7 @@
 ------------------------------------------*/
 
 .visuallyhidden,
+.hidden,
 .sr-only { 
   position: absolute; 
   overflow: hidden; 
@@ -189,6 +190,12 @@ blockquote {
 }
 b, strong {
   color: #000;
+}
+
+abbr,
+acronym {
+  border: none;
+  text-decoration: none;
 }
 
 /* --- Forms --- */
