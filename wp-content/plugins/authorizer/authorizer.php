@@ -3,7 +3,7 @@
 Plugin Name: Authorizer
 Plugin URI: https://github.com/uhm-coe/authorizer
 Description: Authorizer limits login attempts, restricts access to specified users, and authenticates against external sources (e.g., Google, LDAP, or CAS).
-Version: 2.6.12
+Version: 2.6.13
 Author: Paul Ryan
 Author URI: http://www.linkedin.com/in/paulrryan/
 Text Domain: authorizer
@@ -1449,7 +1449,13 @@ if ( ! class_exists( 'WP_Plugin_Authorizer' ) ) {
 					phpCAS::handleLogoutRequests( true, array( $auth_settings['cas_host'] ) );
 				}
 				if ( phpCAS::isAuthenticated() ) {
-					phpCAS::logoutWithRedirectService( site_url( '/' ) );
+					// Redirect to home page, or specified page if it's been provided.
+					$redirect_to = site_url( '/' );
+					if ( array_key_exists( 'redirect_to', $_REQUEST ) && filter_var( $_REQUEST['redirect_to'], FILTER_VALIDATE_URL ) !== false ) {
+						$redirect_to = $_REQUEST['redirect_to'];
+					}
+
+					phpCAS::logoutWithRedirectService( $redirect_to );
 				}
 			}
 
