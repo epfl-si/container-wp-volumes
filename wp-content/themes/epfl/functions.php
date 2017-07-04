@@ -69,6 +69,7 @@ add_action('wp_enqueue_scripts', 'enqueue_theme_styles', 10000000001 );
 
 function epfl_scripts() {
 	
+	wp_enqueue_script( 'modernizr', get_stylesheet_directory_uri() .'/assets/js/modernizr.js', array(), '20151215', false );
 	wp_enqueue_script( 'epfl-scripts', get_stylesheet_directory_uri() .'/assets/js/main.js', array(), '20151215', true );
 
 }
