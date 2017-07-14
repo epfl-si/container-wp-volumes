@@ -2,4 +2,5 @@
 .sass-cache/*
 *.css.map
 .DS_Store
-plugins/manage-plugin-config.php.log
+manage-plugin-config.php.log
+uploads
