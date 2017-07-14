@@ -1051,6 +1051,10 @@ body.page-two-column #comments {
     03 GLOBAL CONTENT & SITE STRUCTURE
 ----------------------------------------- */
 /* --- Structure --- */
+body {
+  padding-bottom: 24px;
+}
+
 .site-content {
   margin-top: 10px;
   padding: 0;
@@ -1720,8 +1724,13 @@ a.a2a_button_email:before {
   padding-bottom: 0;
 }
 .site-footer .footer-content {
-  border-top: 1px solid #000;
-  padding: 40px 0;
+  border-bottom: 1px solid #000;
+  padding: 40px 0 0;
+}
+.site-footer .footer-content:after {
+  content: "";
+  display: block;
+  clear: both;
 }
 .site-footer p {
   font-size: .6875em;

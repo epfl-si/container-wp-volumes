@@ -46,6 +46,10 @@
 
 /* --- Structure --- */
 
+body {
+  padding-bottom: 24px;
+}
+
 .site-content {
   margin-top: 10px;
   padding: 0;
@@ -659,8 +663,9 @@ a.a2a_button_{
   }
   
   .footer-content {
-    border-top: 1px solid #000;
-    padding: 40px 0;
+    @include clearfix;
+    border-bottom: 1px solid #000;
+    padding: 40px 0 0;
   }
   
   p {
