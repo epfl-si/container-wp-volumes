@@ -2291,7 +2291,7 @@ a.a2a_button_email:before {
     text-indent: -3333px;
   }
   .main-navigation li.link-home a {
-    min-width: 30px;
+    width: 30px;
   }
   .main-navigation li.link-home a:before {
     position: relative;
