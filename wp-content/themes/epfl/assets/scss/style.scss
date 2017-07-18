@@ -665,11 +665,19 @@ a.a2a_button_{
   .footer-content {
     @include clearfix;
     border-bottom: 1px solid #000;
-    padding: 40px 0 0;
+    padding: 40px 0 1px;
   }
   
   p {
     font-size: .6875em;
+  }
+  
+  a {
+    border: none;
+    
+    &:hover {
+      color: $primary-color;
+    }
   }
 }
 
