@@ -160,6 +160,31 @@ li {
   margin-bottom: .375em;
 }
 
+ul {
+  list-style: none;
+  padding-left: 0;
+  
+  li {
+    padding-left: 1em;
+    position: relative;
+    
+    &:before {
+      content: "";
+      background: #000;
+      border-radius: 50%;
+      height: 6px;
+      position: absolute;
+      top: .4em; right: auto; bottom: auto; left: 0;
+      width: 6px;
+    }
+    
+    li:before {
+      background: transparent;
+      border: 1px solid #000;
+    }
+  }
+}
+
 dl dt {
   color: #000;
   font-weight: bold;

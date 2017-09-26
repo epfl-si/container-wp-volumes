@@ -371,6 +371,12 @@ a.a2a_button_{
     04 HEADER
 ----------------------------------------- */
 
+.menu li,
+.nav li,
+.lang li {
+  @include no-bullet;
+}
+
 /* --- EPFL banner --- */
 
 .header-top,
@@ -393,6 +399,10 @@ a.a2a_button_{
 
 #nav-menus {
   width: auto;
+  
+  li {
+    @include no-bullet;
+  }
 }
 
 #header2013 #nav-menus a.main-link {
