@@ -21,6 +21,16 @@ jQuery(document).ready(function($){
     $(this).siblings(".children").toggle();
   });
   
+  // EPFL header
+  
+  $(".search-filter .selected-field").click(function(){
+    $(this).siblings(".menu").toggleClass("hidden");
+  });
+  
+  $(".search-filter .menu").mouseleave(function(){
+      $(this).addClass("hidden");
+  });
+  
   // Secondary navigation
   
   function secondaryNavigation() {
