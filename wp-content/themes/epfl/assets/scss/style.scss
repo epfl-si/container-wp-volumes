@@ -523,6 +523,18 @@ a.a2a_button_{
   }
 }
 
+/* --- Site logo --- */
+
+.custom-logo-link {
+  display: block;
+  margin-bottom: 10px;
+  padding: 0;
+  
+  img {
+    display: block;
+  }
+}
+
 /* --- Site title --- */
 
 .site-header {
@@ -1218,10 +1230,24 @@ a.a2a_button_{
     05 HEADER
   ----------------------------------------- */
   
+  /* --- Site logo --- */
+
+  .custom-logo-link {
+    margin-bottom: 20px;
+    
+     img {
+       max-width: none;
+     }
+  }
+  
   /* --- Site title --- */
   
   .site-branding {
     padding: 24px 0 !important;
+    
+    .has-header-image & {
+      padding-top: 12px !important;
+    }
   }
   
   .custom-header {

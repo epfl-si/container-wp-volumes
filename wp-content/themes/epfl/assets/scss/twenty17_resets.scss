@@ -99,6 +99,11 @@ body.page:not(.twentyseventeen-front-page) .entry-title {
 	position: static;
 }
 
+.has-header-image.twentyseventeen-front-page .custom-header,
+.has-header-image.home.blog .custom-header {
+  height: auto;
+}
+
 body.has-header-image .site-title a {
   color: #222;
 }
