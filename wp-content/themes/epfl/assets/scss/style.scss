@@ -1314,13 +1314,17 @@ a.a2a_button_{
     border-top-width: 0;
     padding-top: 1px;
     padding-bottom: 0;
+    width: 340px;
+    
+    ul {
+      width: auto;
+    }
   }
   
   .main-navigation .sub-menu li {
     background: #fff;
     border: 0;
     float: none;
-    white-space: nowrap;
     
     &:hover {
       background: #fff;
