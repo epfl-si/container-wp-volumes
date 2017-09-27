@@ -377,15 +377,13 @@ a.a2a_button_{
 .local-color {
   @include colored-text-box;
   display: inline-block;
-  margin: 1em 0;
 }
 .local-color-down {
   @include colored-text-box;
+}
+
+.box-flat-panel {
   margin: 1em 0;
-  
-  & + .local-color-down {
-    margin-top: -1em;
-  }
 }
 
 .news-list li,
