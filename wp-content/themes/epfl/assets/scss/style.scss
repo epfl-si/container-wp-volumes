@@ -13,20 +13,22 @@
     
 02  TWENTY SEVENTEEN RESETS
 
-03  GLOBAL CONTENT & SITE STRUCTURE
+03  JAHIA IMPORTED CONTENT
+
+04  GLOBAL CONTENT & SITE STRUCTURE
     - Structure
     - Pages
     - Articles
 
-04  HEADER
+05  HEADER
     - Site title
     - Main navigation
 
-05  FOOTER
+06  FOOTER
 
-06  SIDEBAR
+07  SIDEBAR
 
-07  PRIMARY CONTENT
+08  PRIMARY CONTENT
 
 --  MEDIA QUERIES
     
@@ -41,7 +43,7 @@
 
 
 /*  ---------------------------------------
-    03 GLOBAL CONTENT & SITE STRUCTURE
+    04 GLOBAL CONTENT & SITE STRUCTURE
 ----------------------------------------- */
 
 /* --- Structure --- */
@@ -367,8 +369,18 @@ a.a2a_button_{
   margin: 1.5em 0;
 }
 
+
 /*  ---------------------------------------
-    04 HEADER
+    04 JAHIA IMPORTED CONTENT
+----------------------------------------- */
+
+.local-color {
+  @include colored-text-box;
+  display: inline-block;
+}
+
+/*  ---------------------------------------
+    05 HEADER
 ----------------------------------------- */
 
 .menu li,
@@ -660,7 +672,7 @@ a.a2a_button_{
 }
 
 /*  ---------------------------------------
-    05 FOOTER
+    06 FOOTER
 ----------------------------------------- */
 
 .site-footer {
@@ -736,7 +748,7 @@ a.a2a_button_{
 }
 
 /*  ---------------------------------------
-    06 SIDEBAR
+    07 SIDEBAR
 ----------------------------------------- */
 
 #secondary {
@@ -903,7 +915,7 @@ a.a2a_button_{
 }
 
 /*  ---------------------------------------
-    07 PRIMARY CONTENT
+    08 PRIMARY CONTENT
 ----------------------------------------- */
 
 /* Toolbar */
@@ -1157,7 +1169,7 @@ a.a2a_button_{
 @media screen and (min-width: 30em) {
   
   /*  ---------------------------------------
-    04 HEADER
+    05 HEADER
   ----------------------------------------- */
   
   /* --- Site title --- */
@@ -1177,7 +1189,7 @@ a.a2a_button_{
 @media screen and (min-width: 48em) {
   
   /*  ---------------------------------------
-    03 GLOBAL CONTENT & SITE STRUCTURE
+    04 GLOBAL CONTENT & SITE STRUCTURE
   ----------------------------------------- */
   
   #primary.col,
@@ -1191,7 +1203,7 @@ a.a2a_button_{
   }
   
   /*  ---------------------------------------
-    04 HEADER
+    05 HEADER
   ----------------------------------------- */
   
   /* --- Site title --- */
@@ -1394,7 +1406,7 @@ a.a2a_button_{
   }
   
   /*  ---------------------------------------
-    05 FOOTER
+    06 FOOTER
   ----------------------------------------- */
   
   .site-footer {
@@ -1426,7 +1438,7 @@ a.a2a_button_{
   }
   
   /*  ---------------------------------------
-    07 PRIMARY CONTENT
+    08 PRIMARY CONTENT
   ----------------------------------------- */
   
   /* --- Articles --- */
@@ -1459,7 +1471,7 @@ a.a2a_button_{
 @media screen and ( min-width: 64em ) {
   
   /*  ---------------------------------------
-    03 GLOBAL CONTENT & SITE STRUCTURE
+    04 GLOBAL CONTENT & SITE STRUCTURE
   ----------------------------------------- */
   
   .wrap {
@@ -1477,7 +1489,7 @@ a.a2a_button_{
   }
   
   /*  ---------------------------------------
-    04 HEADER
+    05 HEADER
   ----------------------------------------- */
   
   /* --- Main navigation --- */
@@ -1487,7 +1499,7 @@ a.a2a_button_{
   }
   
   /*  ---------------------------------------
-    07 PRIMARY CONTENT
+    08 PRIMARY CONTENT
   ----------------------------------------- */
   
   /* Page title & content */
