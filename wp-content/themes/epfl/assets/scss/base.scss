@@ -307,6 +307,13 @@ input[type="submit"] {
 
 /* --- Tables --- */
 
+table,
+tr,
+td,
+th {
+  border: 0;
+}
+
 td,
 th {
   vertical-align: top;
