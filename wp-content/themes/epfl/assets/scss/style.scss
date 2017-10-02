@@ -49,6 +49,7 @@
 /* --- Structure --- */
 
 body {
+  line-height: 1.2em;
   padding-bottom: 24px;
 }
 
@@ -117,7 +118,7 @@ body {
   }
   
   &:hover:before {
-    background: $color-alt;
+    background: $primary-color-sec;
   }
 }
 
@@ -380,10 +381,23 @@ a.a2a_button_{
 }
 .local-color-down {
   @include colored-text-box;
+  background: $primary-color-alt;
+}
+
+.local-color,
+.local-color-down {
+  font-size: .8125em;
+  font-size: .8125rem;
+  
+  p {
+    font-size: 1em;
+    font-size: .8125rem;
+  }
 }
 
 .box-flat-panel {
-  margin: 1em 0;
+  padding: 6px 8px 8px 8px;
+  width: 308px;
 }
 
 .news-list li,
@@ -806,7 +820,7 @@ a.a2a_button_{
     padding: 3px 20px;
     
     &:hover {
-      background: $color-alt;
+      background: $primary-color-sec;
     }
   }
   
@@ -1305,7 +1319,7 @@ a.a2a_button_{
       padding: 0 8px;
       
       &:hover {
-         background: $color-alt;
+         background: $primary-color-sec;
        }
     }
   }
