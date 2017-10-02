@@ -372,7 +372,7 @@ a.a2a_button_{
 
 
 /*  ---------------------------------------
-    04 JAHIA IMPORTED CONTENT
+    03 JAHIA IMPORTED CONTENT
 ----------------------------------------- */
 
 .local-color {
@@ -397,7 +397,7 @@ a.a2a_button_{
 
 .box-flat-panel {
   padding: 6px 8px 8px 8px;
-  width: 308px;
+  width: 100%;
 }
 
 .news-list li,
@@ -1225,6 +1225,29 @@ a.a2a_button_{
 ------------------------------------------------------------ */
 
 @media screen and (min-width: 48em) {
+  
+  /*  ---------------------------------------
+    03 JAHIA IMPORTED CONTENT
+  ----------------------------------------- */
+  
+  .box-flat-panel {
+    width: 50%;
+  }
+  
+  .entry-content .box {
+    float: left;
+    padding-right: 2px;
+    width: 50%;
+    
+    .box-flat-panel {
+      width: 100%;
+    }
+    
+    &.last-col {
+      padding-left: 2px;
+      padding-right: 0;
+    }
+  }
   
   /*  ---------------------------------------
     04 GLOBAL CONTENT & SITE STRUCTURE
