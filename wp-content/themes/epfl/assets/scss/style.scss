@@ -34,6 +34,7 @@
     
 ------------------------------------------*/
 
+@import "jahia.scss";
 @import "epfl.scss";
 @import "variables.scss";
 @import "mixins.scss";
@@ -49,6 +50,7 @@
 /* --- Structure --- */
 
 body {
+  line-height: 1.2em;
   padding-bottom: 24px;
 }
 
@@ -117,7 +119,7 @@ body {
   }
   
   &:hover:before {
-    background: $color-alt;
+    background: $primary-color-sec;
   }
 }
 
@@ -371,7 +373,7 @@ a.a2a_button_{
 
 
 /*  ---------------------------------------
-    04 JAHIA IMPORTED CONTENT
+    03 JAHIA IMPORTED CONTENT
 ----------------------------------------- */
 
 .local-color {
@@ -380,10 +382,23 @@ a.a2a_button_{
 }
 .local-color-down {
   @include colored-text-box;
+  background: $primary-color-alt;
+}
+
+.local-color,
+.local-color-down {
+  font-size: .8125em;
+  font-size: .8125rem;
+  
+  p {
+    font-size: 1em;
+    font-size: .8125rem;
+  }
 }
 
 .box-flat-panel {
-  margin: 1em 0;
+  padding: 6px 8px 8px 8px;
+  width: 100%;
 }
 
 .news-list li,
@@ -806,7 +821,7 @@ a.a2a_button_{
     padding: 3px 20px;
     
     &:hover {
-      background: $color-alt;
+      background: $primary-color-sec;
     }
   }
   
@@ -1213,6 +1228,34 @@ a.a2a_button_{
 @media screen and (min-width: 48em) {
   
   /*  ---------------------------------------
+    03 JAHIA IMPORTED CONTENT
+  ----------------------------------------- */
+  
+  .box-flat-panel {
+    width: 50%;
+  }
+  
+  .entry-content .box {
+    float: left;
+    padding-right: 2px;
+    width: 50%;
+    
+    .box-flat-panel {
+      width: 100%;
+    }
+    
+    &.last-col {
+      padding-left: 2px;
+      padding-right: 0;
+    }
+  }
+  
+  .entry-content .right {
+    margin-left: 25px;
+    float: right;
+  }
+  
+  /*  ---------------------------------------
     04 GLOBAL CONTENT & SITE STRUCTURE
   ----------------------------------------- */
   
@@ -1305,7 +1348,7 @@ a.a2a_button_{
       padding: 0 8px;
       
       &:hover {
-         background: $color-alt;
+         background: $primary-color-sec;
        }
     }
   }

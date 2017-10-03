@@ -49,6 +49,22 @@ th:empty {
   display: none;
 }
 
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ul,
+ol
+dl,
+table,
+blockquote,
+form {
+  clear: both;
+}
+
 
 /* --- Typography --- */
 
@@ -120,7 +136,6 @@ h3,
 h4,
 h5,
 h6 {
-  clear: none;
   color: #000;
   margin-bottom: .75em;
   @include transition-colors;
@@ -317,6 +332,10 @@ th {
 td,
 th {
   vertical-align: top;
+}
+
+td {
+  padding: 0.2em;
 }
 
 /* --- Grid and structure --- */
