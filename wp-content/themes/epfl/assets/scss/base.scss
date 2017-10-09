@@ -303,7 +303,12 @@ input[type="color"],
 textarea {
   background: #fff;
   border-radius: 0;
-  padding: .4em;
+  display: inline-block;
+	height: 32px;
+	line-height: 30px;
+  padding: 0 .4em;
+  vertical-align: top;
+  width: auto;
 }
 
 button,
@@ -312,7 +317,9 @@ input[type="submit"] {
   @include transition-colors;
   background: #999c98;
 	border-radius: 0;
-	padding: .75em 1.25em;
+	height: 32px;
+	line-height: 32px;
+	padding: 0 1.25em;
 	
 	&:hover,
 	&:focus {
