@@ -412,7 +412,8 @@ a.a2a_button_{
 
 .menu li,
 .nav li,
-.lang li {
+.lang li,
+.widget ul li {
   @include no-bullet;
 }
 
