@@ -23,7 +23,7 @@
 <script type="text/javascript">jQuery.noConflict();</script> 
 <script type="text/javascript" src="//www.epfl.ch/js/globalnav.js"></script>
 
-<?php readfile("http://www.epfl.ch/templates/fragments/header.sig.html")?>
+<?php readfile("https://www.epfl.ch/templates/fragments/header.sig.html"); ?>
 
 <?php wp_head(); ?>
 </head>
@@ -33,7 +33,7 @@
 	<a class="skip-link screen-reader-text" href="#content"><?php _e( 'Skip to content', 'epfl' ); ?></a>
 	
 	<div class="header-top wrap">
-  	<?php  readfile("http://www.epfl.ch/templates/fragments/header.fr.html"); ?>
+  	<?php readfile("https://www.epfl.ch/templates/fragments/header.fr.html"); ?>
 	</div><!-- .header-top -->
 
 	<header id="masthead" class="site-header" role="banner">
