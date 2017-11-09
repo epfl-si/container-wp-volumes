@@ -828,8 +828,8 @@ a.a2a_button_{
   li {
     display: inline-block;
     font-size: .75em;
+    margin: 0;
     margin-right: .5em;
-    margin-bottom: 0;
     
     &:after {
       content: "/";
@@ -1659,6 +1659,7 @@ a.a2a_button_{
     max-width: 20%;
     padding: 0;
     position: static;
+    text-align: right;
   }
   
   /*  ---------------------------------------
