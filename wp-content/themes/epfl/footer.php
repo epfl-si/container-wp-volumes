@@ -42,6 +42,8 @@
 		</footer><!-- #colophon -->
 	</div><!-- .site-content-contain -->
 </div><!-- #page -->
+
+<script src="https://static.epfl.ch/v0.26.0/scripts/epfl-jquery-built.js"></script>
 <?php wp_footer(); ?>
 
 </body>
