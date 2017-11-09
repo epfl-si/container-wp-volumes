@@ -1583,10 +1583,18 @@ a.a2a_button_{
   	color: #000;
 	}
   
-  .sub-menu .sub-menu {
+  .main-navigation .sub-menu .sub-menu {
     border: 0;
     left: 0;
-    position: static;
+    margin-left: 1.5em;
+    position: relative;
+    
+    &:before {
+      content: "";
+      border-left: 1px dotted $light-grey;
+      position: absolute;
+      top: 5px; right: auto; left: -1px; bottom: 5px;
+    }
     
     a {
       font-weight: 400;
