@@ -20,7 +20,7 @@
 			<div class="wrap">
   			<div class="footer-content">
     			<nav class="footer-navigation" role="navigation">
-      			<?php if ( has_nav_menu( 'footer_nav' ) ) : 
+      			<?php if ( has_nav_menu( 'footer_nav' ) ) :
   							wp_nav_menu( array(
   								'theme_location' => 'footer_nav',
   								'menu_class'     => 'nav footer-nav',
@@ -43,7 +43,7 @@
 	</div><!-- .site-content-contain -->
 </div><!-- #page -->
 
-<script src="https://static.epfl.ch/v0.26.0/scripts/epfl-jquery-built.js"></script>
+<script src="https://static.epfl.ch/latest/scripts/epfl-jquery-built.js"></script>
 <?php wp_footer(); ?>
 
 </body>
