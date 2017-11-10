@@ -16,14 +16,14 @@
 <html <?php language_attributes(); ?> class="no-js no-svg">
 <head>
 <meta charset="<?php bloginfo( 'charset' ); ?>">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1" data-header-version="0.26.0">
 <link rel="profile" href="http://gmpg.org/xfn/11">
 
 <script type="text/javascript" src="//www.epfl.ch/js/jquery-epfl.min.js"></script>
 <script type="text/javascript">jQuery.noConflict();</script> 
 <script type="text/javascript" src="//www.epfl.ch/js/globalnav.js"></script>
 
-<?php readfile("http://www.epfl.ch/templates/fragments/header.sig.html")?>
+<link rel="stylesheet" href="https://static.epfl.ch/v0.26.0/styles/epfl-built.css">
 
 <?php wp_head(); ?>
 </head>
@@ -33,7 +33,7 @@
 	<a class="skip-link screen-reader-text" href="#content"><?php _e( 'Skip to content', 'epfl' ); ?></a>
 	
 	<div class="header-top wrap">
-  	<?php  readfile("http://www.epfl.ch/templates/fragments/header.fr.html"); ?>
+  	<header id="epfl-header" class="site-header epfl" data-ajax-header="https://static.epfl.ch/v0.26.0/includes/epfl-header.en.html"></header>
 	</div><!-- .header-top -->
 
 	<header id="masthead" class="site-header" role="banner">
@@ -41,7 +41,9 @@
 		<section class="page-tools">
   		<div class="wrap">
   		
+  		<?php if ( !is_front_page() ): ?>
   		<div class="breadcrumb"><?php get_breadcrumb(); ?></div>
+  		<?php endif; ?>
   		
   		<div class="lang">
     		<ul class="language-switcher">
