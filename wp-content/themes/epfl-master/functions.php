@@ -117,7 +117,7 @@ function epfl_widgets_init() {
   ) );
 
   register_sidebar( array(
-    'name'          => 'Page widget',
+    'name'          => 'Page widgets',
     'id'            => 'page-widgets',
     'description'   => 'Widgets présents sur toutes les pages, y compris la homepage',
     'before_widget' => '<section id="%1$s" class="widget %2$s">',

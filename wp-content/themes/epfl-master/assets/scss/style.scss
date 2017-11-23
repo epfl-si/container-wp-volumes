@@ -123,9 +123,9 @@ body {
 }
 .fa-icon.btn-icon,
 .icon.btn-icon {
+  @include color-bg-icons;
   
   &:before {
-    background: $primary-color;
     border-radius: 50%;
     border: 0;
     color: #fff;
@@ -148,10 +148,6 @@ body {
   
   &:hover > .label {
     border-bottom-style: solid;
-  }
-  
-  &:hover:before {
-    background: $primary-color-sec;
   }
 }
 
@@ -281,7 +277,7 @@ a[class*="a2a_button_"],
   }
     
   &:hover {
-    background: #ae0010;
+    background: #6b6d6a;
     color: #fff;
   }
 
@@ -429,7 +425,7 @@ a.a2a_button_{
 }
 
 .box-flat-panel {
-  padding: 6px 8px 8px 8px;
+  padding: 6px 8px;
   width: 100%;
 }
 
@@ -673,6 +669,7 @@ a.a2a_button_{
   }
 }
 #epfl-header .search-submit {
+  @include color-background-btn;
   border: none;
   cursor: pointer;
   float: left;
@@ -747,11 +744,8 @@ a.a2a_button_{
   background: none;
   
   a {
+    @include color-link;
     border: 0;
-    
-    &::hover {
-      color: $primary-color;
-    }
   }
 }
 .site-branding {
@@ -775,7 +769,7 @@ a.a2a_button_{
 }
 
 .navigation-top {
-  background: $primary-color;
+  @include color-background;
   border: 0;
 }
 .main-navigation .menu {
@@ -952,11 +946,8 @@ a.a2a_button_{
   }
   
   a {
+    @include color-link;
     border: none;
-    
-    &:hover {
-      color: $primary-color;
-    }
   }
 }
 
@@ -1031,16 +1022,12 @@ a.a2a_button_{
   margin: 0 0 30px;
   
   a {
-    background: $primary-color;
+    @include color-background-btn;
     border: none;
     color: #fff;
     display: block;
     font-weight: bold;
     padding: 3px 20px;
-    
-    &:hover {
-      background: $primary-color-sec;
-    }
   }
   
   li {
@@ -1549,21 +1536,17 @@ a.a2a_button_{
 		display: block;
 	}
   
-  .navigation-top {
+  .site-header .navigation-top {
     background: #fff;
     font-size: 1em;
     position: static;
-    
-    .wrap {
-      padding: 0 3em;
-    }
     
     nav {
       margin: 0;
     }
   }
   .main-navigation {
-    background: $primary-color;
+    @include color-background;
   }
   
   .main-navigation .menu {
@@ -1573,8 +1556,9 @@ a.a2a_button_{
     padding: 0;
   }
   
-  .main-navigation .menu li {
-    border: solid $primary-color;
+  .main-navigation .menu > li {
+    @include color-border;
+    border-style: solid;
     border-width: 0 1px;
     display: block;
     float: left;
@@ -1590,9 +1574,14 @@ a.a2a_button_{
     &:hover {
       border-color: #fff;
       border-width: 0 1px;
+      
+      & > a {
+        color: #fff;
+      }
     }
     
-    a {
+    & > a {
+      @include color-background-btn;
       border: 0;
       color: #fff;
       display: block;
@@ -1600,10 +1589,6 @@ a.a2a_button_{
       line-height: 24px;
       overflow: hidden;
       padding: 0 8px;
-      
-      &:hover {
-         background: $primary-color-sec;
-       }
     }
   }
   .main-navigation .menu li.current-menu-item,
@@ -1624,6 +1609,7 @@ a.a2a_button_{
     text-indent: -3333px;
     
     a {
+      background: #000;
       width: 30px;
       
       &:before {
@@ -1678,6 +1664,7 @@ a.a2a_button_{
       
       &:hover {
         background: $light-grey;
+        border: 0;
       }
     }
   }
