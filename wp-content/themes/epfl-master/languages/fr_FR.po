@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: EPFL\n"
-"POT-Creation-Date: 2017-11-22 17:16+0100\n"
-"PO-Revision-Date: 2017-11-22 17:18+0100\n"
+"POT-Creation-Date: 2017-11-24 09:50+0100\n"
+"PO-Revision-Date: 2017-11-24 09:50+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -55,19 +55,19 @@ msgstr "Menu de la colonne latérale"
 msgid "Footer menu"
 msgstr "Menu du pied de page"
 
-#: functions.php:379
+#: functions.php:390
 msgid "Page"
 msgstr "Page"
 
-#: header.php:31
+#: header.php:34
 msgid "Skip to content"
 msgstr "Accéder au contenu"
 
-#: header.php:96
+#: header.php:99
 msgid "Menu"
 msgstr "Menu"
 
-#: header.php:115
+#: header.php:118
 msgid "Share"
 msgstr "Partager"
 
@@ -116,7 +116,7 @@ msgstr ""
 "Laisser un commentaire <span class=\"screen-reader-text\">sur %s</span>"
 
 #. translators: %s: Name of current post. Only visible to screen readers
-#: inc/template-tags.php:89 template-parts/page/content-page.php:35
+#: inc/template-tags.php:89 template-parts/page/content-page.php:32
 #, php-format
 msgid "Edit <span class=\"screen-reader-text\">%s</span>"
 msgstr "Modifier <span class=\"screen-reader-text\">%s</span>"
@@ -125,20 +125,32 @@ msgstr "Modifier <span class=\"screen-reader-text\">%s</span>"
 msgid "News"
 msgstr "Actualité"
 
-#. translators: %s: Name of current post. Only visible to screen readers
+#: search.php:22
+#, php-format
+msgid "Search Results for: %s"
+msgstr "Résultats de recherche pour: %s"
+
+#: search.php:24 template-parts/post/content-none.php:14
+msgid "Nothing Found"
+msgstr "Aucun résultat"
+
+#: search.php:46 template-parts/post/content-none.php:38
+msgid ""
+"Sorry, but nothing matched your search terms. Please try again with some "
+"different keywords."
+msgstr ""
+"Désolé, mais rien ne correspondait à vos termes de recherche. Veuillez "
+"réessayer avec d'autres mots-clés."
+
 #: template-parts/page/content-front-page.php:20
-#: template-parts/post/content.php:34
+#: template-parts/post/content.php:63
 #, php-format
 msgid "Continue reading<span class=\"screen-reader-text\"> \"%s\"</span>"
 msgstr "Continuer la lecture<span class=\"screen-reader-text\"> de %s</span>"
 
-#: template-parts/page/content-page.php:22 template-parts/post/content.php:45
+#: template-parts/page/content-page.php:19 template-parts/post/content.php:68
 msgid "Pages:"
 msgstr "Pages:"
-
-#: template-parts/post/content-none.php:14
-msgid "Nothing Found"
-msgstr "Aucun résultat"
 
 #. translators: 1: link to WP admin new post page.
 #: template-parts/post/content-none.php:25
@@ -147,21 +159,17 @@ msgid ""
 "Ready to publish your first post? <a href=\"%1$s\">Get started here</a>."
 msgstr ""
 
-#: template-parts/post/content-none.php:38
-msgid ""
-"Sorry, but nothing matched your search terms. Please try again with some "
-"different keywords."
-msgstr ""
-"Désolé, mais rien ne correspondait à vos termes de recherche. Veuillez "
-"réessayer avec d'autres mots-clés."
-
 #: template-parts/post/content-none.php:44
 msgid ""
 "It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps "
 "searching can help."
 msgstr ""
-"Il semble que nous ne pouvons pas trouver ce que vous recherchez. Peut-"
-"être que la recherche peut vous aider."
+"Il semble que nous ne pouvons pas trouver ce que vous recherchez. Peut-être "
+"que la recherche peut vous aider."
+
+#: template-parts/post/content.php:82
+msgid "Author"
+msgstr ""
 
 #. Theme Name of the plugin/theme
 msgid "EPFL"

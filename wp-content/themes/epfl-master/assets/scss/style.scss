@@ -1213,7 +1213,7 @@ a.a2a_button_{
 
 /* Article list */
 
-.list-articles .post {
+.list-articles .hentry {
   @include clearfix;
   @include border-bottom-dots;
 }
