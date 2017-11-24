@@ -1188,6 +1188,15 @@ a.a2a_button_{
   line-height: 1.4em;
   text-transform: none;
 }
+  
+.page-header {
+  margin-bottom: 20px;
+  
+  .page-title {
+    margin: 0;
+    padding: 0;
+  }
+}
 
 /* --- Single article --- */
 
@@ -1204,6 +1213,11 @@ a.a2a_button_{
 
 /* Article list */
 
+.list-articles .post {
+  @include clearfix;
+  @include border-bottom-dots;
+}
+
 .list-articles .entry-header {
   
   .entry-title {
@@ -1219,6 +1233,7 @@ a.a2a_button_{
   
 }
 .list-articles .post-thumbnail {
+  margin: 0;
   margin-bottom: 20px;
   
   a {
@@ -1802,6 +1817,7 @@ a.a2a_button_{
   }
   .list-articles .post-thumbnail {
     float: left;
+    margin-bottom: 0;
     padding-right: 20px;
     width: 30%;
   }
@@ -1809,6 +1825,10 @@ a.a2a_button_{
   .list-articles .entry-content {
     clear: right;
     padding-left: 30%;
+    
+    & > * {
+      clear: none;
+    }
   }
   
 }

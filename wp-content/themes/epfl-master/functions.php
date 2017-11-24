@@ -129,6 +129,17 @@ function epfl_widgets_init() {
 add_action( 'widgets_init', 'epfl_widgets_init' );
 
 /**
+ * Filter the except length to 20 words.
+ *
+ * @param int $length Excerpt length.
+ * @return int (Maybe) modified excerpt length.
+ */
+function custom_excerpt_length( $length ) {
+    return 24;
+}
+add_filter( 'excerpt_length', 'custom_excerpt_length', 999 );
+
+/**
  * add temp shortcode mp4_video button to Tinmce
  */
 
