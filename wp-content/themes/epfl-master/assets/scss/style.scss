@@ -399,6 +399,28 @@ a.a2a_button_{
   margin: 1.5em 0;
 }
 
+/* Search form */
+
+.search-form .search-submit {
+  @include color-background-btn;
+  float: right;
+  padding: 0;
+  width: 32px;
+  
+  &:before {
+    @include icon;
+    content: "\f002";
+    font-size: 16px;
+    line-height: 32px;
+  }
+}
+.search-form .search-field {
+  .csscalc & {
+    border-right: 0;
+    width: calc( 100% - 32px );
+  }
+}
+
 
 /*  ---------------------------------------
     02 JAHIA IMPORTED CONTENT
@@ -1624,7 +1646,7 @@ a.a2a_button_{
     text-indent: -3333px;
     
     a {
-      background: #000;
+      //background: #000;
       width: 30px;
       
       &:before {
