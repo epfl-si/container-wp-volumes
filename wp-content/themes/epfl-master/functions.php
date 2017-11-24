@@ -415,6 +415,7 @@ function epfl_scripts() {
 	
 	wp_enqueue_style('compiled-styles', get_template_directory_uri() .'/assets/css/theme.min.css');
 
+	wp_enqueue_script( 'modernizr', get_stylesheet_directory_uri() . '/assets/js/libs/modernizr.js', array(), null , false );
 	wp_enqueue_script( 'epfl-navigation', get_template_directory_uri() . '/assets/js/navigation.js', array(), '20151215', true );
 	wp_enqueue_script( 'pryv-scripts', get_template_directory_uri() . '/assets/js/main.js', array( 'jquery' ), null , true );
 
