@@ -155,7 +155,7 @@ add_shortcode('mp4', 'mp4_video');
 
 
 function tiny_mce_add_buttons( $plugins ) {
-  $plugins['mp4'] = get_template_directory_uri() . '/../epfl/js/tiny-mce/tiny-mce.js';
+  $plugins['mp4'] = get_template_directory_uri() . '/assets/js/tiny-mce/tiny-mce.js';
   return $plugins;
 }
 
