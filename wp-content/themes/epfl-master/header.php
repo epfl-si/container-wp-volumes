@@ -21,12 +21,15 @@
 <script type="text/javascript">jQuery.noConflict();</script>
 <script type="text/javascript" src="//www.epfl.ch/js/globalnav.js"></script>
 
+<link rel="shortcut icon" href="//www.epfl.ch/favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" href="//www.epfl.ch/css/print.css" type="text/css" media="print" />
+
 <link rel="stylesheet" href="https://static.epfl.ch/v0.26.0/styles/epfl-built.css">
 
 <?php wp_head(); ?>
 </head>
 
-<body <?php body_class(); ?>>
+<body <?php body_class(get_option('epfl:theme_faculty', '')); ?>>
 <div id="page" class="site">
 	<a class="skip-link screen-reader-text" href="#content"><?php _e( 'Skip to content', 'epfl' ); ?></a>
 	

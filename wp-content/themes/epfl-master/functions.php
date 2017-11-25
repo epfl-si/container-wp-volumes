@@ -129,6 +129,17 @@ function epfl_widgets_init() {
 add_action( 'widgets_init', 'epfl_widgets_init' );
 
 /**
+ * Filter the except length to 20 words.
+ *
+ * @param int $length Excerpt length.
+ * @return int (Maybe) modified excerpt length.
+ */
+function custom_excerpt_length( $length ) {
+    return 24;
+}
+add_filter( 'excerpt_length', 'custom_excerpt_length', 999 );
+
+/**
  * add temp shortcode mp4_video button to Tinmce
  */
 
@@ -144,7 +155,7 @@ add_shortcode('mp4', 'mp4_video');
 
 
 function tiny_mce_add_buttons( $plugins ) {
-  $plugins['mp4'] = get_template_directory_uri() . '/../epfl/js/tiny-mce/tiny-mce.js';
+  $plugins['mp4'] = get_template_directory_uri() . '/assets/js/tiny-mce/tiny-mce.js';
   return $plugins;
 }
 
@@ -404,6 +415,7 @@ function epfl_scripts() {
 	
 	wp_enqueue_style('compiled-styles', get_template_directory_uri() .'/assets/css/theme.min.css');
 
+	wp_enqueue_script( 'modernizr', get_stylesheet_directory_uri() . '/assets/js/libs/modernizr.js', array(), null , false );
 	wp_enqueue_script( 'epfl-navigation', get_template_directory_uri() . '/assets/js/navigation.js', array(), '20151215', true );
 	wp_enqueue_script( 'pryv-scripts', get_template_directory_uri() . '/assets/js/main.js', array( 'jquery' ), null , true );
 
