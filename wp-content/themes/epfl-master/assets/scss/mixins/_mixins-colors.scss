@@ -21,6 +21,9 @@ $primary-color-sec-sti: #5d41a2;
 $primary-color-sv: #6fba01;
 $primary-color-sec-sv: #439809;
 
+$primary-color-assoc: #aebd00;
+$primary-color-sec-assoc: #8d9c00;
+
 /*  Color mixins */
 
 // Background for regular elements
@@ -53,6 +56,10 @@ $primary-color-sec-sv: #439809;
   }
   // SV
   .sv & {
+    background-color: $primary-color-sv;
+  }
+  // ASSOC
+  .assoc & {
     background-color: $primary-color-sv;
   }
 }
@@ -92,6 +99,10 @@ $primary-color-sec-sv: #439809;
   .sv &:hover {
     background-color: $primary-color-sec-sv;
   }
+  // ASSOC
+  .assoc &:hover {
+    background-color: $primary-color-sec-sv;
+  }
 }
 
 // Text color
@@ -123,6 +134,10 @@ $primary-color-sec-sv: #439809;
   }
   // SV
   .sv & {
+    color: $primary-color-sv;
+  }
+  // ASSOC
+  .assoc & {
     color: $primary-color-sv;
   }
 }
@@ -162,6 +177,10 @@ $primary-color-sec-sv: #439809;
   .sv &:hover {
     color: $primary-color-sv;
   }
+  // ASSOC
+  .assoc &:hover {
+    color: $primary-color-sv;
+  }
 }
 
 // Border color
@@ -194,6 +213,10 @@ $primary-color-sec-sv: #439809;
   }
   // SV
   .sv & {
+    border-color: $primary-color-sv;
+  }
+  // ASSOC
+  .assoc & {
     border-color: $primary-color-sv;
   }
 }
@@ -234,6 +257,10 @@ $primary-color-sec-sv: #439809;
     }
     // SV
     .sv & {
+      background-color: $primary-color-sec-sv;
+    }
+    // ASSOC
+    .assoc & {
       background-color: $primary-color-sec-sv;
     }
   }
