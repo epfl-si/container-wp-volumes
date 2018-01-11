@@ -94,6 +94,39 @@ $primary-color-sec-sv: #439809;
   }
 }
 
+// Text color
+@mixin color-text {
+  
+  // CDH
+  .cdh & {
+    color: $primary-color-cdh;
+  }
+  // CDM
+  .cdm & {
+    color: $primary-color-cdm;
+  }
+  // ENAC
+  .enac & {
+    color: $primary-color-enac;
+  }
+  // IC
+  .ic & {
+    color: $primary-color-ic;
+  }
+  // SB
+  .sb & {
+    color: $primary-color-sb;
+  }
+  // STI
+  .sti & {
+    color: $primary-color-sti;
+  }
+  // SV
+  .sv & {
+    color: $primary-color-sv;
+  }
+}
+
 // Link color
 @mixin color-link {
   color: #000;
