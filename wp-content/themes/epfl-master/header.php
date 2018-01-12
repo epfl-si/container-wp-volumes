@@ -77,12 +77,7 @@
 		<div class="site-branding">
   		<div class="wrap">
   			<?php
-    			
-    			if ( is_front_page() ) {
-      			$title_tag = "h1";
-    			} else {
-      			$title_tag ="p";
-    			}
+    			$title_tag = is_front_page()?"h1":"p";
     		?>
   				<<?php echo $title_tag; ?> class="site-title">
     				<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
