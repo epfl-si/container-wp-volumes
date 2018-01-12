@@ -60,7 +60,7 @@ $primary-color-sec-assoc: #8d9c00;
   }
   // ASSOC
   .assoc & {
-    background-color: $primary-color-sv;
+    background-color: $primary-color-assoc;
   }
 }
 
@@ -101,12 +101,13 @@ $primary-color-sec-assoc: #8d9c00;
   }
   // ASSOC
   .assoc &:hover {
-    background-color: $primary-color-sec-sv;
+    background-color: $primary-color-sec-assoc;
   }
 }
 
 // Text color
 @mixin color-text {
+  color: $primary-color;
   
   // CDH
   .cdh & {
@@ -138,7 +139,7 @@ $primary-color-sec-assoc: #8d9c00;
   }
   // ASSOC
   .assoc & {
-    color: $primary-color-sv;
+    color: $primary-color-assoc;
   }
 }
 
@@ -179,7 +180,7 @@ $primary-color-sec-assoc: #8d9c00;
   }
   // ASSOC
   .assoc &:hover {
-    color: $primary-color-sv;
+    color: $primary-color-assoc;
   }
 }
 
@@ -217,7 +218,7 @@ $primary-color-sec-assoc: #8d9c00;
   }
   // ASSOC
   .assoc & {
-    border-color: $primary-color-sv;
+    border-color: $primary-color-assoc;
   }
 }
 
@@ -261,7 +262,7 @@ $primary-color-sec-assoc: #8d9c00;
     }
     // ASSOC
     .assoc & {
-      background-color: $primary-color-sec-sv;
+      background-color: $primary-color-sec-assoc;
     }
   }
   
