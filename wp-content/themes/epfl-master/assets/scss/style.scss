@@ -1192,12 +1192,57 @@ a.a2a_button_{
   margin-bottom: 8px;
 }
 
-.social-share .label {
-  display: inline-block;
-  font: italic .75em Georgia, 'Times New Roman', Times, serif;
-  margin: 0 .5em 0 0;
-  vertical-align: middle;
+.social-share {
+  
+  .label {
+    display: inline-block;
+    font: italic .75em Georgia, 'Times New Roman', Times, serif;
+    margin: 0 .5em 0 0;
+    position: relative;
+    top: 1px;
+    vertical-align: middle;
+  }
+  
+  .EPFLShareHorizontal {
+    display: inline-block;
+    vertical-align: middle;
+  }
+  
 }
+
+.EPFLShareUl {
+  @include clearfix;
+  
+  .EPFLShare {
+    @include transition-colors;
+    background: darken( $light-grey, 6%);
+    
+    &.EPFLShareFacebookBackground:hover {
+       background-color: #3C589A
+    }
+    
+    &.EPFLShareTwitterBackground:hover {
+       background-color: #55acee
+    }
+    
+    &.EPFLShareLinkedinBackground:hover {
+       background-color: #0077B5
+    }
+    
+    &.EPFLShareGoogleplusBackground:hover {
+       background-color: #dd4b39
+    }
+    
+    &.EPFLShareEmailBackground:hover {
+       background-color: #649A3F
+    }
+    
+    
+  }
+}
+
+
+
 
 /* Page title */
 
