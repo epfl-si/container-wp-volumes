@@ -678,19 +678,35 @@ a.a2a_button_{
   display: block;
   float: left;
   width: 150px;
-  width: calc(100% - 145px - 18px);
+  width: calc(100% - 120px - 25px);
   
   .search-query {
     height: 25px;
     line-height: 25px;
     padding: 0 5px;
     width: 100%;
+    
+    &:focus {
+      border-color: #000;
+    }
   }
   
   &.form-input-mini {
+    min-width: 0;
     width: 25px;
   }
 }
+
+#epfl-header .autocomplete-suggestions {
+  border-top: 0;
+  margin-top: -0.5em;
+  width: 329px !important;
+  
+  .autocomplete-suggestion {
+    font-size: 14px;
+  }
+}
+
 #epfl-header .form-select {
   background: #fff;
   float: left;
