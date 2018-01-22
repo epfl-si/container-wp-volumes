@@ -602,6 +602,25 @@ a.a2a_button_{
 }
 .epflnav .nav-link {
   color: #000;
+  
+  .icon-arrow-bottom-right {
+    display: inline-block;
+    
+    &:before {
+      display: none;
+    }
+    
+    &:after {
+      @include icon;
+      content: "\f063";
+      background: transparent;
+      font-size: 10px;
+      margin: 0 0 0 .5em;
+      padding: 0;
+      transform: rotate(-45deg);
+    }
+    
+  }
 }
 
 .epflnav .icon-menu {
