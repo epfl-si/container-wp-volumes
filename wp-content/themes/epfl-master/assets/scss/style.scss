@@ -1304,7 +1304,8 @@ a.a2a_button_{
   text-transform: none;
 }
   
-.page-header {
+.page-header,
+.entry-header {
   margin-bottom: 20px;
   
   .page-title {
@@ -1315,9 +1316,14 @@ a.a2a_button_{
 
 /* --- Single article --- */
 
-.post-thumbnail img {
-  display: block;
-  vertical-align: top;
+.post-thumbnail {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  
+  img {
+    display: block;
+    vertical-align: top;
+  }
 }
 
 .entry-meta {
@@ -1334,6 +1340,7 @@ a.a2a_button_{
 }
 
 .list-articles .entry-header {
+  margin-bottom: 0;
   
   .entry-title {
     font-family: Arial,Helvetica,Verdana,sans-serif;
