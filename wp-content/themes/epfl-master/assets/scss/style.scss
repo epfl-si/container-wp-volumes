@@ -1290,13 +1290,8 @@ a.a2a_button_{
     &.EPFLShareEmailBackground:hover {
        background-color: #649A3F
     }
-    
-    
   }
 }
-
-
-
 
 /* Page title */
 
@@ -1459,6 +1454,42 @@ a.a2a_button_{
   .comment-reply-link {
     left: 2em;
     position: relative;
+  }
+}
+
+/* Post navigation */
+
+.nav-links {
+  @include clearfix;
+  font-size: .8125em;
+  line-height: 1.4em;
+  margin: 20px 0;
+  
+  .nav-previous {
+    float: left;
+    margin-bottom: 10px;
+    padding-left: 1em;
+    position: relative;
+    
+    &:before {
+      content: "‹";
+      margin-right: .5em;
+      position: absolute;
+      top: -1px; right: auto; bottom: auto; left: 0;
+    }
+  }
+  
+  .nav-next {
+    float: right;
+    padding-right: 1em;
+    position: relative;
+    
+    &:after {
+      content: "›";
+      margin-left: .5em;
+      position: absolute;
+      top: -1px; right: 0; bottom: auto; left: auto;
+    }
   }
 }
 
@@ -1948,6 +1979,16 @@ a.a2a_button_{
     
     & > * {
       clear: none;
+    }
+  }
+  
+  /* --- Single article --- */
+  
+  .nav-links {
+    margin-top: 30px;
+    
+    & > div {
+      max-width: 49%;
     }
   }
   
