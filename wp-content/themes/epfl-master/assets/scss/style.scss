@@ -1808,9 +1808,9 @@ a.a2a_button_{
     left: 0;
   }
   
-  .main-navigation .sub-menu li.focus > a,
-	.main-navigation .sub-menu li:focus > a,
-	.main-navigation .sub-menu li:hover > a,
+  .main-navigation .sub-menu li.focus > a:hover,
+	.main-navigation .sub-menu li:focus > a:hover,
+	.main-navigation .sub-menu li:hover > a:hover,
 	.main-navigation .sub-menu li a:hover,
 	.main-navigation .sub-menu li a:focus {
   	color: #000;
